@@ -199,28 +199,111 @@ export class IndustryCompareView {
     if (!key || !this.data.cleanBreakdown[key]) return '';
 
     const info = this.data.cleanBreakdown[key];
-    const segsHtml = info.physicalMix
-      .map((s) => {
-        const cls = s.kind === 'renewable' ? 'mix-ren' : s.kind === 'nuclear' ? 'mix-nuc' : 'mix-fos';
-        return `<div class="mix-seg ${cls}" style="width:${s.pct}%" title="${escapeHtml(s.label)}: ${s.pct}%"></div>`;
-      })
+    const isWater = key === 'water';
+
+    const items = isWater
+      ? [
+          {
+            id: 'rec',
+            label: 'Recycled',
+            sub: 'Treated Greywater',
+            pct: 5,
+            pctText: '<5%',
+            color: '#10b981',
+            icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>'
+          },
+          {
+            id: 'fresh',
+            label: 'Fresh Water',
+            sub: 'Municipal · River · Aquifer',
+            pct: 95,
+            pctText: '95%+',
+            color: '#64748b',
+            icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>'
+          }
+        ]
+      : [
+          {
+            id: 'ren',
+            label: 'Renewable',
+            sub: 'Wind · Solar · Hydro',
+            pct: 24,
+            pctText: '24%',
+            color: '#10b981',
+            icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>'
+          },
+          {
+            id: 'nuc',
+            label: 'Nuclear',
+            sub: 'Zero-Carbon Baseload',
+            pct: 20,
+            pctText: '20%',
+            color: '#38bdf8',
+            icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="2.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg>'
+          },
+          {
+            id: 'fos',
+            label: 'Fossil',
+            sub: 'Gas 40% · Coal 16%',
+            pct: 56,
+            pctText: '56%',
+            color: '#64748b',
+            icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>'
+          }
+        ];
+
+    const cellsHtml = [];
+    items.forEach((item) => {
+      for (let i = 0; i < item.pct; i++) {
+        if (isWater) {
+          cellsHtml.push(`
+            <div class="waffle-drop waffle-unit" data-waffle-cat="${item.id}" style="color:${item.color}" title="${escapeHtml(item.label)}: ${escapeHtml(item.pctText)}">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5C12 2.5 5 10.2 5 14.8a7 7 0 0 0 14 0C19 10.2 12 2.5 12 2.5z"/></svg>
+            </div>
+          `);
+        } else {
+          cellsHtml.push(
+            `<div class="waffle-cell waffle-unit" data-waffle-cat="${item.id}" style="background:${item.color}" title="${escapeHtml(item.label)}: ${escapeHtml(item.pctText)}"></div>`
+          );
+        }
+      }
+    });
+
+    const statCardsHtml = items
+      .map(
+        (item) => `
+        <div class="waffle-stat-card" data-waffle-hover="${item.id}">
+          <div class="waffle-stat-left">
+            <span class="waffle-stat-icon" style="background:${item.color}22; color:${item.color}">${item.icon}</span>
+            <div>
+              <div class="waffle-stat-name">${escapeHtml(item.label)}</div>
+              <div class="waffle-stat-sub">${escapeHtml(item.sub)}</div>
+            </div>
+          </div>
+          <div class="waffle-stat-pct" style="color:${item.color}">${escapeHtml(item.pctText)}</div>
+        </div>
+      `
+      )
       .join('');
 
-    const legendHtml = info.physicalMix
-      .map((s) => {
-        const cls = s.kind === 'renewable' ? 'mix-ren' : s.kind === 'nuclear' ? 'mix-nuc' : 'mix-fos';
-        return `<span><i class="mix-dot ${cls}"></i>${escapeHtml(s.label)}: <strong>${s.pct}%</strong></span>`;
-      })
-      .join('');
+    const heading = isWater ? 'Cooling Water Source' : 'Electricity Source Mix';
+    const summaryPill = isWater ? '5 in 100 Recycled' : '44% Carbon-Free';
 
     return `
       <div class="national-clean-box">
         <div class="national-clean-top">
-          <h3>${escapeHtml(info.title)}</h3>
-          <span class="prov-badge prov-reported">${escapeHtml(info.source)}</span>
+          <div class="waffle-title-group">
+            <h3>${escapeHtml(heading)}</h3>
+            <span class="waffle-summary-pill ${isWater ? 'is-water' : 'is-clean'}">${escapeHtml(summaryPill)}</span>
+          </div>
+          <span class="prov-badge prov-reported detail-only">${escapeHtml(info.source)}</span>
         </div>
-        <div class="mix-bar mix-bar-lg">${segsHtml}</div>
-        <div class="mix-legend">${legendHtml}</div>
+        <div class="waffle-layout">
+          <div class="waffle-grid" role="img" aria-label="${escapeHtml(heading)}: ${items.map((i) => `${i.label} ${i.pctText}`).join(', ')}">
+            ${cellsHtml.join('')}
+          </div>
+          <div class="waffle-cards">${statCardsHtml}</div>
+        </div>
         <p class="national-clean-note detail-prose">${escapeHtml(info.explanation)}</p>
       </div>
     `;
@@ -361,10 +444,10 @@ export class IndustryCompareView {
 
     const noteCallout =
       dcSlice.pct < 1
-        ? `<div class="pie-magnifier-badge">
+        ? `<div class="pie-magnifier-badge detail-only">
              <span>Data center sliver slightly widened to stay visible — actual share is <strong>${escapeHtml(section.dcShareLabel)}</strong> (${escapeHtml(section.dcProjectionCallout)})</span>
            </div>`
-        : `<div class="pie-magnifier-badge">
+        : `<div class="pie-magnifier-badge detail-only">
              <span>${escapeHtml(section.dcProjectionCallout || '')}</span>
            </div>`;
 
@@ -507,7 +590,7 @@ export class IndustryCompareView {
     const spotlights = LOCAL_SPOTLIGHTS[this.activeMetric] || [];
     const spotlightHtml = spotlights.length
       ? `
-        <div class="spotlight-row">
+        <div class="spotlight-row detail-only">
           <span class="spotlight-lbl">See on map:</span>
           ${spotlights
             .map(
@@ -546,18 +629,13 @@ export class IndustryCompareView {
 
       ${spotlightHtml}
 
-      <div class="dig-deeper-wrap ${this.showDeepNotes ? 'expanded' : ''}">
-        <button id="toggleCompareNotes" class="dig-deeper-btn" type="button" aria-expanded="${String(this.showDeepNotes)}">
-          ${this.showDeepNotes ? 'Hide background notes & citations ▴' : 'Dig deeper: methodology & takeaway notes ▾'}
-        </button>
-        <div class="dig-deeper-body">
-          <div class="takeaway-banner">${escapeHtml(section.takeaway)}</div>
-          ${
-            section.distinctionNote
-              ? `<div class="distinction-banner" style="margin-top:10px"><strong>Key distinction:</strong> ${escapeHtml(section.distinctionNote)}</div>`
-              : ''
-          }
-        </div>
+      <div class="compare-deep-notes detail-only">
+        <div class="takeaway-banner">${escapeHtml(section.takeaway)}</div>
+        ${
+          section.distinctionNote
+            ? `<div class="distinction-banner" style="margin-top:10px"><strong>Key distinction:</strong> ${escapeHtml(section.distinctionNote)}</div>`
+            : ''
+        }
       </div>
     `;
 
@@ -626,11 +704,30 @@ export class IndustryCompareView {
       });
     }
 
-    const notesBtn = this.contentEl.querySelector('#toggleCompareNotes');
-    if (notesBtn) {
-      notesBtn.addEventListener('click', () => {
-        this.showDeepNotes = !this.showDeepNotes;
-        this.renderMetric();
+    // Interactive Waffle Grid hover spotlighting
+    const waffleGrid = this.contentEl.querySelector('.waffle-grid');
+    if (waffleGrid) {
+      const spotlightCat = (cat) => {
+        waffleGrid.classList.add('dim-others');
+        waffleGrid.querySelectorAll('.waffle-unit').forEach((u) => {
+          u.classList.toggle('spotlit', u.dataset.waffleCat === cat);
+        });
+        this.contentEl.querySelectorAll('.waffle-stat-card').forEach((c) => {
+          c.classList.toggle('hovered', c.dataset.waffleHover === cat);
+        });
+      };
+      const clearSpotlight = () => {
+        waffleGrid.classList.remove('dim-others');
+        waffleGrid.querySelectorAll('.waffle-unit').forEach((u) => u.classList.remove('spotlit'));
+        this.contentEl.querySelectorAll('.waffle-stat-card').forEach((c) => c.classList.remove('hovered'));
+      };
+      this.contentEl.querySelectorAll('.waffle-stat-card').forEach((card) => {
+        card.addEventListener('mouseenter', () => spotlightCat(card.dataset.waffleHover));
+        card.addEventListener('mouseleave', clearSpotlight);
+      });
+      waffleGrid.querySelectorAll('.waffle-unit').forEach((u) => {
+        u.addEventListener('mouseenter', () => spotlightCat(u.dataset.waffleCat));
+        u.addEventListener('mouseleave', clearSpotlight);
       });
     }
 

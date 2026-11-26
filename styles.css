@@ -3205,3 +3205,154 @@ a:hover {
     display: none;
   }
 }
+
+
+/* ==========================================================================
+   100-Unit Waffle / Droplet Pictogram Grid (Clean Energy & Recycled Water)
+   ========================================================================== */
+.waffle-title-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.waffle-summary-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  padding: 5px 13px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #34d399 0%, #38bdf8 100%);
+  color: #071318;
+  box-shadow: 0 2px 14px rgba(52, 211, 153, 0.32);
+}
+.waffle-summary-pill.is-water {
+  background: #34d399;
+  color: #071318;
+  box-shadow: 0 2px 14px rgba(52, 211, 153, 0.28);
+}
+[data-theme="light"] .waffle-summary-pill {
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.22);
+}
+.waffle-layout {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding-top: 4px;
+}
+.waffle-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 5px;
+  width: 215px;
+  flex-shrink: 0;
+}
+.waffle-cell {
+  width: 17px;
+  height: 17px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.14s ease, opacity 0.14s ease, filter 0.14s ease;
+}
+.waffle-drop {
+  width: 17px;
+  height: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.14s ease, opacity 0.14s ease, filter 0.14s ease;
+}
+.waffle-drop svg {
+  width: 15px;
+  height: 15px;
+}
+.waffle-grid.dim-others .waffle-unit:not(.spotlit) {
+  opacity: 0.22;
+}
+.waffle-grid.dim-others .waffle-unit.spotlit {
+  transform: scale(1.15);
+  filter: brightness(1.3);
+}
+
+.waffle-cards {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+.waffle-stat-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface-solid);
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.14s ease;
+}
+.waffle-stat-card:hover,
+.waffle-stat-card.hovered {
+  background: var(--pie-hover-bg);
+  border-color: var(--dc-outline);
+  transform: translateY(-1px);
+}
+.waffle-stat-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.waffle-stat-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.waffle-stat-icon svg {
+  width: 17px;
+  height: 17px;
+}
+.waffle-stat-name {
+  font-size: 0.88rem;
+  font-weight: 650;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+.waffle-stat-sub {
+  font-size: 0.73rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+.waffle-stat-pct {
+  font-family: var(--font-mono);
+  font-size: 1.28rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.compare-deep-notes {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 680px) {
+  .waffle-layout {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .waffle-cards {
+    width: 100%;
+  }
+}
