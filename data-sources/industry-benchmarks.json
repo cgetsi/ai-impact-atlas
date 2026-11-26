@@ -1,0 +1,346 @@
+{
+  "updated": "2026-11",
+  "headlineStats": {
+    "dcElectricity2023Twh": 176,
+    "dcElectricity2023SharePct": 4.4,
+    "dcElectricity2028LowTwh": 325,
+    "dcElectricity2028HighTwh": 580,
+    "dcElectricity2028ShareRange": "6.7% – 12.0%",
+    "dcPhysicalRenewableSharePct": 24,
+    "dcPhysicalNuclearSharePct": 20,
+    "dcPhysicalFossilSharePct": 56,
+    "dcDirectWater2023BillionGal": 17.4,
+    "dcIndirectWater2023BillionGal": 211,
+    "dcReclaimedWaterSharePct": "<5%",
+    "dcEstimatedLandAcres": 125000,
+    "usTotalElectricityTwh": 4050,
+    "usTotalLandBillionAcres": 2.26
+  },
+  "cleanBreakdown": {
+    "electricity": {
+      "title": "How Much U.S. Data Center Electricity Is Renewable or Carbon-Free?",
+      "physicalMix": [
+        { "label": "Renewables (Wind, Solar, Hydro, Geothermal)", "pct": 24, "kind": "renewable" },
+        { "label": "Nuclear Baseload (Zero-Carbon)", "pct": 20, "kind": "nuclear" },
+        { "label": "Natural Gas (~40%) & Coal (~16%)", "pct": 56, "kind": "fossil" }
+      ],
+      "explanation": "On the physical U.S. power grids where data centers sit, ~44% of generation is carbon-free (~24% renewables + ~20% nuclear) and ~56% comes from fossil fuels (LBNL / IEA / EPA eGRID). Separately, hyperscalers (Google, Meta, Microsoft, AWS) match 100% of annual MWh via wind/solar Power Purchase Agreements (PPAs) and RECs—financing clean generation nationwide even when local grids burn gas at night.",
+      "source": "LBNL 2024 Report, EPA eGRID & Corporate Sustainability Audits"
+    },
+    "water": {
+      "title": "How Much Data Center Cooling Water Is Recycled / Non-Potable?",
+      "physicalMix": [
+        { "label": "Reclaimed / Recycled Wastewater (Greywater)", "pct": 5, "kind": "renewable" },
+        { "label": "Potable Municipal, Surface & Aquifer Water", "pct": 95, "kind": "fossil" }
+      ],
+      "explanation": "Unlike electricity, water cannot be generated via certificates—it is strictly local. Nationally, less than 5% of U.S. data center cooling water comes from recycled municipal wastewater ('purple pipe' greywater), while >95% draws from potable municipal systems, rivers, or aquifers (LBNL / S&P Global). However, next-generation AI campuses (e.g., Stargate Abilene, Microsoft Fairwater) increasingly adopt closed-loop liquid cooling to eliminate continuous evaporative water loss.",
+      "source": "LBNL 2024 Report, USGS & Municipal Utility Filings"
+    }
+  },
+  "energy": {
+    "unit": "TWh / year",
+    "dcShareLabel": "4.4%",
+    "dcShareSub": "of all U.S. electricity (176 of 4,050 TWh)",
+    "dcProjectionCallout": "Projected to reach 6.7% – 12.0% by 2028 as AI scales (LBNL)",
+    "pieSlices": [
+      { "id": "dc", "label": "U.S. Data Centers", "value": 176, "pct": 4.4, "color": "#ffb627", "isDc": true },
+      { "id": "homes", "label": "U.S. Homes", "value": 1450, "pct": 35.8, "color": "#6366f1" },
+      { "id": "commercial", "label": "Commercial Buildings", "value": 1232, "pct": 30.4, "color": "#38bdf8" },
+      { "id": "manufacturing", "label": "Manufacturing & Industry", "value": 1025, "pct": 25.3, "color": "#2dd4bf" },
+      { "id": "other", "label": "Transit & Municipal", "value": 167, "pct": 4.1, "color": "#64748b" }
+    ],
+    "subtitle": "Annual U.S. electricity consumption across major economic sectors and energy-intensive industries",
+    "takeaway": "U.S. data centers consumed 176 TWh in 2023 (4.4% of all U.S. electricity)—larger than several heavy manufacturing subsectors, and projected by Lawrence Berkeley National Lab to reach 325–580 TWh (6.7%–12%) by 2028 due to AI.",
+    "items": [
+      {
+        "id": "residential",
+        "label": "U.S. Homes (Residential Total)",
+        "value": 1450,
+        "category": "sector",
+        "note": "All ~130M U.S. households (HVAC, appliances, lighting, heating).",
+        "source": "U.S. EIA Electric Power Annual (2023)",
+        "url": "https://www.eia.gov/electricity/annual/"
+      },
+      {
+        "id": "commercial-non-dc",
+        "label": "Commercial Buildings (excl. Data Centers)",
+        "value": 1232,
+        "category": "sector",
+        "note": "Offices, retail, hospitals, schools, warehouses, and hospitality.",
+        "source": "U.S. EIA + LBNL 2024",
+        "url": "https://www.eia.gov/electricity/annual/"
+      },
+      {
+        "id": "manufacturing-total",
+        "label": "U.S. Manufacturing (All Industrial)",
+        "value": 1025,
+        "category": "sector",
+        "note": "All U.S. factories, refineries, mining, and industrial production.",
+        "source": "U.S. EIA Electric Power Annual (2023)",
+        "url": "https://www.eia.gov/electricity/annual/"
+      },
+      {
+        "id": "dc-2028-high",
+        "label": "U.S. Data Centers (2028 High AI Projection)",
+        "value": 580,
+        "category": "datacenter_proj",
+        "note": "Upper-bound LBNL 2024 forecast (~12% of total U.S. electricity).",
+        "source": "LBNL 2024 U.S. Data Center Energy Usage Report",
+        "url": "https://eta.lbl.gov/publications/2024-lbnl-data-center-energy-usage-report"
+      },
+      {
+        "id": "residential-ac",
+        "label": "Residential Air Conditioning",
+        "value": 240,
+        "category": "industry",
+        "note": "Electricity used strictly for cooling U.S. homes (~16% of residential total).",
+        "source": "U.S. EIA RECS",
+        "url": "https://www.eia.gov/consumption/residential/"
+      },
+      {
+        "id": "chemicals",
+        "label": "Chemical Manufacturing",
+        "value": 195,
+        "category": "industry",
+        "note": "Single largest electricity-consuming U.S. manufacturing subsector.",
+        "source": "U.S. EIA MECS",
+        "url": "https://www.eia.gov/consumption/manufacturing/"
+      },
+      {
+        "id": "dc-2023",
+        "label": "U.S. Data Centers (2023 Actual)",
+        "value": 176,
+        "category": "datacenter",
+        "note": "4.4% of U.S. electricity (including ~40 TWh from AI servers; up from 76 TWh in 2018).",
+        "source": "LBNL 2024 U.S. Data Center Energy Usage Report",
+        "url": "https://eta.lbl.gov/publications/2024-lbnl-data-center-energy-usage-report"
+      },
+      {
+        "id": "primary-metals",
+        "label": "Steel, Aluminum & Primary Metals",
+        "value": 122,
+        "category": "industry",
+        "note": "Smelting, electric-arc furnaces, and metal fabrication.",
+        "source": "U.S. EIA MECS",
+        "url": "https://www.eia.gov/consumption/manufacturing/"
+      },
+      {
+        "id": "food-bev",
+        "label": "Food & Beverage Manufacturing",
+        "value": 98,
+        "category": "industry",
+        "note": "Industrial refrigeration, processing, and packaging plants.",
+        "source": "U.S. EIA MECS",
+        "url": "https://www.eia.gov/consumption/manufacturing/"
+      },
+      {
+        "id": "paper-pulp",
+        "label": "Paper & Pulp Mills",
+        "value": 64,
+        "category": "industry",
+        "note": "Purchased + self-generated electricity in U.S. paper manufacturing.",
+        "source": "U.S. EIA MECS",
+        "url": "https://www.eia.gov/consumption/manufacturing/"
+      },
+      {
+        "id": "ev-rail",
+        "label": "Electric Vehicles & Rail Transit",
+        "value": 24,
+        "category": "industry",
+        "note": "All U.S. electrified rail (~7 TWh) plus EV charging (~17 TWh in 2023).",
+        "source": "U.S. EIA",
+        "url": "https://www.eia.gov/electricity/annual/"
+      }
+    ]
+  },
+  "water": {
+    "unit": "Billion Gallons / year",
+    "dcShareLabel": "0.03%",
+    "dcShareSub": "of U.S. sector water (17.4B gal direct cooling)",
+    "dcProjectionCallout": "~44× less than U.S. golf courses · +211B gal indirect at power plants",
+    "pieSlices": [
+      { "id": "dc", "label": "Data Centers (Direct)", "value": 17.4, "pct": 0.03, "color": "#ffb627", "isDc": true },
+      { "id": "irrigation", "label": "Farm Irrigation", "value": 43070, "pct": 66.2, "color": "#2dd4bf" },
+      { "id": "cities", "label": "Cities & Homes", "value": 14235, "pct": 21.9, "color": "#38bdf8" },
+      { "id": "industry", "label": "Factories & Industry", "value": 5475, "pct": 8.4, "color": "#6366f1" },
+      { "id": "power", "label": "Power Plant Cooling", "value": 1460, "pct": 2.2, "color": "#8b5cf6" },
+      { "id": "golf", "label": "U.S. Golf Courses", "value": 759, "pct": 1.2, "color": "#64748b" }
+    ],
+    "subtitle": "Annual U.S. water consumption & withdrawals — comparing direct cooling vs. major water users",
+    "takeaway": "Nationally, U.S. data centers directly consume ~17.4 billion gallons/year (~45x less than U.S. golf courses and >2,000x less than farm irrigation). However, local impacts can be acute: a single evaporative hyperscale campus in a drought-prone county can consume 20–30% of a small city's water supply, and indirect power-plant cooling adds ~211B gallons/year.",
+    "distinctionNote": "Withdrawals = total water diverted from rivers/aquifers (much of thermoelectric power water is returned downstream). Consumption = water evaporated or absorbed and not immediately returned locally.",
+    "items": [
+      {
+        "id": "irrigation",
+        "label": "Agricultural Irrigation (Withdrawals)",
+        "value": 43070,
+        "metricType": "Withdrawal (mostly consumed)",
+        "category": "sector",
+        "note": "~118 billion gallons/day across U.S. farmland — the largest consumptive water user by far.",
+        "source": "USGS National Water Use",
+        "url": "https://www.usgs.gov/mission-areas/water-resources/science/water-use-united-states"
+      },
+      {
+        "id": "public-supply",
+        "label": "Municipal Public Supply (Cities & Homes)",
+        "value": 14235,
+        "metricType": "Withdrawal",
+        "category": "sector",
+        "note": "~39 billion gallons/day supplied to U.S. cities, homes, and businesses.",
+        "source": "USGS National Water Use",
+        "url": "https://www.usgs.gov/mission-areas/water-resources/science/water-use-united-states"
+      },
+      {
+        "id": "industrial-self",
+        "label": "Self-Supplied Industrial & Manufacturing",
+        "value": 5475,
+        "metricType": "Withdrawal",
+        "category": "sector",
+        "note": "~15 billion gallons/day for paper, chemicals, petroleum refining, and steel.",
+        "source": "USGS National Water Use",
+        "url": "https://www.usgs.gov/mission-areas/water-resources/science/water-use-united-states"
+      },
+      {
+        "id": "thermoelectric-consumed",
+        "label": "Power Plant Cooling (Evaporative Consumption)",
+        "value": 1460,
+        "metricType": "Consumptive (~48,500B gal withdrawn)",
+        "category": "industry",
+        "note": "Power plants withdraw ~133B gal/day (mostly returned), consuming ~3–4% via evaporation.",
+        "source": "USGS National Water Use",
+        "url": "https://www.usgs.gov/mission-areas/water-resources/science/thermoelectric-power-water-use"
+      },
+      {
+        "id": "golf-courses",
+        "label": "U.S. Golf Courses (~15,500 courses)",
+        "value": 759,
+        "metricType": "Applied / Consumed",
+        "category": "industry",
+        "note": "~2.08 billion gallons/day irrigated across U.S. golf courses (~44x data center direct water).",
+        "source": "USGA / GCSAA Water Use Survey",
+        "url": "https://www.usga.org/content/usga/home-page/course-care/water-resource-center.html"
+      },
+      {
+        "id": "dc-indirect",
+        "label": "U.S. Data Centers — Indirect (Power Generation)",
+        "value": 211,
+        "metricType": "Consumptive (~800B liters)",
+        "category": "datacenter_proj",
+        "note": "Water evaporated off-site at thermoelectric/hydro power plants generating electricity for data centers.",
+        "source": "LBNL 2024 U.S. Data Center Energy Usage Report",
+        "url": "https://eta.lbl.gov/publications/2024-lbnl-data-center-energy-usage-report"
+      },
+      {
+        "id": "dc-2028-direct",
+        "label": "U.S. Hyperscale Data Centers — 2028 Direct (High)",
+        "value": 33,
+        "metricType": "Direct On-Site Consumption",
+        "category": "datacenter_proj",
+        "note": "Upper-bound LBNL 2028 projection (~124B liters) for hyperscale on-site cooling.",
+        "source": "LBNL 2024 U.S. Data Center Energy Usage Report",
+        "url": "https://eta.lbl.gov/publications/2024-lbnl-data-center-energy-usage-report"
+      },
+      {
+        "id": "dc-direct-2023",
+        "label": "U.S. Data Centers — 2023 Direct On-Site",
+        "value": 17.4,
+        "metricType": "Direct On-Site Consumption (66B L)",
+        "category": "datacenter",
+        "note": "Water directly evaporated inside all U.S. data centers in 2023 (~0.015% of total U.S. withdrawals).",
+        "source": "LBNL 2024 U.S. Data Center Energy Usage Report",
+        "url": "https://eta.lbl.gov/publications/2024-lbnl-data-center-energy-usage-report"
+      }
+    ]
+  },
+  "land": {
+    "unit": "Acres (U.S. Total)",
+    "dcShareLabel": "0.005%",
+    "dcShareSub": "of U.S. land (~125,000 of 2.26B acres)",
+    "dcProjectionCallout": "16× less land than U.S. golf courses — though single AI campuses now span 1,000–3,200 acres",
+    "pieSlices": [
+      { "id": "dc", "label": "All U.S. Data Centers", "value": 125000, "pct": 0.0055, "color": "#ffb627", "isDc": true },
+      { "id": "pasture", "label": "Grassland & Grazing", "value": 653000000, "pct": 28.9, "color": "#2dd4bf" },
+      { "id": "forest", "label": "Forest & Timberland", "value": 642000000, "pct": 28.4, "color": "#10b981" },
+      { "id": "wildlands", "label": "Parks, Desert & Public Land", "value": 515875000, "pct": 22.8, "color": "#64748b" },
+      { "id": "cropland", "label": "Cropland (Farms)", "value": 377000000, "pct": 16.7, "color": "#6366f1" },
+      { "id": "urban", "label": "Cities, Suburbs & Roads", "value": 70000000, "pct": 3.1, "color": "#38bdf8" },
+      { "id": "golf", "label": "U.S. Golf Courses", "value": 2000000, "pct": 0.09, "color": "#a855f7" }
+    ],
+    "subtitle": "Physical U.S. land footprint — comparing data center campuses against agriculture, cities, and recreation",
+    "takeaway": "Nationally, all U.S. data centers combined occupy roughly 0.005% of U.S. land (~100,000–150,000 acres—less than 1/10th the land covered by U.S. golf courses). Locally, however, new 1,000–3,000+ acre AI campuses increasingly convert rural farmland near high-voltage transmission corridors.",
+    "items": [
+      {
+        "id": "pasture",
+        "label": "Grassland Pasture & Grazing Range",
+        "value": 653000000,
+        "category": "sector",
+        "note": "Single largest U.S. land use (~29% of the entire 2.26 billion acre U.S. land base).",
+        "source": "USDA ERS Major Land Uses",
+        "url": "https://www.ers.usda.gov/data-products/major-land-uses/"
+      },
+      {
+        "id": "cropland",
+        "label": "U.S. Cropland",
+        "value": 377000000,
+        "category": "sector",
+        "note": "Harvested crops, corn/soy/wheat, and idle agricultural cropland.",
+        "source": "USDA ERS Major Land Uses",
+        "url": "https://www.ers.usda.gov/data-products/major-land-uses/"
+      },
+      {
+        "id": "urban",
+        "label": "Urban & Suburban Developed Land",
+        "value": 70000000,
+        "category": "sector",
+        "note": "All U.S. cities, suburbs, roads, commercial districts, and residential neighborhoods (~3.1% of U.S.).",
+        "source": "USDA ERS Major Land Uses",
+        "url": "https://www.ers.usda.gov/data-products/major-land-uses/"
+      },
+      {
+        "id": "highways",
+        "label": "Rural Highways, Roads & Rail Rights-of-Way",
+        "value": 27000000,
+        "category": "industry",
+        "note": "Dedicated rural transportation land across the U.S.",
+        "source": "USDA ERS Major Land Uses",
+        "url": "https://www.ers.usda.gov/data-products/major-land-uses/"
+      },
+      {
+        "id": "golf-land",
+        "label": "U.S. Golf Courses (~15,500 facilities)",
+        "value": 2000000,
+        "category": "industry",
+        "note": "Average ~130–150 acres per course across ~15,500 U.S. golf facilities.",
+        "source": "National Golf Foundation / GCSAA",
+        "url": "https://www.gcsaa.org/"
+      },
+      {
+        "id": "airports",
+        "label": "Public-Use U.S. Airports",
+        "value": 1600000,
+        "category": "industry",
+        "note": "Runways, terminals, and airport land buffers nationwide.",
+        "source": "FAA / USDA ERS",
+        "url": "https://www.ers.usda.gov/data-products/major-land-uses/"
+      },
+      {
+        "id": "solar-utility",
+        "label": "Utility-Scale Solar Farms (2024)",
+        "value": 900000,
+        "category": "industry",
+        "note": "Approximate land footprint of operating U.S. utility-scale solar arrays (~5–7 acres/MW).",
+        "source": "NREL / DOE Solar Futures",
+        "url": "https://www.nrel.gov/"
+      },
+      {
+        "id": "dc-land",
+        "label": "All U.S. Data Centers (Estimated Campuses)",
+        "value": 125000,
+        "category": "datacenter",
+        "note": "Estimated ~100k–150k acres nationwide across ~3,500–5,000+ facilities & multi-hundred-acre AI campuses (~0.0055% of U.S. land).",
+        "source": "DOE / PNNL IM3 Atlas + Public Campus Filings",
+        "url": "https://im3.pnnl.gov/"
+      }
+    ]
+  }
+}

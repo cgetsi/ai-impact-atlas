@@ -1,0 +1,7 @@
+# Raw upstream registry downloads (regenerated via scripts/fetch-open-data.ps1)
+data-sources/raw/
+
+# OS & editor clutter
+.DS_Store
+Thumbs.db
+desktop.ini

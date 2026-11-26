@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-density="simple">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>U.S. Data Center Atlas — Energy, Water &amp; Local Impact</title>
+  <meta name="description" content="Interactive visual atlas of U.S. data centers and AI campuses showing power, water, land, clean energy, community trade-offs, and industry comparisons." />
+
+  <!-- Apply saved theme & visual simplicity mode before first paint -->
+  <script>
+    (function () {
+      try {
+        var savedTheme = localStorage.getItem('atlas-theme');
+        var theme = savedTheme || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        document.documentElement.setAttribute('data-theme', theme);
+        var density = localStorage.getItem('atlas-density') || 'simple';
+        document.documentElement.setAttribute('data-density', density);
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- MapLibre GL JS -->
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app" class="app-shell">
+    <!-- Floating Top Navigation Bar -->
+    <header class="topbar" role="banner">
+      <div class="topbar-left">
+        <button id="brandBtn" class="brand" type="button" title="Reset U.S. map view and filters">
+          <span class="brand-dot" aria-hidden="true"></span>
+          <span class="brand-text">
+            <span class="brand-title">U.S. Data Center Atlas</span>
+            <span class="brand-sub detail-prose">Energy, Water &amp; Local Impact</span>
+          </span>
+        </button>
+
+        <!-- View Switcher -->
+        <nav class="view-tabs" aria-label="Primary views">
+          <button class="view-tab active" data-view="map" aria-current="page" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+            <span>Map</span>
+          </button>
+          <button class="view-tab" data-view="compare" aria-current="false" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+            <span>Compare</span>
+          </button>
+          <button class="view-tab" data-view="impacts" aria-current="false" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18"/><path d="M5 8h14"/><path d="M3 14l3-6 3 6a3 3 0 0 1-6 0z"/><path d="M15 14l3-6 3 6a3 3 0 0 1-6 0z"/></svg>
+            <span class="tab-lbl-full">Pros &amp; Cons</span>
+            <span class="tab-lbl-short">Pros/Cons</span>
+          </button>
+          <button class="view-tab" data-view="about" aria-current="false" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <span>Sources</span>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Search & Controls (visible on Map view) -->
+      <div id="mapControls" class="topbar-controls">
+        <div class="search-wrap">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input id="searchInput" type="text" role="combobox" aria-expanded="false" aria-controls="searchResults" aria-autocomplete="list" placeholder="Search city, state, or operator..." autocomplete="off" aria-label="Search data centers" />
+          <button id="searchClearBtn" class="search-clear hidden" type="button" aria-label="Clear search">×</button>
+          <div id="searchResults" class="search-results hidden" role="listbox"></div>
+        </div>
+
+        <div class="filter-pills" role="group" aria-label="Filter facility tier">
+          <button class="filter-pill active" data-filter="all" aria-pressed="true" type="button">All</button>
+          <button class="filter-pill" data-filter="flagship" aria-pressed="false" type="button" title="29 deep-dive campuses with verified community &amp; environmental disclosures">
+            <span class="dot dot-flagship"></span>Impact
+          </button>
+          <button class="filter-pill" data-filter="ai_hyperscale" aria-pressed="false" type="button" title="All AI &amp; hyperscale campuses">
+            <span class="dual-dot"><span class="dot dot-flagship"></span><span class="dot dot-ai"></span></span>AI
+          </button>
+          <button class="filter-pill" data-filter="colocation" aria-pressed="false" type="button" title="Colocation &amp; network facilities">
+            <span class="dot dot-colo"></span>Colocation
+          </button>
+        </div>
+
+        <button id="moreFiltersBtn" class="more-filters-btn simple-only-inline" type="button" aria-expanded="false" title="Show state, operator, clean-grid filters &amp; ranked list">
+          <span>Filters &amp; List ▾</span>
+        </button>
+
+        <div id="advancedMapFilters" class="advanced-filters">
+          <button class="browse-btn" data-toggle-directory aria-expanded="false" type="button" title="Browse and rank mapped facilities">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            <span>Rank List</span>
+            <span id="browseBtnCount" class="browse-count">—</span>
+          </button>
+
+          <select id="stateFilter" class="select-control" aria-label="Filter by U.S. state">
+            <option value="all">All States</option>
+          </select>
+
+          <select id="operatorFilter" class="select-control" aria-label="Filter by operator">
+            <option value="all">All Operators</option>
+          </select>
+
+          <select id="impactFilter" class="select-control" aria-label="Filter by status, grid, or water stress">
+            <option value="all">Any Status / Grid</option>
+            <option value="clean_grid">≥50% Clean Grid</option>
+            <option value="high_water_stress">High Water Stress</option>
+            <option value="operating">Operating Only</option>
+            <option value="planned">Planned / Building</option>
+          </select>
+        </div>
+
+        <button id="resetFiltersBtn" class="reset-pill hidden" type="button" title="Clear all active filters">Reset ×</button>
+      </div>
+
+      <div class="topbar-right">
+        <!-- Global Simple (Visual) vs Detailed Mode Switcher -->
+        <div class="density-toggle" role="group" aria-label="Information detail level" title="Switch between clean visual mode and full text details">
+          <button class="density-btn active" data-density-mode="simple" type="button">Simple</button>
+          <button class="density-btn" data-density-mode="detailed" type="button">Detailed</button>
+        </div>
+
+        <button id="mobileFiltersBtn" class="icon-btn mobile-only-btn" type="button" aria-expanded="false" aria-controls="mapControls" title="Search &amp; filter facilities" aria-label="Toggle search and filters">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <span id="mobileFiltersBadge" class="filter-active-dot hidden"></span>
+        </button>
+
+        <button id="themeToggle" class="icon-btn" type="button" title="Switch to light mode" aria-label="Toggle color theme">
+          <svg id="themeIconSun" class="hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg id="themeIconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- MAIN MAP VIEW -->
+    <main id="mapView" class="view-pane active">
+      <div id="map" class="map-canvas" aria-label="Interactive map of U.S. data centers"></div>
+
+      <!-- Loading Indicator -->
+      <div id="mapLoading" class="map-loading">
+        <div class="spinner"></div>
+        <span>Loading U.S. data centers...</span>
+      </div>
+
+      <!-- Left Slide-Over Ranked Facility Directory Drawer -->
+      <aside id="directoryDrawer" class="directory-drawer collapsed" aria-label="Browse and rank facilities">
+        <div class="dir-header">
+          <div class="dir-header-top">
+            <div>
+              <h2 class="dir-title">Facility Directory</h2>
+              <span id="directoryCount" class="dir-sub">—</span>
+            </div>
+            <button id="closeDirectory" class="icon-btn icon-btn-sm" type="button" aria-label="Close directory">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+          <label class="dir-sort-row">
+            <span class="dir-sort-lbl">Sort by</span>
+            <select id="directorySort" class="select-control dir-sort-select">
+              <option value="featured">Featured Impact Tier</option>
+              <option value="power">Power Capacity (MW ↓)</option>
+              <option value="water">Water Consumption (Gal/yr ↓)</option>
+              <option value="land">Campus Footprint (Acres ↓)</option>
+              <option value="compute">AI Compute (H100-eq ↓)</option>
+              <option value="networks">Connected Networks (↓)</option>
+            </select>
+          </label>
+        </div>
+        <div id="directoryList" class="dir-list"></div>
+      </aside>
+
+      <!-- Bottom-Left Legend & Summary Card -->
+      <aside class="map-summary" aria-label="Dataset summary and legend">
+        <div class="summary-stats">
+          <div class="summary-stat">
+            <span id="statCount" class="stat-val">—</span>
+            <span class="stat-lbl">Sites</span>
+          </div>
+          <div class="summary-divider"></div>
+          <div class="summary-stat">
+            <span id="statFlagship" class="stat-val">—</span>
+            <span class="stat-lbl">AI / Hyperscale</span>
+          </div>
+          <div class="summary-divider detail-only"></div>
+          <div class="summary-stat detail-only">
+            <span id="statPower" class="stat-val">—</span>
+            <span id="statPowerLbl" class="stat-lbl">Reported / Est. Cap</span>
+          </div>
+        </div>
+
+        <div class="summary-spotlights detail-only">
+          <span class="spotlights-kicker">Explore:</span>
+          <button class="mini-pill" data-featured-id="flagship-stargate-abilene" type="button">Stargate TX</button>
+          <button class="mini-pill" data-featured-id="flagship-xai-colossus-memphis" type="button">xAI Memphis</button>
+          <button class="mini-pill" data-featured-id="flagship-google-council-bluffs" type="button">Google IA</button>
+          <button class="mini-pill" data-featured-id="flagship-aws-project-rainier-indiana" type="button">AWS Rainier</button>
+          <button class="mini-pill mini-pill-accent" data-toggle-directory type="button">Rank All →</button>
+        </div>
+
+        <div class="summary-legend">
+          <span class="legend-item"><span class="dot dot-flagship"></span>Impact</span>
+          <span class="legend-item"><span class="dot dot-ai"></span>AI</span>
+          <span class="legend-item"><span class="dot dot-colo"></span>Colocation</span>
+          <button id="quickCompareBtn" class="legend-cta" type="button">Charts →</button>
+        </div>
+      </aside>
+
+      <!-- Floating Bottom-Center Side-by-Side Site Comparison Tray -->
+      <div id="siteCompareTray" class="compare-tray hidden" role="region" aria-label="Selected facilities for comparison"></div>
+
+      <!-- Right Slide-Over Facility Details Sidebar -->
+      <aside id="detailSidebar" class="detail-sidebar collapsed" aria-label="Facility details">
+        <div class="sidebar-header">
+          <div class="sidebar-header-top">
+            <div id="detailBadges" class="badge-row"></div>
+            <button id="closeSidebar" class="icon-btn icon-btn-sm" type="button" aria-label="Close details panel">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+          <h2 id="detailName" class="detail-title">Select a data center</h2>
+          <p id="detailSubtitle" class="detail-subtitle"></p>
+          <div id="detailActions" class="detail-actions"></div>
+        </div>
+
+        <div id="detailBody" class="sidebar-body">
+          <!-- Dynamically populated -->
+        </div>
+      </aside>
+    </main>
+
+    <!-- INDUSTRY COMPARISON VIEW -->
+    <section id="compareView" class="view-pane panel-view" aria-label="Industry Resource Comparisons">
+      <div class="panel-container">
+        <div class="panel-hero">
+          <div>
+            <span class="eyebrow">National Scale</span>
+            <h1>Data Centers vs. U.S. Industries</h1>
+            <p class="hero-lead detail-prose">
+              Data center demand is growing rapidly—especially for AI—but putting national totals side by side with agriculture, manufacturing, homes, and recreation helps separate headline noise from local reality.
+            </p>
+          </div>
+          <div class="hero-kpis" id="compareHeroKpis"></div>
+        </div>
+
+        <div class="compare-tabs" role="tablist" aria-label="Resource dimension">
+          <button class="compare-tab active" data-metric="energy" role="tab" aria-selected="true" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Electricity
+          </button>
+          <button class="compare-tab" data-metric="water" role="tab" aria-selected="false" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+            Water
+          </button>
+          <button class="compare-tab" data-metric="land" role="tab" aria-selected="false" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+            Land Use
+          </button>
+        </div>
+
+        <div id="compareContent" class="compare-card">
+          <!-- Dynamically rendered comparison charts & insights -->
+        </div>
+      </div>
+    </section>
+
+    <!-- AGGREGATED PROS, CONS & PLANNED PIPELINE VIEW -->
+    <section id="impactsView" class="view-pane panel-view" aria-label="Aggregated Positives, Negatives and Construction Pipeline">
+      <div class="panel-container">
+        <div class="panel-hero">
+          <div>
+            <span class="eyebrow">National Summary &amp; Active Builds</span>
+            <h1>Positives, Negatives &amp; Planned Campuses</h1>
+            <p class="hero-lead detail-prose">
+              Synthesized directly across all mapped U.S. data centers—counting how many facilities represent each major benefit or community/environmental trade-off, followed by planned and expanding AI campuses.
+            </p>
+          </div>
+          <div id="impactsHeroKpis" class="hero-kpis"></div>
+        </div>
+
+        <div class="impacts-ledger-grid">
+          <div class="ledger-col">
+            <div class="ledger-col-head positive">
+              <h2>Positives</h2>
+              <p class="detail-prose">Verified clean-energy, tax, job, and water-saving strengths</p>
+            </div>
+            <div id="aggregatedPositives" class="ledger-list"></div>
+          </div>
+
+          <div class="ledger-col">
+            <div class="ledger-col-head negative">
+              <h2>Negatives &amp; Trade-Offs</h2>
+              <p class="detail-prose">Disclosure gaps, fossil grid draw, drought stress, and land/tax pressures</p>
+            </div>
+            <div id="aggregatedNegatives" class="ledger-list"></div>
+          </div>
+        </div>
+
+        <div class="pipeline-section">
+          <div class="pipeline-head">
+            <div>
+              <span class="eyebrow">Construction Pipeline</span>
+              <h2>Planned &amp; Building Campuses</h2>
+              <p class="detail-prose">Project-by-project positives, regional grid clean-energy share, and local watchouts across active U.S. buildouts.</p>
+            </div>
+            <div class="compare-tabs" role="tablist" aria-label="Filter construction pipeline">
+              <button class="compare-tab active" data-pipeline-filter="new_build" role="tab" aria-selected="true" type="button">
+                New Builds (<span id="pipeCountNew">—</span>)
+              </button>
+              <button class="compare-tab" data-pipeline-filter="expanding" role="tab" aria-selected="false" type="button">
+                Expansions (<span id="pipeCountExp">—</span>)
+              </button>
+              <button class="compare-tab" data-pipeline-filter="all" role="tab" aria-selected="false" type="button">
+                All (<span id="pipeCountAll">—</span>)
+              </button>
+            </div>
+          </div>
+          <div id="pipelineContainer"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT & SOURCES VIEW -->
+    <section id="aboutView" class="view-pane panel-view" aria-label="Methodology and Verified Sources">
+      <div class="panel-container panel-narrow">
+        <div>
+          <span class="eyebrow">Data Labels &amp; Sources</span>
+          <h1>How Numbers Are Verified</h1>
+          <p class="hero-lead detail-prose">
+            There is no single U.S. government registry mandating facility-by-facility electricity and water disclosure for private data centers. Every metric in this atlas is labeled as <strong>Reported</strong>, <strong>Estimated</strong>, or <strong>Undisclosed</strong>.
+          </p>
+        </div>
+
+        <div class="provenance-grid">
+          <div class="prov-card">
+            <span class="prov-badge prov-reported">Reported</span>
+            <h3>Publicly Disclosed</h3>
+            <p>Published in an audited sustainability report, utility filing, or federal agency dataset.</p>
+          </div>
+          <div class="prov-card">
+            <span class="prov-badge prov-estimated">Estimated</span>
+            <h3>Modeled Figure</h3>
+            <p>Derived by researchers (e.g., Epoch AI) from permits, satellite imagery, or disclosed MW.</p>
+          </div>
+          <div class="prov-card">
+            <span class="prov-badge prov-undisclosed">Undisclosed</span>
+            <h3>Not Published</h3>
+            <p>Site location is verified, but the operator keeps power and water numbers private.</p>
+          </div>
+        </div>
+
+        <div class="source-list-card">
+          <h2>Primary Sources</h2>
+          <ul class="source-directory">
+            <li>
+              <div>
+                <strong>PeeringDB Facility Registry</strong>
+                <p class="detail-prose">Open network interconnection registry verifying 1,350+ U.S. colocation sites and carrier counts.</p>
+              </div>
+              <a href="https://www.peeringdb.com/" target="_blank" rel="noopener noreferrer">peeringdb.com ↗</a>
+            </li>
+            <li>
+              <div>
+                <strong>Epoch AI — Frontier Data Centers</strong>
+                <p class="detail-prose">Independent database tracking AI training megacampuses, power capacity, chips, and build status.</p>
+              </div>
+              <a href="https://epoch.ai/data/ai-data-centers" target="_blank" rel="noopener noreferrer">epoch.ai ↗</a>
+            </li>
+            <li>
+              <div>
+                <strong>Lawrence Berkeley National Lab (2024 DOE Report)</strong>
+                <p class="detail-prose">Federal baseline for U.S. data center electricity (176 TWh) and cooling water (17.4B gal).</p>
+              </div>
+              <a href="https://eta.lbl.gov/publications/2024-lbnl-data-center-energy-usage-report" target="_blank" rel="noopener noreferrer">eta.lbl.gov ↗</a>
+            </li>
+            <li>
+              <div>
+                <strong>Google &amp; Meta Environmental Reports</strong>
+                <p class="detail-prose">Campus-by-campus water withdrawals/consumption (Google) and annual MWh electricity tables (Meta).</p>
+              </div>
+              <a href="https://sustainability.google/reports/" target="_blank" rel="noopener noreferrer">sustainability.google ↗</a>
+            </li>
+            <li>
+              <div>
+                <strong>U.S. EIA, EPA eGRID, USGS &amp; USDA</strong>
+                <p class="detail-prose">State clean-grid generation mixes (EIA/eGRID), sector water (USGS), and U.S. land use (USDA ERS).</p>
+              </div>
+              <a href="https://www.epa.gov/egrid" target="_blank" rel="noopener noreferrer">epa.gov/egrid ↗</a>
+            </li>
+          </ul>
+        </div>
+
+        <div id="datasetMetaFooter" class="meta-footer"></div>
+      </div>
+    </section>
+
+    <!-- Side-by-Side Facility Comparison Modal -->
+    <div id="siteCompareModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="compareModalTitle">
+      <div class="modal-dialog">
+        <div class="modal-header">
+          <div>
+            <span class="eyebrow" style="margin-bottom:2px">Side-by-Side</span>
+            <h2 id="compareModalTitle" class="modal-title">Campus Comparison</h2>
+          </div>
+          <button id="closeCompareModal" class="icon-btn" type="button" aria-label="Close comparison dialog">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div id="siteCompareBody" class="modal-body"></div>
+      </div>
+    </div>
+
+    <!-- Non-intrusive Toast Notification -->
+    <div id="appToast" class="app-toast hidden" role="status" aria-live="polite"></div>
+  </div>
+
+  <script type="module" src="app/main.js"></script>
+</body>
+</html>

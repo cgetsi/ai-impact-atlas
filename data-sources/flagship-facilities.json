@@ -1,0 +1,1332 @@
+[
+  {
+    "id": "flagship-xai-colossus-memphis",
+    "name": "xAI Colossus Supercomputer",
+    "operator": "xAI",
+    "category": "ai_hyperscale",
+    "status": "Operating (Expanding)",
+    "city": "Memphis",
+    "state": "TN",
+    "county": "Shelby County",
+    "lat": 35.0604,
+    "lng": -90.1553,
+    "summary": "One of the world's largest single-site AI training clusters, built inside a former Electrolux manufacturing plant in southwest Memphis with rapid expansion into neighboring Southaven, MS.",
+    "power": {
+      "capacityMw": 1000,
+      "annualMwh": null,
+      "status": "reported",
+      "note": "Scaled rapidly from ~150 MW initial phase toward 1.0–1.2+ GW across the Memphis/Southaven cluster, supplemented by on-site natural gas turbines while utility substations were built."
+    },
+    "water": {
+      "annualMillionGallons": null,
+      "withdrawnMillionGallons": null,
+      "coolingType": "Liquid / Evaporative (Greywater treatment plant under construction)",
+      "waterStress": "Low-Medium",
+      "status": "undisclosed",
+      "note": "Exact annual consumption is undisclosed; local utility filings cite hundreds of thousands to over 1M gallons/day peak cooling demand from the Memphis Sand Aquifer, with xAI funding a greywater recycling plant to reduce aquifer draw."
+    },
+    "land": {
+      "acres": 114,
+      "sqft": 2600000,
+      "status": "reported",
+      "note": "Repurposed ~785,000 sq ft former industrial factory expanding to ~2.6M sq ft across adjacent industrial parcels."
+    },
+    "gridContext": "TVA (Tennessee Valley Authority) + MLGW, plus temporary behind-the-meter methane gas turbines.",
+    "localBenefits": [
+      "Revitalized a long-vacant industrial factory site in southwest Memphis.",
+      "Significant local property tax base expansion and high-profile AI investment in Shelby County.",
+      "Funded a dedicated greywater recycling facility intended to offset municipal potable aquifer usage."
+    ],
+    "localConcerns": [
+      "Deployed dozens of unpermitted temporary natural gas turbines on-site, prompting Clean Air Act complaints from the NAACP and Southern Environmental Law Center over smog (NOx) and formaldehyde in an already burdened neighborhood (Boxtown).",
+      "Community and conservation groups (Protect Our Aquifer) raised alarm over pumping from the Memphis Sand Aquifer, the city's primary drinking water source.",
+      "Speed of rollout outpaced typical public environmental review and utility transparency."
+    ],
+    "sources": [
+      { "label": "Southern Environmental Law Center — Memphis xAI Turbines", "url": "https://www.southernenvironment.org/" },
+      { "label": "Protect Our Aquifer — xAI Memphis Analysis", "url": "https://www.protectouraquifer.org/" },
+      { "label": "Epoch AI — AI Data Centers Tracker", "url": "https://epoch.ai/data/ai-data-centers" }
+    ]
+  },
+  {
+    "id": "flagship-stargate-abilene",
+    "name": "Stargate Flagship Campus (Lancium Clean Campus)",
+    "operator": "OpenAI / Oracle / Crusoe",
+    "category": "ai_hyperscale",
+    "status": "Under Construction / Operating",
+    "city": "Abilene",
+    "state": "TX",
+    "county": "Taylor County",
+    "lat": 32.4956,
+    "lng": -99.7824,
+    "summary": "Flagship U.S. campus of the Stargate AI infrastructure initiative, developed by Crusoe and Lancium for Oracle and OpenAI across over 1,100 acres in West Texas.",
+    "power": {
+      "capacityMw": 1200,
+      "annualMwh": null,
+      "status": "reported",
+      "note": "Designed for 1.2 GW total capacity across 8 massive buildings (~600+ MW initial phases), drawing from ERCOT West Texas wind/grid power plus on-site natural gas backup/bridging generation."
+    },
+    "water": {
+      "annualMillionGallons": null,
+      "withdrawnMillionGallons": null,
+      "coolingType": "Closed-Loop Direct-to-Chip Liquid Cooling",
+      "waterStress": "High",
+      "status": "estimated",
+      "note": "Built with closed-loop liquid cooling to avoid continuous evaporative water loss in arid West Texas; exact metered annual makeup water is not yet publicly reported."
+    },
+    "land": {
+      "acres": 1100,
+      "sqft": 4000000,
+      "status": "reported",
+      "note": "1,100–1,200 acre campus on former West Texas agricultural/ranch land."
+    },
+    "gridContext": "ERCOT West Texas zone (abundant wind generation, paired with on-site gas turbines).",
+    "localBenefits": [
+      "Thousands of peak construction jobs and hundreds of long-term technical operations jobs in Abilene.",
+      "Substantial local tax revenue and infrastructure upgrades in Taylor County.",
+      "Closed-loop cooling design avoids the high evaporative water losses typical of older desert facilities."
+    ],
+    "localConcerns": [
+      "Massive 1.2 GW single-point electrical load adds strain to ERCOT transmission and local peaking reliability.",
+      "Use of on-site natural gas generation raises regional carbon and air quality questions.",
+      "Located in a high water-stress region where even modest municipal water allocations face scrutiny."
+    ],
+    "sources": [
+      { "label": "Epoch AI — Frontier Data Centers (Abilene)", "url": "https://epoch.ai/data/ai-data-centers" },
+      { "label": "OpenAI — Announcing The Stargate Project", "url": "https://openai.com/index/announcing-the-stargate-project/" }
+    ]
+  },
+  {
+    "id": "flagship-aws-project-rainier-indiana",
+    "name": "AWS Project Rainier",
+    "operator": "Amazon Web Services (AWS)",
+    "category": "ai_hyperscale",
+    "status": "Operating (Expanding)",
+    "city": "New Carlisle",
+    "state": "IN",
+    "county": "St. Joseph County",
+    "lat": 41.7118,
+    "lng": -86.5062,
+    "summary": "One of the largest AI compute campuses in the U.S., built by AWS (backing Anthropic AI training) across 1,200 acres of former northern Indiana farmland with $11B+ committed investment.",
+    "power": {
+      "capacityMw": 2250,
+      "annualMwh": null,
+      "status": "reported",
+      "note": "Planned full buildout of 2.25 GW across ~30 buildings, supplied via Indiana Michigan Power (AEP) and NIPSCO."
+    },
+    "water": {
+      "annualMillionGallons": null,
+      "withdrawnMillionGallons": null,
+      "coolingType": "Outside-Air Economizers + Limited Evaporative (~2–3% of year)",
+      "waterStress": "Low",
+      "status": "undisclosed",
+      "note": "AWS states outside-air cooling handles ~97–98% of the year with water cooling only during peak summer heat; exact metered annual volume is undisclosed."
+    },
+    "land": {
+      "acres": 1200,
+      "sqft": null,
+      "status": "reported",
+      "note": "1,200 acres rezoned from rural agricultural farmland in St. Joseph County."
+    },
+    "gridContext": "PJM Interconnection via Indiana Michigan Power (AEP) and NIPSCO; utility tariff requires large loads to fund grid upgrades.",
+    "localBenefits": [
+      "$11+ billion private capital investment—the largest in Indiana history—creating 1,000+ permanent jobs and thousands of construction roles.",
+      "Dedicated large-load utility agreements aim to shield residential ratepayers from transmission upgrade costs.",
+      "Significant multi-decade tax revenue for St. Joseph County and local schools (after abatement phases)."
+    ],
+    "localConcerns": [
+      "Permanent conversion of ~1,200 acres of prime northern Indiana agricultural farmland.",
+      "Local residents raised concerns about rapid rezoning, construction traffic, noise, and industrial scale in a rural town.",
+      "2.25 GW electricity demand accelerates regional need for new generation and high-voltage transmission."
+    ],
+    "sources": [
+      { "label": "Amazon — AWS $11B Indiana Investment Announcement", "url": "https://www.aboutamazon.com/news/aws/aws-indiana-data-center-investment" },
+      { "label": "Epoch AI — AI Data Centers Tracker", "url": "https://epoch.ai/data/ai-data-centers" }
+    ]
+  },
+  {
+    "id": "flagship-meta-hyperion-louisiana",
+    "name": "Meta Hyperion AI Campus",
+    "operator": "Meta",
+    "category": "ai_hyperscale",
+    "status": "Under Construction",
+    "city": "Rayville (Richland Parish)",
+    "state": "LA",
+    "county": "Richland Parish",
+    "lat": 32.4782,
+    "lng": -91.7554,
+    "summary": "Meta's largest planned AI data center megasite, spanning over 3,200 acres in rural northeast Louisiana with planned scaling toward 2–5 GW.",
+    "power": {
+      "capacityMw": 2000,
+      "annualMwh": null,
+      "status": "reported",
+      "note": "Initial $10B+ 2 GW phase expanding toward a reported 5 GW long-term buildout; Entergy Louisiana proposed three new combined-cycle natural gas plants (~2.26 GW) to serve the campus."
+    },
+    "water": {
+      "annualMillionGallons": null,
+      "withdrawnMillionGallons": null,
+      "coolingType": "Liquid / Evaporative (Permit up to 23M gal/day peak)",
+      "waterStress": "Low",
+      "status": "undisclosed",
+      "note": "State permit authorizes up to 23 million gallons/day maximum withdrawal from the Mississippi River Alluvial Aquifer; actual average operational consumption is projected to be substantially lower."
+    },
+    "land": {
+      "acres": 3200,
+      "sqft": 4000000,
+      "status": "reported",
+      "note": "3,200–3,650 acres at the Franklin Farm megasite (former rural agricultural land)."
+    },
+    "gridContext": "Entergy Louisiana (MISO grid) — relies on newly proposed natural gas plants matched with corporate clean-energy contracts.",
+    "localBenefits": [
+      "Historic $10B+ (potentially $50B long-term) capital investment in a rural, economically underserved Louisiana parish.",
+      "~5,000 peak construction jobs and 500+ permanent direct operational jobs, plus $200M+ in local road and water infrastructure upgrades.",
+      "Meta committed to matching 100% of electricity use with clean energy and restoring 100% of water consumed in the watershed."
+    ],
+    "localConcerns": [
+      "Entergy's plan to build three large new natural gas power plants specifically for the facility drew criticism over carbon emissions and ratepayer cost-allocation risks.",
+      "Large aquifer withdrawal permit raised questions among local farmers and environmental advocates.",
+      "Substantial state sales-tax exemptions granted to attract the project."
+    ],
+    "sources": [
+      { "label": "Louisiana Economic Development — Meta Richland Parish", "url": "https://www.opportunitylouisiana.gov/" },
+      { "label": "Meta Sustainability & Datacenter Announcements", "url": "https://sustainability.atmeta.com/" }
+    ]
+  },
+  {
+    "id": "flagship-microsoft-fairwater-wisconsin",
+    "name": "Microsoft Fairwater AI Campus",
+    "operator": "Microsoft",
+    "category": "ai_hyperscale",
+    "status": "Operating (Expanding)",
+    "city": "Mount Pleasant",
+    "state": "WI",
+    "county": "Racine County",
+    "lat": 42.7176,
+    "lng": -87.8932,
+    "summary": "Microsoft's flagship next-generation AI data center campus built on 315 acres of the former Foxconn site in southeastern Wisconsin.",
+    "power": {
+      "capacityMw": 450,
+      "annualMwh": null,
+      "status": "reported",
+      "note": "~450 MW initial AI cluster capacity with multi-billion-dollar follow-on expansion, paired with a 250 MW Wisconsin solar agreement."
+    },
+    "water": {
+      "annualMillionGallons": 8.4,
+      "withdrawnMillionGallons": null,
+      "coolingType": "Closed-Loop Zero-Evaporation Liquid Cooling + Outside Air",
+      "waterStress": "Low",
+      "status": "estimated",
+      "note": "Uses a closed-loop liquid cooling design that recirculates water continuously rather than evaporating it; Microsoft reports annual operational water consumption is comparable to a typical restaurant (~8–9M gal/yr) rather than hundreds of millions."
+    },
+    "land": {
+      "acres": 315,
+      "sqft": 1200000,
+      "status": "reported",
+      "note": "315-acre campus repurposing land previously cleared for the stalled Foxconn factory."
+    },
+    "gridContext": "We Energies (MISO) — backed by 250 MW new Wisconsin solar PPA; utility also adding natural gas peaking capacity for regional load growth.",
+    "localBenefits": [
+      "Brought productive $3.3B+ investment and tax revenue to land left idle after the failed Foxconn development.",
+      "Closed-loop liquid cooling drastically lowers local water consumption compared to legacy evaporative campuses.",
+      "Funded a local Datacenter Academy with Gateway Technical College and AI skilling programs."
+    ],
+    "localConcerns": [
+      "Clean Wisconsin and consumer advocates raised concerns that We Energies' regional gas plant expansion could raise residential electricity rates and delay coal/fossil retirement.",
+      "Long-term permanent job count (~200–500) is smaller than the thousands originally promised for manufacturing on the site."
+    ],
+    "sources": [
+      { "label": "Microsoft — Wisconsin AI Datacenter Community Pledge", "url": "https://blogs.microsoft.com/on-the-issues/" },
+      { "label": "Clean Wisconsin — Data Center Grid Impact Analysis", "url": "https://www.cleanwisconsin.org/" }
+    ]
+  },
+  {
+    "id": "flagship-google-council-bluffs",
+    "name": "Google Council Bluffs Data Center",
+    "operator": "Google",
+    "category": "ai_hyperscale",
+    "status": "Operating",
+    "city": "Council Bluffs",
+    "state": "IA",
+    "county": "Pottawattamie County",
+    "lat": 41.2211,
+    "lng": -95.8624,
+    "summary": "One of Google's largest and longest-operating U.S. hyperscale campuses—and its highest single-site water consumer in recent environmental disclosures.",
+    "power": {
+      "capacityMw": 350,
+      "annualMwh": null,
+      "status": "estimated",
+      "note": "Multi-building hyperscale complex powered heavily by MidAmerican Energy's Iowa wind-rich grid; exact site MWh is undisclosed."
+    },
+    "water": {
+      "annualMillionGallons": 1010.2,
+      "withdrawnMillionGallons": 1410.3,
+      "coolingType": "Evaporative Cooling Towers",
+      "waterStress": "Low",
+      "status": "reported",
+      "note": "Google's 2025 Environmental Report (FY2024 data) reported 1,410.3M gallons withdrawn and 1,010.2M gallons consumed (up from 980.0M gal in FY2023)."
+    },
+    "land": {
+      "acres": 1000,
+      "sqft": null,
+      "status": "reported",
+      "note": "Over 1,000 acres across multiple Council Bluffs parcels."
+    },
+    "gridContext": "MidAmerican Energy (MISO) — high share of Iowa wind power; Google reports high carbon-free energy matching in the Midwest.",
+    "localBenefits": [
+      "Over $5 billion invested in Iowa with hundreds of high-paying technical jobs and steady local property tax revenue.",
+      "Located in a low water-stress Missouri River basin rather than an arid desert.",
+      "Anchored significant utility-scale wind power development across Iowa."
+    ],
+    "localConcerns": [
+      "Consumes over 1 billion gallons of water annually—roughly equivalent to the domestic water use of ~10,000 U.S. households.",
+      "Rising AI workloads drove year-over-year water consumption growth from 980M to 1,010M gallons."
+    ],
+    "sources": [
+      { "label": "Google Environmental Report (Site Water Disclosures)", "url": "https://sustainability.google/reports/" }
+    ]
+  },
+  {
+    "id": "flagship-google-new-albany",
+    "name": "Google New Albany Data Center",
+    "operator": "Google",
+    "category": "ai_hyperscale",
+    "status": "Operating (Expanding)",
+    "city": "New Albany",
+    "state": "OH",
+    "county": "Franklin / Licking County",
+    "lat": 40.0884,
+    "lng": -82.7854,
+    "summary": "Major Central Ohio AI and cloud campus in the 'Silicon Heartland' corridor, where rapid AI scaling drove a sharp jump in reported water consumption.",
+    "power": {
+      "capacityMw": 300,
+      "annualMwh": null,
+      "status": "estimated",
+      "note": "Part of Google's multi-billion-dollar Central Ohio cluster served by AEP Ohio (PJM grid)."
+    },
+    "water": {
+      "annualMillionGallons": 835.7,
+      "withdrawnMillionGallons": 1008.1,
+      "coolingType": "Evaporative Cooling",
+      "waterStress": "Low",
+      "status": "reported",
+      "note": "Google's 2025 Environmental Report (FY2024 data) disclosed 1,008.1M gallons withdrawn and 835.7M gallons consumed—more than doubling from 352.7M gal in FY2023."
+    },
+    "land": {
+      "acres": 440,
+      "sqft": null,
+      "status": "reported",
+      "note": "~440+ acres within the New Albany International Business Park."
+    },
+    "gridContext": "AEP Ohio (PJM Interconnection) — Central Ohio's surge in data center load triggered major PJM capacity price increases and new large-load tariffs.",
+    "localBenefits": [
+      "Over $2B+ in Central Ohio infrastructure investment, local construction employment, and municipal income/property tax contributions.",
+      "Supported local STEM grants and grid/renewable energy investments in Ohio."
+    ],
+    "localConcerns": [
+      "Annual water consumption more than doubled in a single year (352.7M to 835.7M gallons) as AI compute expanded.",
+      "Central Ohio's dense concentration of hyperscalers (Google, Meta, AWS) has strained AEP Ohio transmission capacity and sparked utility tariff disputes."
+    ],
+    "sources": [
+      { "label": "Google Environmental Report (Site Water Disclosures)", "url": "https://sustainability.google/reports/" }
+    ]
+  },
+  {
+    "id": "flagship-google-moncks-corner",
+    "name": "Google Berkeley County Data Center",
+    "operator": "Google",
+    "category": "ai_hyperscale",
+    "status": "Operating",
+    "city": "Moncks Corner",
+    "state": "SC",
+    "county": "Berkeley County",
+    "lat": 33.1445,
+    "lng": -80.0442,
+    "summary": "Large Southeast Google cloud & AI campus near Charleston, drawing cooling water in a humid subtropical climate.",
+    "power": {
+      "capacityMw": 250,
+      "annualMwh": null,
+      "status": "estimated",
+      "note": "Served by Santee Cooper; Google announced additional South Carolina expansions exceeding $3B."
+    },
+    "water": {
+      "annualMillionGallons": 901.7,
+      "withdrawnMillionGallons": 988.5,
+      "coolingType": "Evaporative Cooling Towers",
+      "waterStress": "Low",
+      "status": "reported",
+      "note": "Google's 2025 Environmental Report disclosed 988.5M gallons withdrawn and 901.7M gallons consumed (up from 776.5M gal the prior year)."
+    },
+    "land": {
+      "acres": 500,
+      "sqft": null,
+      "status": "estimated",
+      "note": "Multi-building industrial campus in Mt. Holly Commerce Park."
+    },
+    "gridContext": "Santee Cooper (South Carolina) — historically higher fossil share than Midwest/Northwest grids, driving ongoing solar PPA additions.",
+    "localBenefits": [
+      "Major long-term private employer and taxpayer in Berkeley County since 2007.",
+      "Funded local schools, broadband initiatives, and regional renewable energy agreements."
+    ],
+    "localConcerns": [
+      "Second-highest water-consuming U.S. Google site at 901.7M gallons/year, drawing scrutiny over local aquifer drawdown.",
+      "Warm, humid Southeast climate increases cooling energy and evaporative water requirements."
+    ],
+    "sources": [
+      { "label": "Google Environmental Report (Site Water Disclosures)", "url": "https://sustainability.google/reports/" }
+    ]
+  },
+  {
+    "id": "flagship-google-pryor",
+    "name": "Google Mayes County Data Center",
+    "operator": "Google",
+    "category": "ai_hyperscale",
+    "status": "Operating",
+    "city": "Pryor",
+    "state": "OK",
+    "county": "Mayes County",
+    "lat": 36.2409,
+    "lng": -95.3304,
+    "summary": "Google's flagship MidAmerica Industrial Park campus in northeastern Oklahoma, one of its largest global compute sites.",
+    "power": {
+      "capacityMw": 300,
+      "annualMwh": null,
+      "status": "estimated",
+      "note": "Supplied by the Grand River Dam Authority (GRDA) with major Oklahoma wind PPAs."
+    },
+    "water": {
+      "annualMillionGallons": 833.2,
+      "withdrawnMillionGallons": 1108.3,
+      "coolingType": "Evaporative Cooling",
+      "waterStress": "Low-Medium",
+      "status": "reported",
+      "note": "Google's 2025 Environmental Report reported 1,108.3M gallons withdrawn and 833.2M gallons consumed (up from 815.0M gal prior year)."
+    },
+    "land": {
+      "acres": 800,
+      "sqft": null,
+      "status": "reported",
+      "note": "Located inside MidAmerica Industrial Park, a pre-zoned industrial district."
+    },
+    "gridContext": "Grand River Dam Authority (SPP grid) — heavy Oklahoma wind generation.",
+    "localBenefits": [
+      "Over $4.8B invested in Oklahoma, supporting 800+ on-site workers and revitalizing MidAmerica Industrial Park.",
+      "Helped finance hundreds of megawatts of new Oklahoma wind farms."
+    ],
+    "localConcerns": [
+      "Over 833 million gallons of annual evaporative water consumption from the Grand River system.",
+      "Ongoing local debate over corporate property tax incentives vs. public school funding."
+    ],
+    "sources": [
+      { "label": "Google Environmental Report (Site Water Disclosures)", "url": "https://sustainability.google/reports/" }
+    ]
+  },
+  {
+    "id": "flagship-google-the-dalles",
+    "name": "Google The Dalles Data Center",
+    "operator": "Google",
+    "category": "ai_hyperscale",
+    "status": "Operating",
+    "city": "The Dalles",
+    "state": "OR",
+    "county": "Wasco County",
+    "lat": 45.6319,
+    "lng": -121.2016,
+    "summary": "Google's very first company-owned hyperscale data center (opened 2006) along the Columbia River, famous for a landmark public-records legal battle over municipal water disclosure.",
+    "power": {
+      "capacityMw": 200,
+      "annualMwh": null,
+      "status": "estimated",
+      "note": "Powered largely by low-carbon Columbia River hydroelectric power via Northern Wasco County PUD."
+    },
+    "water": {
+      "annualMillionGallons": 361.4,
+      "withdrawnMillionGallons": 434.4,
+      "coolingType": "Evaporative Cooling",
+      "waterStress": "Medium-High",
+      "status": "reported",
+      "note": "Consumed ~361.4M gallons (after ~302M gal in FY2023), representing over 25% of the city of The Dalles' total municipal water use."
+    },
+    "land": {
+      "acres": 180,
+      "sqft": null,
+      "status": "reported",
+      "note": "Multi-parcel industrial riverfront campus."
+    },
+    "gridContext": "Northern Wasco County PUD (Bonneville Power Administration hydro-dominant grid).",
+    "localBenefits": [
+      "Invested $28.5M+ into The Dalles' municipal aquifer storage and recovery (ASR) water infrastructure.",
+      "High-wage jobs and major enterprise-zone fee payments in a rural Oregon river town.",
+      "Runs on one of the lowest-carbon hydroelectric grids in the United States."
+    ],
+    "localConcerns": [
+      "City initially fought a 13-month legal battle to keep Google's water usage a 'trade secret' before The Oregonian won disclosure.",
+      "Accounts for roughly a quarter to a third of the entire city's municipal water consumption in a drought-prone basin."
+    ],
+    "sources": [
+      { "label": "Google Environmental Report (Site Water Disclosures)", "url": "https://sustainability.google/reports/" },
+      { "label": "The Oregonian — The Dalles Water Disclosure Reporting", "url": "https://www.oregonlive.com/" }
+    ]
+  },
+  {
+    "id": "flagship-google-douglas-county",
+    "name": "Google Douglas County Data Center",
+    "operator": "Google",
+    "category": "ai_hyperscale",
+    "status": "Operating",
+    "city": "Lithia Springs (Douglas County)",
+    "state": "GA",
+    "county": "Douglas County",
+    "lat": 33.7495,
+    "lng": -84.6024,
+    "summary": "Major Atlanta-area hyperscale campus notable for pioneering reclaimed wastewater cooling instead of relying solely on potable municipal water.",
+    "power": {
+      "capacityMw": 180,
+      "annualMwh": null,
+      "status": "estimated",
+      "note": "Served by Georgia Power / Greystone Power."
+    },
+    "water": {
+      "annualMillionGallons": 366.9,
+      "withdrawnMillionGallons": 444.1,
+      "coolingType": "Evaporative (Reclaimed Non-Potable Wastewater)",
+      "waterStress": "Low-Medium",
+      "status": "reported",
+      "note": "Google's 2025 Environmental Report logged 444.1M gal withdrawn and 366.9M gal consumed (346M gal prior year), utilizing treated effluent water from the county's sidestream plant."
+    },
+    "land": {
+      "acres": 190,
+      "sqft": null,
+      "status": "estimated",
+      "note": "Industrial campus west of Atlanta."
+    },
+    "gridContext": "Georgia Power (Southern Company) — metro Atlanta's rapid data center boom prompted utility load-forecast revisions.",
+    "localBenefits": [
+      "Built a dedicated water-reclamation partnership using treated wastewater rather than competing directly with drinking-water supply.",
+      "Sustained tax revenue and community grants in Douglas County."
+    ],
+    "localConcerns": [
+      "Metro Atlanta's broader data center boom has led Georgia lawmakers to debate repealing state data center sales-tax exemptions.",
+      "Georgia Power cited rapid data center demand when seeking approval for additional fossil fuel generation."
+    ],
+    "sources": [
+      { "label": "Google Environmental Report (Site Water Disclosures)", "url": "https://sustainability.google/reports/" }
+    ]
+  },
+  {
+    "id": "flagship-google-papillion",
+    "name": "Google Papillion Data Center",
+    "operator": "Google",
+    "category": "ai_hyperscale",
+    "status": "Operating",
+    "city": "Papillion",
+    "state": "NE",
+    "county": "Sarpy County",
+    "lat": 41.1325,
+    "lng": -96.0825,
+    "summary": "Rapidly growing Omaha-metro hyperscale campus in Sarpy County, Nebraska, alongside Meta's nearby facility.",
+    "power": {
+      "capacityMw": 200,
+      "annualMwh": null,
+      "status": "estimated",
+      "note": "Served by Omaha Public Power District (OPPD)."
+    },
+    "water": {
+      "annualMillionGallons": 548.2,
+      "withdrawnMillionGallons": 677.8,
+      "coolingType": "Evaporative Cooling",
+      "waterStress": "Low",
+      "status": "reported",
+      "note": "Google's 2025 Environmental Report disclosed 677.8M gallons withdrawn and 548.2M gallons consumed."
+    },
+    "land": {
+      "acres": 275,
+      "sqft": null,
+      "status": "reported",
+      "note": "Sarpy County Highway 50 data center corridor."
+    },
+    "gridContext": "Omaha Public Power District (OPPD / SPP) — rapid regional data center growth delayed coal-plant retirements while accelerating new wind/solar builds.",
+    "localBenefits": [
+      "Multi-billion-dollar investment across Sarpy and Douglas counties with major local tax contributions.",
+      "Funded Nebraska wind projects and local education grants."
+    ],
+    "localConcerns": [
+      "Sharp rise in annual cooling water consumption (from ~135M gal early phase to 548.2M gal).",
+      "Combined Omaha-area data center load growth forced OPPD to extend coal generation timelines at North Omaha Station."
+    ],
+    "sources": [
+      { "label": "Google Environmental Report (Site Water Disclosures)", "url": "https://sustainability.google/reports/" }
+    ]
+  },
+  {
+    "id": "flagship-google-lenoir",
+    "name": "Google Lenoir Data Center",
+    "operator": "Google",
+    "category": "ai_hyperscale",
+    "status": "Operating",
+    "city": "Lenoir",
+    "state": "NC",
+    "county": "Caldwell County",
+    "lat": 35.8986,
+    "lng": -81.5471,
+    "summary": "Long-standing western North Carolina cloud campus built in a historic furniture-manufacturing town in the Blue Ridge foothills.",
+    "power": {
+      "capacityMw": 160,
+      "annualMwh": null,
+      "status": "estimated",
+      "note": "Served by Duke Energy Carolinas."
+    },
+    "water": {
+      "annualMillionGallons": 344.3,
+      "withdrawnMillionGallons": 378.3,
+      "coolingType": "Evaporative Cooling",
+      "waterStress": "Low",
+      "status": "reported",
+      "note": "Google's 2025 Environmental Report reported 378.3M gallons withdrawn and 344.3M gallons consumed (327.8M gal in FY2023)."
+    },
+    "land": {
+      "acres": 215,
+      "sqft": null,
+      "status": "reported",
+      "note": "Industrial campus in Caldwell County."
+    },
+    "gridContext": "Duke Energy Carolinas — mix of nuclear, natural gas, and growing utility solar.",
+    "localBenefits": [
+      "Helped diversify Caldwell County's economy after declines in traditional furniture manufacturing.",
+      "Catalyzed utility-scale solar tariffs with Duke Energy in North Carolina."
+    ],
+    "localConcerns": [
+      "High evaporative loss ratio (344.3M gal consumed out of 378.3M gal withdrawn).",
+      "Broader Duke Energy service territory faces rising load forecasts driven by Carolinas data centers."
+    ],
+    "sources": [
+      { "label": "Google Environmental Report (Site Water Disclosures)", "url": "https://sustainability.google/reports/" }
+    ]
+  },
+  {
+    "id": "flagship-google-henderson",
+    "name": "Google Henderson Data Center",
+    "operator": "Google",
+    "category": "ai_hyperscale",
+    "status": "Operating",
+    "city": "Henderson",
+    "state": "NV",
+    "county": "Clark County",
+    "lat": 36.0289,
+    "lng": -115.0592,
+    "summary": "Southern Nevada hyperscale campus near Las Vegas, situated in the arid Colorado River basin.",
+    "power": {
+      "capacityMw": 120,
+      "annualMwh": null,
+      "status": "estimated",
+      "note": "Served by NV Energy with dedicated Nevada solar + battery storage agreements."
+    },
+    "water": {
+      "annualMillionGallons": 239.4,
+      "withdrawnMillionGallons": 401.7,
+      "coolingType": "Evaporative Cooling (Colorado River Basin)",
+      "waterStress": "Extremely High",
+      "status": "reported",
+      "note": "Google's 2025 Environmental Report reported 401.7M gal withdrawn, 162.3M gal discharged, and 239.4M gal consumed (up from 207.4M gal in FY2023)."
+    },
+    "land": {
+      "acres": 64,
+      "sqft": null,
+      "status": "reported",
+      "note": "Industrial tech park parcel in Henderson."
+    },
+    "gridContext": "NV Energy — strong daytime solar generation paired with natural gas and battery storage.",
+    "localBenefits": [
+      "Funded large-scale Nevada solar-plus-storage generation and Colorado River basin water-restoration partnerships.",
+      "Local tax base growth and tech infrastructure jobs in Clark County."
+    ],
+    "localConcerns": [
+      "Consumes ~239M gallons/year in one of the most water-stressed basins in North America (Lake Mead / Colorado River).",
+      "Southern Nevada Water Authority has since restricted new evaporative-cooled commercial builds to conserve water."
+    ],
+    "sources": [
+      { "label": "Google Environmental Report (Site Water Disclosures)", "url": "https://sustainability.google/reports/" }
+    ]
+  },
+  {
+    "id": "flagship-google-storey-county",
+    "name": "Google Storey County Data Center (Air-Cooled)",
+    "operator": "Google",
+    "category": "ai_hyperscale",
+    "status": "Operating",
+    "city": "McCarran (Storey County)",
+    "state": "NV",
+    "county": "Storey County",
+    "lat": 39.5562,
+    "lng": -119.4765,
+    "summary": "Notable example of water-conscious desert design inside the Tahoe-Reno Industrial Center, using air cooling instead of evaporative towers.",
+    "power": {
+      "capacityMw": 100,
+      "annualMwh": null,
+      "status": "estimated",
+      "note": "Served by NV Energy, including Fervo Energy enhanced geothermal power purchase agreement."
+    },
+    "water": {
+      "annualMillionGallons": 0.2,
+      "withdrawnMillionGallons": 0.2,
+      "coolingType": "Air-Cooled (Minimal Water)",
+      "waterStress": "High",
+      "status": "reported",
+      "note": "Uses air-cooling technology rather than evaporative cooling towers—consuming under 1 million gallons/year (~0.2M gal reported), contrasting sharply with evaporative desert sites."
+    },
+    "land": {
+      "acres": 1210,
+      "sqft": null,
+      "status": "reported",
+      "note": "1,210-acre parcel acquired in the Tahoe-Reno Industrial Center."
+    },
+    "gridContext": "NV Energy — backed by first-of-its-kind Fervo Energy 24/7 carbon-free geothermal pilot in northern Nevada.",
+    "localBenefits": [
+      "Demonstrates that desert data centers can operate with near-zero cooling water using air cooling.",
+      "Anchored commercial deployment of next-generation 24/7 geothermal energy in Nevada."
+    ],
+    "localConcerns": [
+      "Air cooling requires slightly higher electricity consumption during hot summer afternoons compared to evaporative towers.",
+      "Rapid industrial buildout in Tahoe-Reno Industrial Center has strained regional housing and highway corridors."
+    ],
+    "sources": [
+      { "label": "Google Environmental Report (Site Water Disclosures)", "url": "https://sustainability.google/reports/" }
+    ]
+  },
+  {
+    "id": "flagship-google-midlothian",
+    "name": "Google Midlothian Data Center",
+    "operator": "Google",
+    "category": "ai_hyperscale",
+    "status": "Operating",
+    "city": "Midlothian",
+    "state": "TX",
+    "county": "Ellis County",
+    "lat": 32.4567,
+    "lng": -97.0123,
+    "summary": "Dallas-Fort Worth region hyperscale campus serving Texas cloud and AI workloads.",
+    "power": {
+      "capacityMw": 150,
+      "annualMwh": null,
+      "status": "estimated",
+      "note": "Served by Oncor / ERCOT grid with Texas wind & solar PPAs."
+    },
+    "water": {
+      "annualMillionGallons": 220.2,
+      "withdrawnMillionGallons": 263.6,
+      "coolingType": "Evaporative Cooling",
+      "waterStress": "Medium-High",
+      "status": "reported",
+      "note": "Google's 2025 Environmental Report disclosed 263.6M gal withdrawn and 220.2M gal consumed (up from 182.3M gal prior year)."
+    },
+    "land": {
+      "acres": 375,
+      "sqft": null,
+      "status": "reported",
+      "note": "375-acre industrial campus in Ellis County."
+    },
+    "gridContext": "ERCOT North Texas — rapid solar/battery growth alongside summer peak demand challenges.",
+    "localBenefits": [
+      "$600M+ initial investment expanding to multi-billion-dollar Texas footprint with local school and municipal tax revenue.",
+      "Backed significant Texas wind and solar generation builds."
+    ],
+    "localConcerns": [
+      "Water usage grew ~21% year-over-year in a region experiencing recurrent summer droughts.",
+      "Part of massive DFW-area load growth putting pressure on ERCOT summer peak margins."
+    ],
+    "sources": [
+      { "label": "Google Environmental Report (Site Water Disclosures)", "url": "https://sustainability.google/reports/" }
+    ]
+  },
+  {
+    "id": "flagship-google-clarksville",
+    "name": "Google Montgomery County Data Center",
+    "operator": "Google",
+    "category": "ai_hyperscale",
+    "status": "Operating",
+    "city": "Clarksville",
+    "state": "TN",
+    "county": "Montgomery County",
+    "lat": 36.6122,
+    "lng": -87.2458,
+    "summary": "Hyperscale data center built on a former Hemlock Semiconductor industrial site in northern Tennessee.",
+    "power": {
+      "capacityMw": 180,
+      "annualMwh": null,
+      "status": "estimated",
+      "note": "Served by TVA (Tennessee Valley Authority) with dedicated solar PPAs."
+    },
+    "water": {
+      "annualMillionGallons": 424.7,
+      "withdrawnMillionGallons": 499.5,
+      "coolingType": "Evaporative Cooling",
+      "waterStress": "Low",
+      "status": "reported",
+      "note": "Google's 2025 Environmental Report disclosed 499.5M gal withdrawn and 424.7M gal consumed (up from ~289M gal earlier baseline)."
+    },
+    "land": {
+      "acres": 1300,
+      "sqft": null,
+      "status": "reported",
+      "note": "Repurposed ~1,300-acre brownfield industrial campus."
+    },
+    "gridContext": "Tennessee Valley Authority (TVA) — mix of nuclear, gas, coal, hydro, and contracted solar.",
+    "localBenefits": [
+      "Repurposed an abandoned semiconductor plant site rather than clearing greenfield farmland.",
+      "Contracted hundreds of megawatts of new Tennessee/Alabama solar capacity through TVA."
+    ],
+    "localConcerns": [
+      "Annual evaporative water consumption climbed sharply to 424.7M gallons as campus utilization increased.",
+      "TVA has cited regional data center growth in plans to build new natural gas generation."
+    ],
+    "sources": [
+      { "label": "Google Environmental Report (Site Water Disclosures)", "url": "https://sustainability.google/reports/" }
+    ]
+  },
+  {
+    "id": "flagship-google-loudoun",
+    "name": "Google Loudoun County Campuses (Leesburg & Sterling)",
+    "operator": "Google",
+    "category": "ai_hyperscale",
+    "status": "Operating",
+    "city": "Leesburg / Sterling",
+    "state": "VA",
+    "county": "Loudoun County",
+    "lat": 39.0438,
+    "lng": -77.4874,
+    "summary": "Google's Northern Virginia footprint inside the world's densest data center hub ('Data Center Alley').",
+    "power": {
+      "capacityMw": 220,
+      "annualMwh": null,
+      "status": "estimated",
+      "note": "Served by Dominion Energy Virginia (PJM Interconnection)."
+    },
+    "water": {
+      "annualMillionGallons": 390.5,
+      "withdrawnMillionGallons": 496.5,
+      "coolingType": "Evaporative Cooling (Municipal / Reclaimed)",
+      "waterStress": "Low-Medium",
+      "status": "reported",
+      "note": "Combined FY2024 disclosure: Leesburg (190.7M gal consumed / 238.1M withdrawn) + Sterling (199.8M gal consumed / 258.4M withdrawn)."
+    },
+    "land": {
+      "acres": 165,
+      "sqft": null,
+      "status": "reported",
+      "note": "Multiple Loudoun County parcels across Leesburg and Sterling."
+    },
+    "gridContext": "Dominion Energy Virginia — Northern Virginia accounts for the largest concentrated data center power load in the world.",
+    "localBenefits": [
+      "Loudoun County's data center sector generates ~$1.2B–$1.3B/yr in tax revenue (~40–45% of county budget), enabling lower residential property tax rates.",
+      "Funds extensive public school, transit, and infrastructure budgets in Northern Virginia."
+    ],
+    "localConcerns": [
+      "Northern Virginia's massive cluster (250+ facilities countywide) has triggered major high-voltage transmission line controversies and land-use pushback.",
+      "Backup diesel generators, substation noise, and rising regional electricity demand are top resident concerns."
+    ],
+    "sources": [
+      { "label": "Google Environmental Report (Site Water Disclosures)", "url": "https://sustainability.google/reports/" },
+      { "label": "Loudoun County Economic Development — Data Centers", "url": "https://biz.loudoun.gov/" }
+    ]
+  },
+  {
+    "id": "flagship-meta-prineville",
+    "name": "Meta Prineville Data Center",
+    "operator": "Meta",
+    "category": "ai_hyperscale",
+    "status": "Operating",
+    "city": "Prineville",
+    "state": "OR",
+    "county": "Crook County",
+    "lat": 44.2874,
+    "lng": -120.8842,
+    "summary": "Meta's very first custom-built data center (2011) and one of its highest-electricity U.S. campuses, pioneered Open Compute energy-efficient server hardware.",
+    "power": {
+      "capacityMw": 210,
+      "annualMwh": 1728291,
+      "status": "reported",
+      "note": "Meta's Sustainability Environmental Data Index reported 1,728,291 MWh electricity consumed in 2024 (~197 MW average continuous draw, up from 982,177 MWh in 2022)."
+    },
+    "water": {
+      "annualMillionGallons": 58.0,
+      "withdrawnMillionGallons": null,
+      "coolingType": "Outside-Air Economizer + Direct Evaporative (Low WUE ~0.18)",
+      "waterStress": "Medium-High",
+      "status": "estimated",
+      "note": "Meta's high-altitude dry climate enables heavy outside-air free cooling; fleet average WUE is ~0.18 L/kWh, far lower than legacy chiller towers, though local Crook County aquifer use is closely monitored."
+    },
+    "land": {
+      "acres": 330,
+      "sqft": 4600000,
+      "status": "reported",
+      "note": "Over 4.6 million sq ft across 11 buildings on a high-desert plateau."
+    },
+    "gridContext": "Pacific Power (PacifiCorp) — Meta matches 100% of electricity with contracted wind/solar renewable energy.",
+    "localBenefits": [
+      "Transformed Crook County's economy after timber industry decline, funding new schools, water infrastructure, and emergency services.",
+      "Industry-leading PUE (~1.08) and low-water outside-air cooling design.",
+      "Funded Prineville aquifer storage and river restoration projects."
+    ],
+    "localConcerns": [
+      "Electricity use grew ~76% between 2022 and 2024 (to 1.73 TWh/yr—enough to power ~160,000 U.S. homes).",
+      "Central Oregon faces chronic drought stress, keeping municipal water allocation under community scrutiny."
+    ],
+    "sources": [
+      { "label": "Meta Sustainability Report & Environmental Data Index", "url": "https://sustainability.atmeta.com/" }
+    ]
+  },
+  {
+    "id": "flagship-meta-altoona",
+    "name": "Meta Altoona Data Center",
+    "operator": "Meta",
+    "category": "ai_hyperscale",
+    "status": "Operating",
+    "city": "Altoona",
+    "state": "IA",
+    "county": "Polk County",
+    "lat": 41.6621,
+    "lng": -93.4578,
+    "summary": "One of Meta's flagship Midwest AI and cloud campuses outside Des Moines, disclosing exact annual electricity consumption.",
+    "power": {
+      "capacityMw": 200,
+      "annualMwh": 1585392,
+      "status": "reported",
+      "note": "Meta's Sustainability Report disclosed 1,585,392 MWh electricity use in 2024 (up from 1,243,306 MWh in 2023 and 1,043,606 MWh in 2022)."
+    },
+    "water": {
+      "annualMillionGallons": 52.0,
+      "withdrawnMillionGallons": null,
+      "coolingType": "Outside-Air + Direct Evaporative Cooling",
+      "waterStress": "Low",
+      "status": "estimated",
+      "note": "Estimated from Meta's disclosed 1.59 TWh annual load and fleet WUE (~0.18 L/kWh); Meta also funds Iowa wetland restoration projects."
+    },
+    "land": {
+      "acres": 470,
+      "sqft": 5000000,
+      "status": "reported",
+      "note": "Over 5M sq ft across 470+ acres east of Des Moines."
+    },
+    "gridContext": "MidAmerican Energy (Iowa) — heavy wind generation matched 100% via renewable energy contracts.",
+    "localBenefits": [
+      "Over $2.5B invested in Polk County, funding local infrastructure, STEM programs, and hundreds of permanent operations jobs.",
+      "Anchored multiple large-scale Iowa wind farm installations."
+    ],
+    "localConcerns": [
+      "Electricity consumption jumped >50% in two years (1.04 TWh to 1.59 TWh) with AI workload expansion.",
+      "Substantial state sales-tax and local property-tax incentives drew policy debate in Iowa."
+    ],
+    "sources": [
+      { "label": "Meta Sustainability Report & Environmental Data Index", "url": "https://sustainability.atmeta.com/" }
+    ]
+  },
+  {
+    "id": "flagship-meta-papillion",
+    "name": "Meta Sarpy Data Center",
+    "operator": "Meta",
+    "category": "ai_hyperscale",
+    "status": "Operating",
+    "city": "Papillion",
+    "state": "NE",
+    "county": "Sarpy County",
+    "lat": 41.1246,
+    "lng": -96.1355,
+    "summary": "Massive multi-building Meta campus in eastern Nebraska disclosing over 1.25 TWh of annual electricity demand.",
+    "power": {
+      "capacityMw": 160,
+      "annualMwh": 1258239,
+      "status": "reported",
+      "note": "Meta's Sustainability disclosures report 1,258,239 MWh in 2024 (up from 1,007,635 MWh in 2022)."
+    },
+    "water": {
+      "annualMillionGallons": 42.0,
+      "withdrawnMillionGallons": null,
+      "coolingType": "Outside-Air + Direct Evaporative Cooling",
+      "waterStress": "Low",
+      "status": "estimated",
+      "note": "Estimated using Meta's fleet WUE; relies primarily on Nebraska cool outside air for most of the year."
+    },
+    "land": {
+      "acres": 300,
+      "sqft": 3600000,
+      "status": "reported",
+      "note": "~3.6M sq ft across Sarpy County industrial corridor."
+    },
+    "gridContext": "Omaha Public Power District (OPPD) — backed by dedicated Nebraska wind/solar PPAs.",
+    "localBenefits": [
+      "$1.5B+ investment with 300+ permanent jobs and significant Sarpy County tax revenue.",
+      "Catalyzed utility-scale wind farms in Nebraska."
+    ],
+    "localConcerns": [
+      "Combined hyperscale load growth in Sarpy County forced OPPD to delay coal-plant retirements to meet peak grid demand.",
+      "Continuous expansion across former suburban/rural farmland."
+    ],
+    "sources": [
+      { "label": "Meta Sustainability Report & Environmental Data Index", "url": "https://sustainability.atmeta.com/" }
+    ]
+  },
+  {
+    "id": "flagship-meta-eagle-mountain",
+    "name": "Meta Eagle Mountain Data Center",
+    "operator": "Meta",
+    "category": "ai_hyperscale",
+    "status": "Operating",
+    "city": "Eagle Mountain",
+    "state": "UT",
+    "county": "Utah County",
+    "lat": 40.3141,
+    "lng": -112.0069,
+    "summary": "High-desert hyperscale campus southwest of Salt Lake City that more than doubled its annual electricity consumption between 2022 and 2024.",
+    "power": {
+      "capacityMw": 150,
+      "annualMwh": 1115619,
+      "status": "reported",
+      "note": "Meta's Environmental Data Index reported 1,115,619 MWh in 2024 (more than doubling from 504,049 MWh in 2022)."
+    },
+    "water": {
+      "annualMillionGallons": 38.0,
+      "withdrawnMillionGallons": null,
+      "coolingType": "Outside-Air + High-Efficiency Evaporative",
+      "waterStress": "Extremely High",
+      "status": "estimated",
+      "note": "Operates in the arid Great Salt Lake basin; Meta uses low-WUE cooling and funds regional Colorado/Utah watershed restoration projects."
+    },
+    "land": {
+      "acres": 500,
+      "sqft": 4500000,
+      "status": "reported",
+      "note": "~4.5M sq ft across ~500 acres of high-desert industrial land."
+    },
+    "gridContext": "Rocky Mountain Power — Meta contracted hundreds of MW of Utah solar projects.",
+    "localBenefits": [
+      "$1.5B+ investment bringing major utility/road infrastructure and local tax base to fast-growing Eagle Mountain.",
+      "Funded large-scale Utah solar farms and regional water restoration grants."
+    ],
+    "localConcerns": [
+      "Located in an extremely high water-stress basin adjacent to the shrinking Great Salt Lake.",
+      "Electricity consumption grew 121% in two years (504 GWh to 1,116 GWh)."
+    ],
+    "sources": [
+      { "label": "Meta Sustainability Report & Environmental Data Index", "url": "https://sustainability.atmeta.com/" }
+    ]
+  },
+  {
+    "id": "flagship-meta-los-lunas",
+    "name": "Meta Los Lunas Data Center",
+    "operator": "Meta",
+    "category": "ai_hyperscale",
+    "status": "Operating",
+    "city": "Los Lunas",
+    "state": "NM",
+    "county": "Valencia County",
+    "lat": 34.8475,
+    "lng": -106.7928,
+    "summary": "Large desert hyperscale campus south of Albuquerque with disclosed electricity and municipal water withdrawal metrics.",
+    "power": {
+      "capacityMw": 140,
+      "annualMwh": 1110100,
+      "status": "reported",
+      "note": "Meta's Sustainability Index reported ~1,110,100 MWh annual electricity consumption (up from 929,488 MWh in 2022)."
+    },
+    "water": {
+      "annualMillionGallons": 71.0,
+      "withdrawnMillionGallons": 75.0,
+      "coolingType": "Outside-Air + Evaporative Cooling",
+      "waterStress": "Extremely High",
+      "status": "reported",
+      "note": "Reported ~67–75M gallons/year in desert cooling withdrawals; Meta funds Rio Grande watershed restoration to offset consumption."
+    },
+    "land": {
+      "acres": 400,
+      "sqft": 3800000,
+      "status": "reported",
+      "note": "~3.8M sq ft across desert mesa west of Los Lunas."
+    },
+    "gridContext": "PNM (Public Service Company of New Mexico) — backed by over 500 MW of contracted New Mexico solar + wind.",
+    "localBenefits": [
+      "Major catalyst for New Mexico utility-scale solar and storage builds through PNM.",
+      "Over $1B invested and hundreds of operations jobs in Valencia County."
+    ],
+    "localConcerns": [
+      "Draws ~70M gallons/year in the arid Rio Grande basin where residential and agricultural water rights are scarce.",
+      "Received substantial local industrial revenue bond tax incentives."
+    ],
+    "sources": [
+      { "label": "Meta Sustainability Report & Environmental Data Index", "url": "https://sustainability.atmeta.com/" }
+    ]
+  },
+  {
+    "id": "flagship-meta-fort-worth",
+    "name": "Meta Fort Worth Data Center",
+    "operator": "Meta",
+    "category": "ai_hyperscale",
+    "status": "Operating",
+    "city": "Fort Worth",
+    "state": "TX",
+    "county": "Tarrant County",
+    "lat": 32.9875,
+    "lng": -97.3198,
+    "summary": "North Texas hyperscale campus in AllianceTexas, consuming over 1 TWh of electricity annually.",
+    "power": {
+      "capacityMw": 135,
+      "annualMwh": 1029570,
+      "status": "reported",
+      "note": "Meta's Environmental Data Index reported ~1,029,570 MWh annual electricity use (up from 959,419 MWh in 2022)."
+    },
+    "water": {
+      "annualMillionGallons": 45.0,
+      "withdrawnMillionGallons": null,
+      "coolingType": "Outside-Air + Evaporative Cooling",
+      "waterStress": "Medium-High",
+      "status": "estimated",
+      "note": "Estimated from disclosed MWh and Meta fleet WUE; hot Texas summers increase summer peak water draw."
+    },
+    "land": {
+      "acres": 150,
+      "sqft": 2600000,
+      "status": "reported",
+      "note": "2.6M sq ft campus in North Fort Worth."
+    },
+    "gridContext": "ERCOT — matched 100% with Texas wind and solar contracts.",
+    "localBenefits": [
+      "Over $1.5B invested in Tarrant County with 100% contracted renewable matching.",
+      "Sustained STEM grants and skilled technical operations jobs."
+    ],
+    "localConcerns": [
+      "Adds >1 TWh/yr of steady load to the ERCOT grid during extreme Texas summer heatwaves.",
+      "Part of rapid DFW data center growth driving transmission expansion costs."
+    ],
+    "sources": [
+      { "label": "Meta Sustainability Report & Environmental Data Index", "url": "https://sustainability.atmeta.com/" }
+    ]
+  },
+  {
+    "id": "flagship-microsoft-west-des-moines",
+    "name": "Microsoft West Des Moines Cluster",
+    "operator": "Microsoft",
+    "category": "ai_hyperscale",
+    "status": "Operating (Expanding)",
+    "city": "West Des Moines",
+    "state": "IA",
+    "county": "Polk / Dallas County",
+    "lat": 41.5292,
+    "lng": -93.7582,
+    "summary": "One of Microsoft's premier AI training hubs (notably used to train early GPT-4 models), which sparked national conversation about AI cooling water and led to municipal water limits.",
+    "power": {
+      "capacityMw": 300,
+      "annualMwh": null,
+      "status": "estimated",
+      "note": "Multi-campus cluster (DSM05–DSM11+) served by MidAmerican Energy."
+    },
+    "water": {
+      "annualMillionGallons": 35.0,
+      "withdrawnMillionGallons": null,
+      "coolingType": "Transitioning from Evaporative to Closed-Loop Zero-Water",
+      "waterStress": "Low",
+      "status": "reported",
+      "note": "Municipal records showed peak summer usage hit 11.5M gallons in July 2022 (~6% of city demand) during GPT-4 training; newer West Des Moines buildings are switching to closed-loop zero-water cooling."
+    },
+    "land": {
+      "acres": 600,
+      "sqft": null,
+      "status": "reported",
+      "note": "Multiple sprawling campuses across southern West Des Moines."
+    },
+    "gridContext": "MidAmerican Energy (Iowa) — heavy wind generation.",
+    "localBenefits": [
+      "Multi-billion-dollar tax base contributor helping fund West Des Moines municipal infrastructure and public water utility expansion.",
+      "Prompted industry-wide shift toward zero-water closed-loop AI cooling architectures."
+    ],
+    "localConcerns": [
+      "Peak summer cooling water spiked to 11.5M gal/month during AI training, prompting West Des Moines Water Works to require lower-water designs for future expansions.",
+      "High visibility debate over AI's hidden water footprint."
+    ],
+    "sources": [
+      { "label": "Associated Press — Microsoft Iowa Water Usage & AI Training", "url": "https://apnews.com/article/chatgpt-gpt4-iowa-ai-water-consumption-microsoft-f551fde98083d17a7e8d904f8be822c4" },
+      { "label": "Microsoft Datacenter Community Pledge", "url": "https://datacenters.microsoft.com/" }
+    ]
+  },
+  {
+    "id": "flagship-microsoft-goodyear",
+    "name": "Microsoft Goodyear Data Center",
+    "operator": "Microsoft",
+    "category": "ai_hyperscale",
+    "status": "Operating",
+    "city": "Goodyear",
+    "state": "AZ",
+    "county": "Maricopa County",
+    "lat": 33.4285,
+    "lng": -112.4041,
+    "summary": "Phoenix-metro cloud campus in the Sonoran Desert, serving as a flagship pilot site for Microsoft's desert Zero-Water cooling transition.",
+    "power": {
+      "capacityMw": 150,
+      "annualMwh": null,
+      "status": "estimated",
+      "note": "Served by Arizona Public Service (APS) with dedicated solar agreements."
+    },
+    "water": {
+      "annualMillionGallons": 56.0,
+      "withdrawnMillionGallons": null,
+      "coolingType": "Evaporative transitioning to Zero-Water Closed-Loop",
+      "waterStress": "Extremely High",
+      "status": "reported",
+      "note": "Commissioned filings estimated ~56M gallons/year drinking-water usage at full build; Microsoft subsequently launched a Zero-Water closed-loop retrofit initiative in Goodyear."
+    },
+    "land": {
+      "acres": 279,
+      "sqft": null,
+      "status": "reported",
+      "note": "279-acre desert campus in Phoenix West Valley."
+    },
+    "gridContext": "APS (Arizona) — massive solar resources paired with extreme summer afternoon cooling peaks.",
+    "localBenefits": [
+      "Pioneered closed-loop zero-water retrofits designed to eliminate tens of millions of gallons of desert evaporative use.",
+      "Major tax revenue and skilled tech infrastructure jobs in West Valley."
+    ],
+    "localConcerns": [
+      "Phoenix metro is one of the fastest-growing data center markets despite severe Colorado River and groundwater scarcity.",
+      "Extreme ambient heat (>110°F) forces higher energy use when switching away from evaporative water cooling."
+    ],
+    "sources": [
+      { "label": "Microsoft Sustainability & Zero-Water Datacenter Designs", "url": "https://datacenters.microsoft.com/" }
+    ]
+  },
+  {
+    "id": "flagship-aws-boardman",
+    "name": "AWS Eastern Oregon (Boardman / Morrow County)",
+    "operator": "Amazon Web Services (AWS)",
+    "category": "ai_hyperscale",
+    "status": "Operating (Expanding)",
+    "city": "Boardman",
+    "state": "OR",
+    "county": "Morrow County",
+    "lat": 45.8295,
+    "lng": -119.6542,
+    "summary": "Core of AWS's US-West-2 cloud region in Morrow & Umatilla counties, backed by Columbia River hydro and expanding toward gigawatt-scale AI campuses.",
+    "power": {
+      "capacityMw": 500,
+      "annualMwh": null,
+      "status": "estimated",
+      "note": "Multi-campus operational footprint across Boardman and Hermiston, with next-phase expansions targeting 1,000+ MW."
+    },
+    "water": {
+      "annualMillionGallons": 22.0,
+      "withdrawnMillionGallons": null,
+      "coolingType": "Outside-Air Economizers + Limited Evaporative",
+      "waterStress": "Medium-High",
+      "status": "reported",
+      "note": "AWS reports a fully developed modern Oregon campus uses ~22M gallons/year; AWS partnered with Port of Morrow & local cities on aquifer storage and surface-water projects."
+    },
+    "land": {
+      "acres": 1000,
+      "sqft": null,
+      "status": "reported",
+      "note": "Over 1,000 acres across multiple Port of Morrow industrial parcels."
+    },
+    "gridContext": "Umatilla Electric Cooperative / BPA — overwhelmingly carbon-free Columbia River hydro plus regional wind.",
+    "localBenefits": [
+      "Generates tens of millions in annual fee payments and rural infrastructure investments in Morrow County.",
+      "Funded municipal water treatment and aquifer replenishment projects with local cities.",
+      "Leverages abundant low-carbon hydroelectric power."
+    ],
+    "localConcerns": [
+      "Multi-hundred-million-dollar enterprise-zone property tax abatements have sparked statewide Oregon tax-policy debates.",
+      "Rapid load growth has outpaced low-cost hydro allocations, forcing Umatilla Electric to purchase market power and upgrade transmission."
+    ],
+    "sources": [
+      { "label": "AWS Water Stewardship & Oregon Operations", "url": "https://sustainability.aboutamazon.com/natural-resources/water" }
+    ]
+  },
+  {
+    "id": "flagship-aws-ashburn-alley",
+    "name": "AWS US-East-1 Hub (Ashburn / Loudoun County)",
+    "operator": "Amazon Web Services (AWS)",
+    "category": "ai_hyperscale",
+    "status": "Operating (Expanding)",
+    "city": "Ashburn",
+    "state": "VA",
+    "county": "Loudoun County",
+    "lat": 39.0169,
+    "lng": -77.4590,
+    "summary": "Heart of the world's largest cloud region (US-East-1) in 'Data Center Alley,' where 70% of global internet traffic historically transited.",
+    "power": {
+      "capacityMw": 1500,
+      "annualMwh": null,
+      "status": "estimated",
+      "note": "Dozens of interconnected AWS campuses across Loudoun and Prince William counties totaling well over 1.5 GW; Dominion Energy serves >3.5 GW of total Northern Virginia data center load."
+    },
+    "water": {
+      "annualMillionGallons": null,
+      "withdrawnMillionGallons": null,
+      "coolingType": "Mixed Evaporative, Reclaimed Non-Potable & Closed-Loop",
+      "waterStress": "Low-Medium",
+      "status": "undisclosed",
+      "note": "AWS does not publish per-site Virginia water totals; Loudoun Water supplies large volumes of reclaimed purple-pipe wastewater to Data Center Alley campuses."
+    },
+    "land": {
+      "acres": 1500,
+      "sqft": null,
+      "status": "estimated",
+      "note": "Spanning dozens of multi-story campuses across Ashburn, Sterling, and Manassas."
+    },
+    "gridContext": "Dominion Energy Virginia (PJM) — extreme grid concentration triggered transmission bottlenecks and Virginia JLARC statewide legislative studies.",
+    "localBenefits": [
+      "Anchored Loudoun County's ~$1.2B+ annual data center tax windfall (40–45% of county general fund), lowering homeowner tax rates.",
+      "Uses Loudoun Water's reclaimed wastewater network at many Ashburn campuses to save potable drinking water.",
+      "Created a dense ecosystem of tens of thousands of cloud, construction, and engineering jobs."
+    ],
+    "localConcerns": [
+      "Dominion Energy transmission congestion led to major new 500kV overhead power line proposals through residential and historic Virginia communities.",
+      "Virginia's 2024 JLARC report warned data centers could double or triple statewide electricity demand over the next decade.",
+      "Neighborhood concerns over continuous chiller hum and hundreds of permitted diesel backup generators."
+    ],
+    "sources": [
+      { "label": "Virginia JLARC — Data Centers in Virginia Study (2024)", "url": "https://jlarc.virginia.gov/landing-2024-data-centers-in-virginia.asp" },
+      { "label": "Loudoun County Economic Development", "url": "https://biz.loudoun.gov/" }
+    ]
+  },
+  {
+    "id": "flagship-switch-citadel-nevada",
+    "name": "Switch The Citadel Campus",
+    "operator": "Switch",
+    "category": "ai_hyperscale",
+    "status": "Operating (Expanding)",
+    "city": "McCarran (Tahoe-Reno)",
+    "state": "NV",
+    "county": "Storey County",
+    "lat": 39.5469,
+    "lng": -119.4898,
+    "summary": "Massive multi-tenant hyperscale and AI colocation campus inside the Tahoe-Reno Industrial Center, designed for up to 650+ MW powered by 100% renewable energy.",
+    "power": {
+      "capacityMw": 650,
+      "annualMwh": null,
+      "status": "reported",
+      "note": "Planned up to 650 MW total campus capacity (currently over 130+ MW operational across mega-buildings), supplied via 100% Nevada solar + battery storage."
+    },
+    "water": {
+      "annualMillionGallons": null,
+      "withdrawnMillionGallons": null,
+      "coolingType": "Patented Hybrid Outside-Air / Closed-Loop",
+      "waterStress": "High",
+      "status": "undisclosed",
+      "note": "Exact annual metered volume is undisclosed; utilizes high-desert night-air economization and reclaimed industrial water pipelines."
+    },
+    "land": {
+      "acres": 2000,
+      "sqft": 7200000,
+      "status": "reported",
+      "note": "2,000+ acre footprint planned for up to 7.2 million sq ft of Tier 5 data center space."
+    },
+    "gridContext": "NV Energy — Switch famously led Nevada's transition to dedicated 100% solar-plus-storage corporate energy procurement.",
+    "localBenefits": [
+      "Catalyzed massive utility-scale solar and battery storage builds across northern Nevada.",
+      "Major tax contributor to Storey County without residential sprawl impact (located inside a dedicated industrial park)."
+    ],
+    "localConcerns": [
+      "Concentrated industrial growth in Tahoe-Reno Industrial Center increases pressure on Truckee River watershed and regional electricity infrastructure.",
+      "Site-specific annual water consumption is not publicly audited."
+    ],
+    "sources": [
+      { "label": "Switch — The Citadel Campus Specifications", "url": "https://www.switch.com/citadel/" }
+    ]
+  }
+]
