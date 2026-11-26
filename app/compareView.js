@@ -559,10 +559,10 @@ export class IndustryCompareView {
     const buildMeter = (label, pct, tag, detail) => {
       const col = scoreToColor(pct);
       return `
-        <div class="co-meter">
+        <div class="co-meter" title="${escapeHtml(label)}: ${escapeHtml(tag)}">
           <div class="co-meter-head">
             <span class="co-meter-lbl">${escapeHtml(label)}</span>
-            <span class="co-meter-tag" style="color:${col}">${escapeHtml(tag)}</span>
+            <span class="co-meter-tag detail-only" style="color:${col}">${escapeHtml(tag)}</span>
           </div>
           <div class="co-meter-track">
             <div class="co-meter-fill" style="width:${Math.max(6, Math.min(100, pct))}%; background:${col}"></div>
@@ -594,10 +594,10 @@ export class IndustryCompareView {
                   <h3 class="co-name">${escapeHtml(co.name)}</h3>
                   <span class="standing-pill ${standingCls}">${escapeHtml(co.standingLabel)}</span>
                 </div>
-                <div class="co-meta-row">
+                <div class="co-meta-row detail-only">
                   <span>${escapeHtml(siteBreakdown)}</span>
                   ${co.trackedMw > 0 ? `<span>· ${escapeHtml(formatMw(co.trackedMw))} linked</span>` : ''}
-                  <span class="detail-only">· ${co.waterDisclosedCount}/${co.totalCount} disclose water</span>
+                  <span>· ${co.waterDisclosedCount}/${co.totalCount} disclose water</span>
                 </div>
               </div>
               <button class="co-map-btn" data-filter-company="${escapeHtml(co.id)}" type="button">
