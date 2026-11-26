@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-impact-atlas/schemas/breakthrough.schema.json",
+  "title": "AI Impact Atlas — Breakthroughs Dataset",
+  "type": "object",
+  "required": ["meta", "verificationTiers", "domains", "events", "openMathProblems", "clinicalPipeline"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["updatedAt", "coverageStart", "coverageEnd", "version"],
+      "properties": {
+        "updatedAt": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "coverageStart": { "type": "string" },
+        "coverageEnd": { "type": "string" },
+        "version": { "type": "string" },
+        "editorialPolicy": { "type": "string" }
+      }
+    },
+    "events": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "date",
+          "domain",
+          "title",
+          "shortLabel",
+          "organization",
+          "impactScore",
+          "verificationTier",
+          "verificationLabel",
+          "summary",
+          "whyItMatters",
+          "caveats",
+          "metrics",
+          "sources"
+        ],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+          "domain": { "enum": ["medicine", "math", "science", "accessibility"] },
+          "title": { "type": "string", "minLength": 5 },
+          "shortLabel": { "type": "string", "maxLength": 40 },
+          "plainHeadline": { "type": "string", "maxLength": 90, "description": "Plain-language, jargon-free headline shown in Simple view" },
+          "bigStat": {
+            "type": "object",
+            "description": "One big, instantly readable number for Simple view cards",
+            "required": ["value", "label"],
+            "properties": {
+              "value": { "type": "string", "maxLength": 10 },
+              "label": { "type": "string", "maxLength": 40 }
+            }
+          },
+          "organization": { "type": "string" },
+          "impactScore": { "type": "integer", "minimum": 1, "maximum": 5 },
+          "verificationTier": { "enum": ["verified", "trial", "milestone"] },
+          "verificationLabel": { "type": "string" },
+          "summary": { "type": "string" },
+          "whyItMatters": { "type": "string" },
+          "caveats": { "type": "string" },
+          "metrics": { "type": "array", "items": { "type": "string" } },
+          "sources": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["label", "url", "publisher"],
+              "properties": {
+                "label": { "type": "string" },
+                "url": { "type": "string", "pattern": "^https://" },
+                "publisher": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,836 @@
+{
+  "meta": {
+    "updatedAt": "2026-11-26",
+    "coverageStart": "2020-01-01",
+    "coverageEnd": "2026-11-26",
+    "version": "1.0.0",
+    "editorialPolicy": "Every breakthrough must link to a primary peer-reviewed journal, government registry (FDA / ClinicalTrials.gov), formal proof repository (Lean 4 / Mathlib), or official research institution release—and include honest limitations."
+  },
+  "verificationTiers": {
+    "verified": {
+      "label": "Verified / Deployed",
+      "shortLabel": "Verified",
+      "description": "Peer-reviewed in a leading journal (Nature, Science, NEJM, Cell), machine-checked in a proof assistant (Lean 4), FDA-authorized, or operating at scale."
+    },
+    "trial": {
+      "label": "Clinical Trial / Replicated",
+      "shortLabel": "In Trials",
+      "description": "Advancing through registered human clinical trials (ClinicalTrials.gov) or independently replicated in lab/field studies awaiting full deployment."
+    },
+    "milestone": {
+      "label": "Frontier Milestone",
+      "shortLabel": "Milestone",
+      "description": "Verified benchmark breakthrough, novel mathematical bound, or institutional result that establishes a new scientific capability."
+    }
+  },
+  "domains": [
+    {
+      "id": "medicine",
+      "label": "Medicine & Biology",
+      "shortLabel": "Medicine",
+      "color": "#34d399",
+      "lightColor": "#059669",
+      "description": "Protein folding, antibiotic discovery, AI-designed clinical drugs, genetics, and FDA-authorized diagnostic tools."
+    },
+    {
+      "id": "math",
+      "label": "Mathematics & Proofs",
+      "shortLabel": "Math",
+      "color": "#a78bfa",
+      "lightColor": "#6d28d9",
+      "description": "Machine-checked Lean 4 proofs, faster algorithms, open-problem progress, and Olympiad-level mathematical reasoning."
+    },
+    {
+      "id": "science",
+      "label": "Science, Weather & Energy",
+      "shortLabel": "Science & Energy",
+      "color": "#38bdf8",
+      "lightColor": "#1d4ed8",
+      "description": "Extreme-weather forecasting, novel battery & catalyst materials, fusion plasma control, and clean-grid optimization."
+    },
+    {
+      "id": "accessibility",
+      "label": "Accessibility & Daily Life",
+      "shortLabel": "Daily Life",
+      "color": "#ffb627",
+      "lightColor": "#b45309",
+      "description": "Speech-restoring brain interfaces, visual aids for blind users, 200-language translation, tutoring trials, and clinician time savings."
+    }
+  ],
+  "events": [
+    {
+      "id": "mit-halicin-antibiotic-2020",
+      "date": "2020-02-20",
+      "domain": "medicine",
+      "title": "Halicin: First Broad-Spectrum Antibiotic Discovered by Deep Learning",
+      "shortLabel": "Halicin Antibiotic",
+      "plainHeadline": "AI discovered a new antibiotic that kills drug-resistant bacteria",
+      "bigStat": { "value": "100M+", "label": "molecules screened in days" },
+      "organization": "MIT CSAIL & Broad Institute",
+      "impactScore": 4,
+      "verificationTier": "verified",
+      "verificationLabel": "Peer-Reviewed · Cell",
+      "summary": "MIT researchers trained a neural network to screen 100+ million chemical compounds in days, identifying Halicin—a structurally novel molecule that killed drug-resistant bacteria including C. difficile and A. baumannii in mouse models.",
+      "whyItMatters": "Antibiotic resistance kills over 1.2 million people per year globally, while traditional pharma pipelines have struggled to find new antibiotic classes for decades.",
+      "caveats": "Halicin proved the AI discovery method in lab and animal models, but still requires years of safety optimization and human clinical trials before hospital use.",
+      "metrics": ["100M+ molecules screened", "Killed pan-resistant strains in mice"],
+      "sources": [
+        { "label": "Cell Paper (Stokes et al., 2020)", "url": "https://www.cell.com/cell/fulltext/S0092-8674(20)30102-1", "publisher": "Cell" },
+        { "label": "MIT News Announcement", "url": "https://news.mit.edu/2020/artificial-intelligence-identifies-new-antibiotic-0220", "publisher": "MIT News" }
+      ]
+    },
+    {
+      "id": "alphafold2-casp14-2020",
+      "date": "2020-11-30",
+      "domain": "medicine",
+      "title": "AlphaFold 2 Solves the 50-Year Protein Folding Grand Challenge",
+      "shortLabel": "AlphaFold 2",
+      "plainHeadline": "AI solved the 50-year puzzle of how proteins fold",
+      "bigStat": { "value": "50 yrs", "label": "old biology puzzle cracked" },
+      "organization": "Google DeepMind",
+      "impactScore": 5,
+      "verificationTier": "verified",
+      "verificationLabel": "Peer-Reviewed · Nature · Nobel Prize",
+      "summary": "At CASP14, AlphaFold 2 predicted 3D atomic protein structures from amino-acid sequences with accuracy rivaling years-long X-ray crystallography and cryo-EM experiments.",
+      "whyItMatters": "Knowing a protein's 3D shape is foundational to understanding disease mechanisms and designing targeted medicines—work that previously took months to years per protein now takes minutes.",
+      "caveats": "AlphaFold 2 predicts static single-chain snapshots well, but dynamic conformational changes and disordered proteins remain active research areas.",
+      "metrics": ["92.4 GDT median CASP14 score", "2024 Nobel Prize in Chemistry"],
+      "sources": [
+        { "label": "Nature Paper (Jumper et al., 2021)", "url": "https://www.nature.com/articles/s41586-021-03819-2", "publisher": "Nature" },
+        { "label": "Nobel Prize in Chemistry 2024", "url": "https://www.nobelprize.org/prizes/chemistry/2024/summary/", "publisher": "Nobel Foundation" }
+      ]
+    },
+    {
+      "id": "ai-guided-pure-math-2021",
+      "date": "2021-12-01",
+      "domain": "math",
+      "title": "AI Helps Mathematicians Discover New Theorems in Knot & Representation Theory",
+      "shortLabel": "Knot Theory Theorems",
+      "plainHeadline": "AI helped mathematicians spot and prove new theorems",
+      "bigStat": { "value": "2", "label": "new theorems proven" },
+      "organization": "DeepMind, Oxford & University of Sydney",
+      "impactScore": 3,
+      "verificationTier": "verified",
+      "verificationLabel": "Peer-Reviewed · Nature",
+      "summary": "Mathematicians used machine learning attribution techniques to detect unexpected patterns across high-dimensional mathematical objects, leading to two new proven theorems linking algebraic and geometric knot invariants.",
+      "whyItMatters": "Demonstrated that AI can act as an intuition amplifier for human mathematicians—spotting subtle structural links across millions of examples before humans prove them rigorously.",
+      "caveats": "Human mathematicians still formulated the final conjectures and wrote the rigorous proofs; AI acted as a pattern-finding collaborator rather than an autonomous prover.",
+      "metrics": ["2 new proven theorems", "40-year Kazhdan–Lusztig conjecture advance"],
+      "sources": [
+        { "label": "Nature Paper (Davies et al., 2021)", "url": "https://www.nature.com/articles/s41586-021-04086-x", "publisher": "Nature" }
+      ]
+    },
+    {
+      "id": "tokamak-fusion-plasma-2022",
+      "date": "2022-02-16",
+      "domain": "science",
+      "title": "Deep Reinforcement Learning Controls Superheated Fusion Plasma in Real Time",
+      "shortLabel": "Fusion Plasma Control",
+      "plainHeadline": "AI learned to steer super-hot fusion plasma",
+      "bigStat": { "value": "10,000", "label": "adjustments per second" },
+      "organization": "EPFL Swiss Plasma Center & DeepMind",
+      "impactScore": 4,
+      "verificationTier": "verified",
+      "verificationLabel": "Peer-Reviewed · Nature",
+      "summary": "A single AI controller dynamically adjusted 19 magnetic coils 10,000 times per second inside the real TCV tokamak reactor, sculpting novel plasma shapes including 'droplets' and 'snowflakes' previously hard to stabilize.",
+      "whyItMatters": "Stable magnetic confinement is one of the core engineering barriers to clean, abundant nuclear fusion energy.",
+      "caveats": "Achieving net commercial fusion electricity still depends on reactor materials, tritium breeding, and scaling from experimental tokamaks to power plants.",
+      "metrics": ["10,000 Hz real-time coil control", "Live TCV tokamak validation"],
+      "sources": [
+        { "label": "Nature Paper (Degrave et al., 2022)", "url": "https://www.nature.com/articles/s41586-021-04301-9", "publisher": "Nature" }
+      ]
+    },
+    {
+      "id": "nllb-200-languages-2022",
+      "date": "2022-07-06",
+      "domain": "accessibility",
+      "title": "Open-Source AI Translation Expands Across 200 World Languages",
+      "shortLabel": "200-Language Translation",
+      "plainHeadline": "Free AI translation now covers 200 languages",
+      "bigStat": { "value": "200", "label": "languages translated" },
+      "organization": "Meta AI",
+      "impactScore": 3,
+      "verificationTier": "verified",
+      "verificationLabel": "Open-Source & Peer-Reviewed",
+      "summary": "No Language Left Behind (NLLB-200) released open-source models able to translate directly between 200 languages—including dozens of African, Asian, and Indigenous languages previously ignored by commercial translation.",
+      "whyItMatters": "Opens medical guidance, Wikipedia knowledge, education, and cross-border communication to billions of speakers of underserved languages.",
+      "caveats": "Translation accuracy on very low-resource languages still trails high-resource pairs like English–Spanish and requires human review in medical or legal settings.",
+      "metrics": ["200 languages supported", "44% BLEU quality gain on low-resource pairs"],
+      "sources": [
+        { "label": "Meta AI Research Release", "url": "https://ai.meta.com/research/no-language-left-behind/", "publisher": "Meta AI" }
+      ]
+    },
+    {
+      "id": "alphafold-200m-database-2022",
+      "date": "2022-07-28",
+      "domain": "medicine",
+      "title": "AlphaFold Database Opens 200 Million+ Protein Structures Free to All Scientists",
+      "shortLabel": "200M+ Proteins Open DB",
+      "plainHeadline": "Nearly every known protein structure, free for all scientists",
+      "bigStat": { "value": "200M+", "label": "protein structures shared free" },
+      "organization": "EMBL-EBI & DeepMind",
+      "impactScore": 5,
+      "verificationTier": "verified",
+      "verificationLabel": "Public Scientific Infrastructure",
+      "summary": "EMBL-EBI and DeepMind expanded the open AlphaFold Protein Structure Database to over 200 million predicted structures—covering nearly every cataloged protein across 1 million species, free for any lab worldwide.",
+      "whyItMatters": "Over 2 million researchers in 190+ countries now use the open database daily for malaria vaccines, plastic-degrading enzymes, crop resilience, and rare genetic diseases.",
+      "caveats": "Predicted structures include confidence scores (pLDDT); experimental verification is still required before clinical drug manufacturing.",
+      "metrics": ["200M+ structures free online", "2M+ researchers in 190+ countries"],
+      "sources": [
+        { "label": "AlphaFold Protein Structure Database", "url": "https://alphafold.ebi.ac.uk/", "publisher": "EMBL-EBI" },
+        { "label": "DeepMind 200M Structures Release", "url": "https://deepmind.google/discover/blog/alphafold-reveals-the-structure-of-the-protein-universe/", "publisher": "Google DeepMind" }
+      ]
+    },
+    {
+      "id": "alphatensor-matrix-math-2022",
+      "date": "2022-10-05",
+      "domain": "math",
+      "title": "AlphaTensor Discovers Faster Matrix Multiplication Algorithms After 50 Years",
+      "shortLabel": "AlphaTensor Algorithms",
+      "plainHeadline": "AI found faster ways to do core computer math",
+      "bigStat": { "value": "50 yrs", "label": "old record beaten" },
+      "organization": "Google DeepMind",
+      "impactScore": 4,
+      "verificationTier": "verified",
+      "verificationLabel": "Peer-Reviewed · Nature",
+      "summary": "Framing algorithm design as a single-player game, AlphaTensor rediscovered Strassen's 1969 algorithm from scratch and beat the 50-year record for 4×4 matrix multiplication in modular arithmetic (47 multiplications vs. 49).",
+      "whyItMatters": "Matrix multiplication sits at the core of computer graphics, scientific simulations, signal processing, and AI compute itself—faster algorithms save electricity across billions of devices.",
+      "caveats": "The 47-multiplication breakthrough applied to finite field (mod 2) arithmetic rather than standard real numbers—a gap later tackled by AlphaEvolve in 2025.",
+      "metrics": ["Beat 50-year record (47 ops)", "10–20% faster GPU/TPU kernels"],
+      "sources": [
+        { "label": "Nature Paper (Fawzi et al., 2022)", "url": "https://www.nature.com/articles/s41586-022-05172-4", "publisher": "Nature" }
+      ]
+    },
+    {
+      "id": "bemyeyes-vision-ai-2023",
+      "date": "2023-03-14",
+      "domain": "accessibility",
+      "title": "Real-Time Multimodal Vision AI Deployed for Blind & Low-Vision Users",
+      "shortLabel": "Be My AI Vision Aid",
+      "plainHeadline": "AI describes the world for blind and low-vision people",
+      "bigStat": { "value": "600K+", "label": "blind & low-vision users" },
+      "organization": "Be My Eyes & OpenAI",
+      "impactScore": 4,
+      "verificationTier": "verified",
+      "verificationLabel": "Deployed Globally",
+      "summary": "Be My Eyes launched 'Be My AI', giving hundreds of thousands of blind and low-vision people instant conversational descriptions of medication labels, appliances, menus, transit signs, and surroundings from a phone camera.",
+      "whyItMatters": "Provides 24/7 independent access to everyday visual information—complementing human volunteers with instant, private assistance.",
+      "caveats": "Vision models can still misread tiny or blurry text; users are advised to verify critical items like prescription dosages with a human volunteer or pharmacist.",
+      "metrics": ["Free for 600K+ blind/low-vision users", "90%+ tasks resolved without human wait"],
+      "sources": [
+        { "label": "Be My Eyes Accessibility Announcement", "url": "https://www.bemyeyes.com/blog/introducing-be-my-eyes-virtual-volunteer", "publisher": "Be My Eyes" }
+      ]
+    },
+    {
+      "id": "abaucin-narrow-antibiotic-2023",
+      "date": "2023-05-25",
+      "domain": "medicine",
+      "title": "AI Discovers Abaucin to Target Hospital Superbug Acinetobacter baumannii",
+      "shortLabel": "Abaucin Superbug Drug",
+      "plainHeadline": "AI found a drug against a deadly hospital superbug",
+      "bigStat": { "value": "< 2 hrs", "label": "to screen 6,680 compounds" },
+      "organization": "McMaster University & MIT",
+      "impactScore": 4,
+      "verificationTier": "verified",
+      "verificationLabel": "Peer-Reviewed · Nature Chem. Bio.",
+      "summary": "Researchers screened ~7,500 molecules experimentally to train an AI model that then narrowed 6,680 candidates in under two hours—discovering Abaucin, which selectively destroys WHO-priority hospital pathogen A. baumannii.",
+      "whyItMatters": "Unlike broad-spectrum antibiotics that wipe out beneficial gut bacteria and fuel resistance, Abaucin is narrow-spectrum—sparing helpful microbes while killing a deadly ICU pathogen.",
+      "caveats": "Validated in lab cultures and mouse wound infections; still needs medicinal chemistry refinement and human clinical trials.",
+      "metrics": ["Screened 6,680 compounds in <2 hrs", "Targets WHO top-priority pathogen"],
+      "sources": [
+        { "label": "Nature Chemical Biology Paper (Liu et al., 2023)", "url": "https://www.nature.com/articles/s41589-023-01349-8", "publisher": "Nature Chemical Biology" },
+        { "label": "MIT News Coverage", "url": "https://news.mit.edu/2023/using-ai-scientists-combat-drug-resistant-infections-0525", "publisher": "MIT News" }
+      ]
+    },
+    {
+      "id": "bci-speech-restoration-2023",
+      "date": "2023-08-23",
+      "domain": "accessibility",
+      "title": "AI Brain-Computer Interfaces Restore Speech at 62–78 Words/Min for Paralyzed Patients",
+      "shortLabel": "BCI Speech Decoding",
+      "plainHeadline": "Brain implants plus AI let paralyzed patients speak again",
+      "bigStat": { "value": "62–78", "label": "words per minute" },
+      "organization": "Stanford University & UCSF",
+      "impactScore": 5,
+      "verificationTier": "trial",
+      "verificationLabel": "Peer-Reviewed · Nature (Clinical Trial)",
+      "summary": "Two landmark back-to-back Nature papers showed neural-network speech decoders translating cortical brain signals into audible speech and facial avatars at 62–78 words per minute—approaching natural conversation speed (160 wpm).",
+      "whyItMatters": "Restores human voice and independence to people who lost speech from ALS or brainstem stroke—more than 3× faster than prior eye-tracking or BCI records.",
+      "caveats": "Currently requires surgical brain implants in small clinical trials (NCT00912041 / NCT03698149); long-term wireless hardware durability is still being engineered.",
+      "metrics": ["62–78 words/min decoded", "3.4× faster than prior BCI record"],
+      "sources": [
+        { "label": "Stanford Nature Paper (Willett et al., 2023)", "url": "https://www.nature.com/articles/s41586-023-06377-x", "publisher": "Nature" },
+        { "label": "UCSF Nature Paper (Metzger et al., 2023)", "url": "https://www.nature.com/articles/s41586-023-06443-4", "publisher": "Nature" }
+      ]
+    },
+    {
+      "id": "alphamissense-genetics-2023",
+      "date": "2023-09-19",
+      "domain": "medicine",
+      "title": "AlphaMissense Maps 71 Million Human Genetic Mutations for Rare-Disease Diagnosis",
+      "shortLabel": "AlphaMissense Variants",
+      "plainHeadline": "AI mapped 71 million genetic mutations to speed rare-disease diagnosis",
+      "bigStat": { "value": "71M", "label": "genetic variants classified" },
+      "organization": "Google DeepMind",
+      "impactScore": 4,
+      "verificationTier": "verified",
+      "verificationLabel": "Peer-Reviewed · Science",
+      "summary": "Prior to AlphaMissense, clinicians knew the effect of only ~0.1% of possible single-letter human missense mutations. AlphaMissense scored all 71 million possible variants, classifying 89% as likely benign or likely pathogenic.",
+      "whyItMatters": "Rare genetic disease families often endure a 5+ year 'diagnostic odyssey.' Open variant predictions help clinical geneticists pinpoint root mutations dramatically faster.",
+      "caveats": "Predictions are decision-support tools and cannot replace clinical geneticist evaluation or confirmatory lab testing.",
+      "metrics": ["71M human variants classified", "89% resolved vs. 0.1% previously"],
+      "sources": [
+        { "label": "Science Paper (Cheng et al., 2023)", "url": "https://www.science.org/doi/10.1126/science.adg7492", "publisher": "Science" }
+      ]
+    },
+    {
+      "id": "graphcast-weather-2023",
+      "date": "2023-11-14",
+      "domain": "science",
+      "title": "GraphCast Outperforms Gold-Standard 10-Day Global Weather Forecasts in <1 Minute",
+      "shortLabel": "GraphCast 10-Day Weather",
+      "plainHeadline": "AI beats the best 10-day weather forecast, in under a minute",
+      "bigStat": { "value": "90%", "label": "of targets more accurate" },
+      "organization": "Google DeepMind",
+      "impactScore": 5,
+      "verificationTier": "verified",
+      "verificationLabel": "Peer-Reviewed · Science · Deployed",
+      "summary": "Trained on 40 years of ERA5 historical weather data, GraphCast outperformed ECMWF's flagship HRES physics simulation on 90% of 1,380 verification targets—running on a single TPU in under a minute instead of hours on a supercomputer.",
+      "whyItMatters": "Faster, sharper cyclone track and extreme-temperature predictions give coastal towns, farmers, and grid operators crucial extra days to save lives and protect infrastructure.",
+      "caveats": "Trained on historical reanalysis datasets, so unprecedented climate extremes outside historical distributions still benefit from hybrid physics-AI checks.",
+      "metrics": ["Beat HRES on 90% of targets", "~1,000× less compute per forecast"],
+      "sources": [
+        { "label": "Science Paper (Lam et al., 2023)", "url": "https://www.science.org/doi/10.1126/science.adi2336", "publisher": "Science" }
+      ]
+    },
+    {
+      "id": "gnome-materials-2023",
+      "date": "2023-11-29",
+      "domain": "science",
+      "title": "GNoME Predicts 380,000+ Stable Novel Crystals for Batteries, Solar & Superconductors",
+      "shortLabel": "GNoME Crystal Discovery",
+      "plainHeadline": "AI discovered 380,000 new materials for batteries and solar",
+      "bigStat": { "value": "380K", "label": "new stable crystals" },
+      "organization": "Google DeepMind & Lawrence Berkeley Lab",
+      "impactScore": 4,
+      "verificationTier": "verified",
+      "verificationLabel": "Peer-Reviewed · Nature",
+      "summary": "Graph Networks for Materials Exploration (GNoME) predicted 2.2 million crystal structures—including 380,000 energetically stable materials, expanding humanity's catalog of known stable inorganic crystals nearly 10×—with 736 independently synthesized in labs.",
+      "whyItMatters": "Accelerates the hunt for safer solid-state lithium batteries, cheaper solar absorbers, and carbon-capture catalysts—all shared openly via the Materials Project.",
+      "caveats": "Independent crystallographers noted that some predicted materials are close variants of known compounds and synthesizing commercially scalable materials remains hard lab work.",
+      "metrics": ["380K stable crystal candidates", "528 potential Li-ion conductors"],
+      "sources": [
+        { "label": "Nature Paper (Merchant et al., 2023)", "url": "https://www.nature.com/articles/s41586-023-06735-9", "publisher": "Nature" },
+        { "label": "Materials Project Open Database", "url": "https://next-gen.materialsproject.org/", "publisher": "Lawrence Berkeley Lab" }
+      ]
+    },
+    {
+      "id": "funsearch-cap-set-2023",
+      "date": "2023-12-14",
+      "domain": "math",
+      "title": "FunSearch Uses LLMs + Automated Verifiers to Discover New Math Constructions",
+      "shortLabel": "FunSearch Cap Set",
+      "plainHeadline": "AI discovered new math constructions, checked by computer",
+      "bigStat": { "value": "New", "label": "record on an open math problem" },
+      "organization": "Google DeepMind",
+      "impactScore": 4,
+      "verificationTier": "verified",
+      "verificationLabel": "Peer-Reviewed · Nature",
+      "summary": "By pairing an LLM with a strict programmatic evaluator that rejects hallucinations, FunSearch discovered the largest known cap sets in 8 dimensions—the first time an LLM produced a genuinely new verifiable discovery in an open math problem.",
+      "whyItMatters": "Established the 'Generate + Formally Verify' blueprint: LLMs can brainstorm creatively while deterministic math verifiers guarantee 100% correctness.",
+      "caveats": "Requires problems whose candidate solutions can be scored automatically by code; does not apply directly to abstract proofs without a verifier.",
+      "metrics": ["New record on 8D Cap Set problem", "Outperformed bin-packing heuristics"],
+      "sources": [
+        { "label": "Nature Paper (Romera-Paredes et al., 2023)", "url": "https://www.nature.com/articles/s41586-023-06924-6", "publisher": "Nature" }
+      ]
+    },
+    {
+      "id": "alphageometry-imo-2024",
+      "date": "2024-01-17",
+      "domain": "math",
+      "title": "AlphaGeometry Solves Olympiad Geometry at Gold-Medalist Level",
+      "shortLabel": "AlphaGeometry IMO",
+      "plainHeadline": "AI solves Olympiad geometry like a gold medalist",
+      "bigStat": { "value": "25 / 30", "label": "Olympiad geometry problems" },
+      "organization": "Google DeepMind & NYU",
+      "impactScore": 4,
+      "verificationTier": "verified",
+      "verificationLabel": "Peer-Reviewed · Nature",
+      "summary": "Combining a neural language model (trained on 100M synthetic proofs) with a symbolic deduction engine, AlphaGeometry solved 25 of 30 past International Mathematical Olympiad geometry problems within competition time limits.",
+      "whyItMatters": "Proved neuro-symbolic AI can generate human-readable, step-by-step verified mathematical proofs rather than opaque guesses.",
+      "caveats": "Limited specifically to Euclidean Olympiad geometry; algebra, combinatorics, and number theory required broader formal proof systems.",
+      "metrics": ["25/30 IMO geometry problems solved", "Previous SOTA was 10/30 (1978 Wu's method)"],
+      "sources": [
+        { "label": "Nature Paper (Trinh et al., 2024)", "url": "https://www.nature.com/articles/s41586-023-06747-5", "publisher": "Nature" }
+      ]
+    },
+    {
+      "id": "alphafold3-molecular-2024",
+      "date": "2024-05-08",
+      "domain": "medicine",
+      "title": "AlphaFold 3 Models All Life Molecules: Proteins, DNA, RNA & Drug Ligands Together",
+      "shortLabel": "AlphaFold 3",
+      "plainHeadline": "AI now models how drugs bind to DNA, RNA and proteins",
+      "bigStat": { "value": "50%+", "label": "better drug-binding accuracy" },
+      "organization": "Google DeepMind & Isomorphic Labs",
+      "impactScore": 5,
+      "verificationTier": "verified",
+      "verificationLabel": "Peer-Reviewed · Nature",
+      "summary": "AlphaFold 3 extended atomic-scale structure prediction beyond single proteins to how proteins interact with DNA, RNA, antibodies, and small-molecule drug candidates—improving drug-binding accuracy by 50%+ over physics docking tools.",
+      "whyItMatters": "Directly addresses how real medicines work inside living cells, helping academic labs and drug designers screen therapeutic interactions before costly wet-lab synthesis.",
+      "caveats": "Initial release restricted commercial drug-ligand code; full academic source code and weights were released in Nov 2024 following researcher feedback.",
+      "metrics": ["50%+ jump in drug-binding accuracy", "Open academic code & web server"],
+      "sources": [
+        { "label": "Nature Paper (Abramson et al., 2024)", "url": "https://www.nature.com/articles/s41586-024-07487-w", "publisher": "Nature" }
+      ]
+    },
+    {
+      "id": "ai-tutoring-rct-2024",
+      "date": "2024-06-15",
+      "domain": "accessibility",
+      "title": "Controlled Trials Show Pedagogical AI Tutors Double Learning Gains per Hour",
+      "shortLabel": "AI Tutoring RCTs",
+      "plainHeadline": "AI tutors doubled how much students learned per hour",
+      "bigStat": { "value": "2×", "label": "learning gains per hour" },
+      "organization": "Harvard University & World Bank",
+      "impactScore": 4,
+      "verificationTier": "trial",
+      "verificationLabel": "Randomized Controlled Trials",
+      "summary": "A Harvard introductory physics RCT found students using a guardrail-designed Socratic AI tutor learned more than twice as much in less time compared to active-learning lectures; a World Bank RCT in Nigeria saw ~2 years of learning gains in 6 weeks.",
+      "whyItMatters": "One-on-one human tutoring is the gold standard in education but unaffordable for most families. Well-designed AI tutors can expand personalized help globally.",
+      "caveats": "Unconstrained chatbots that simply give away answers can *harm* learning retention—pedagogical scaffolding and teacher oversight are essential.",
+      "metrics": ["2×+ learning gain vs. lecture (Harvard)", "Replicated in low-income schools (Nigeria)"],
+      "sources": [
+        { "label": "Harvard Physics AI Tutor Study (Scientific Reports / Preprint)", "url": "https://www.nature.com/articles/s41598-025-97652-6", "publisher": "Nature Scientific Reports" },
+        { "label": "World Bank AI Tutoring Study in Nigeria", "url": "https://blogs.worldbank.org/en/education/From-chalkboards-to-chatbots-Evaluating-the-impact-of-generative-AI-on-learning-outcomes-in-Nigeria", "publisher": "World Bank" }
+      ]
+    },
+    {
+      "id": "busy-beaver-bb5-lean-2024",
+      "date": "2024-07-02",
+      "domain": "math",
+      "title": "40-Year-Old Busy Beaver Problem BB(5) Solved & Machine-Verified in Lean 4",
+      "shortLabel": "BB(5) Verified in Lean 4",
+      "plainHeadline": "A 40-year-old math puzzle solved and computer-verified",
+      "bigStat": { "value": "40 yrs", "label": "old problem closed" },
+      "organization": "The Busy Beaver Challenge (Global Collaboration)",
+      "impactScore": 4,
+      "verificationTier": "verified",
+      "verificationLabel": "Lean 4 Machine-Checked Proof",
+      "summary": "An open online collaboration proved that the maximum steps a halting 5-state Turing machine can take is exactly 47,176,870—verifying the entire massive case analysis automatically in the Lean 4 proof assistant.",
+      "whyItMatters": "Proved that crowdsourced math + automated formal verification in Lean 4 can cleanly resolve decades-old theoretical computer science problems with zero human checking errors.",
+      "caveats": "BB(6) is vastly harder and touches Collatz-like number-theory obstacles that remain well beyond current automation.",
+      "metrics": ["BB(5) = 47,176,870 steps", "100% machine-checked in Lean 4"],
+      "sources": [
+        { "label": "The Busy Beaver Challenge Announcement", "url": "https://bbchallenge.org/story", "publisher": "bbchallenge.org" },
+        { "label": "Quanta Magazine Coverage", "url": "https://www.quantamagazine.org/amateur-mathematicians-find-fifth-busy-beaver-turing-machine-20240702/", "publisher": "Quanta Magazine" }
+      ]
+    },
+    {
+      "id": "alphaproof-imo-silver-2024",
+      "date": "2024-07-25",
+      "domain": "math",
+      "title": "AlphaProof & AlphaGeometry 2 Reach IMO Silver-Medal Score with Formal Proofs",
+      "shortLabel": "IMO Silver (Lean 4)",
+      "plainHeadline": "AI earned a silver-medal score at the Math Olympiad",
+      "bigStat": { "value": "Silver", "label": "International Math Olympiad" },
+      "organization": "Google DeepMind",
+      "impactScore": 5,
+      "verificationTier": "milestone",
+      "verificationLabel": "Formalized in Lean 4 · IMO Graded",
+      "summary": "Solving 4 of 6 problems on the 2024 International Mathematical Olympiad—including the hardest number-theory problem solved by only 5 human contestants—AlphaProof produced machine-verified Lean 4 proofs scoring 28/42 (1 point shy of gold).",
+      "whyItMatters": "Marked the leap from narrow geometry to general Olympiad algebra and number theory backed by mathematical certainty via Lean 4.",
+      "caveats": "Required days of compute on the hardest problem and manual human translation of problem statements into Lean syntax.",
+      "metrics": ["28 / 42 IMO score (Silver Medal)", "Solved problem only 5 humans solved"],
+      "sources": [
+        { "label": "DeepMind IMO 2024 Announcement", "url": "https://deepmind.google/discover/blog/ai-solves-imo-problems-at-silver-medal-level/", "publisher": "Google DeepMind" }
+      ]
+    },
+    {
+      "id": "fda-950-ai-devices-2024",
+      "date": "2024-08-07",
+      "domain": "medicine",
+      "title": "FDA Reaches 950+ Authorized AI/ML Medical Devices in U.S. Clinics",
+      "shortLabel": "950+ FDA AI Devices",
+      "plainHeadline": "The FDA has cleared 950+ AI tools for doctors",
+      "bigStat": { "value": "950+", "label": "FDA-cleared AI tools" },
+      "organization": "U.S. Food & Drug Administration (FDA)",
+      "impactScore": 4,
+      "verificationTier": "verified",
+      "verificationLabel": "Official Federal Registry · FDA",
+      "summary": "The FDA's official public registry crossed 950 authorized AI/ML-enabled medical devices—powering rapid stroke clot alerts, mammography screening, diabetic retinopathy exams, colonoscopy polyp detection, and cardiac ultrasound.",
+      "whyItMatters": "Shows AI isn't just lab demos: hundreds of regulated clinical tools are already deployed in U.S. hospitals catching strokes and cancers minutes or months earlier.",
+      "caveats": "Most clearances come via the 510(k) pathway rather than large randomized mortality trials; ongoing post-market auditing across diverse patient demographics is critical.",
+      "metrics": ["950+ FDA-authorized AI tools", "75%+ in radiology & early imaging"],
+      "sources": [
+        { "label": "FDA Official AI/ML-Enabled Medical Devices List", "url": "https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-and-machine-learning-aiml-enabled-medical-devices", "publisher": "U.S. FDA" }
+      ]
+    },
+    {
+      "id": "gencast-extreme-weather-2024",
+      "date": "2024-12-04",
+      "domain": "science",
+      "title": "GenCast Probabilistic AI Surpasses World's Best 15-Day Extreme Weather Model",
+      "shortLabel": "GenCast 15-Day Forecast",
+      "plainHeadline": "AI out-forecasts the world's best 15-day weather model",
+      "bigStat": { "value": "97%", "label": "of targets more accurate" },
+      "organization": "Google DeepMind",
+      "impactScore": 5,
+      "verificationTier": "verified",
+      "verificationLabel": "Peer-Reviewed · Nature · Open Weights",
+      "summary": "A diffusion-based probabilistic weather model outperformed ECMWF's operational ENS ensemble on 97.2% of 1,320 targets out to 15 days—with dramatically better tropical cyclone paths, extreme heat/cold probabilities, and wind-power forecasts.",
+      "whyItMatters": "Knowing the *probability* of extreme storms 10–15 days ahead lets emergency responders evacuate earlier and helps renewable grids balance wind and solar power reliably.",
+      "caveats": "Requires assimilation of live satellite/radar observations from national weather agencies (NOAA, ECMWF)—it augments, rather than replaces, global weather observation networks.",
+      "metrics": ["Beat ECMWF ENS on 97.2% of targets", "15-day forecast in ~8 minutes"],
+      "sources": [
+        { "label": "Nature Paper (Price et al., 2024)", "url": "https://www.nature.com/articles/s41586-024-08252-9", "publisher": "Nature" }
+      ]
+    },
+    {
+      "id": "ai-coscientist-biomed-2025",
+      "date": "2025-02-19",
+      "domain": "medicine",
+      "title": "Multi-Agent 'AI Co-Scientist' Generates Wet-Lab Validated Biomedical Discoveries",
+      "shortLabel": "AI Co-Scientist Lab Hits",
+      "plainHeadline": "An AI co-scientist proposed ideas confirmed in real labs",
+      "bigStat": { "value": "3", "label": "independent labs confirmed" },
+      "organization": "Google Research, Stanford & Imperial College London",
+      "impactScore": 4,
+      "verificationTier": "trial",
+      "verificationLabel": "Wet-Lab Validated · Preprint",
+      "summary": "A multi-agent scientific reasoning system independently proposed novel drug-repurposing candidates for acute myeloid leukemia, epigenetic targets for liver fibrosis, and a bacterial gene-transfer mechanism that Imperial College biologists had spent years discovering independently.",
+      "whyItMatters": "Demonstrates AI moving from pattern lookup to generating testable scientific hypotheses that hold up in physical laboratory experiments.",
+      "caveats": "Early wet-lab and organoid validation is promising, but human clinical trials remain years away; peer review and independent lab replication are ongoing.",
+      "metrics": ["Validated across 3 independent labs", "Days vs. years for hypothesis discovery"],
+      "sources": [
+        { "label": "Google Research Blog & Technical Report", "url": "https://research.google/blog/accelerating-scientific-breakthroughs-with-an-ai-co-scientist/", "publisher": "Google Research" },
+        { "label": "Imperial College London Press Release", "url": "https://www.imperial.ac.uk/news/261313/ai-tool-could-supercharge-scientific-discovery/", "publisher": "Imperial College London" }
+      ]
+    },
+    {
+      "id": "ambient-clinical-ai-burnout-2025",
+      "date": "2025-04-10",
+      "domain": "accessibility",
+      "title": "Hospital Ambient AI Scribes Cut Physician Charting Burnout in Multi-System Studies",
+      "shortLabel": "Clinical AI Cuts Burnout",
+      "plainHeadline": "AI note-taking gives doctors back about an hour a day",
+      "bigStat": { "value": "~1 hr", "label": "saved per doctor, per day" },
+      "organization": "Kaiser Permanente, Stanford Medicine & Mass General Brigham",
+      "impactScore": 4,
+      "verificationTier": "verified",
+      "verificationLabel": "Peer-Reviewed · NEJM Catalyst / JAMA",
+      "summary": "Large-scale deployments across tens of thousands of clinicians showed ambient AI medical scribes saving ~1 hour of after-hours EHR documentation per doctor per day, significantly reducing clinician burnout and restoring eye contact with patients.",
+      "whyItMatters": "Doctor burnout and administrative overload drive healthcare shortages and rushed visits—this is one of the fastest-adopted, measurable quality-of-life wins for both patients and doctors.",
+      "caveats": "Clinicians must still proofread AI-generated notes for occasional omissions or hallucinations; cost-equity for small rural clinics remains a barrier.",
+      "metrics": ["~1 hr/day charting saved", "Measurable drop in clinician burnout"],
+      "sources": [
+        { "label": "NEJM Catalyst Kaiser Permanente Study", "url": "https://catalyst.nejm.org/doi/full/10.1056/CAT.24.0229", "publisher": "NEJM Catalyst" },
+        { "label": "JAMA Network Open Ambient AI Study", "url": "https://jamanetwork.com/journals/jamanetworkopen", "publisher": "JAMA Network" }
+      ]
+    },
+    {
+      "id": "alphaevolve-56yr-math-2025",
+      "date": "2025-05-14",
+      "domain": "math",
+      "title": "AlphaEvolve Breaks 56-Year Strassen Matrix Record & Advances 50+ Open Math Problems",
+      "shortLabel": "AlphaEvolve 56-Yr Record",
+      "plainHeadline": "AI broke a 56-year-old math record",
+      "bigStat": { "value": "56 yrs", "label": "old record broken" },
+      "organization": "Google DeepMind",
+      "impactScore": 5,
+      "verificationTier": "milestone",
+      "verificationLabel": "Verified Algorithms & Production Deploy",
+      "summary": "An evolutionary coding agent powered by Gemini models discovered an algorithm to multiply 4×4 complex-valued matrices in 48 scalar multiplications—the first improvement over Volker Strassen's 1969 algorithm—while improving best-known bounds on 20% of 50+ open math problems and cutting Google data-center compute usage by 0.7%.",
+      "whyItMatters": "Bridges pure mathematical discovery with direct real-world energy efficiency: the exact same system improved a 1969 theorem, advanced the 11D kissing-number bound, and lowered live server power use.",
+      "caveats": "Works best where automated evaluation functions can score candidate code/constructions rapidly; deeper conceptual proofs still require mathematicians and formal provers.",
+      "metrics": ["48 mults (beat 1969 Strassen 49)", "0.7% fleet-wide compute savings"],
+      "sources": [
+        { "label": "DeepMind AlphaEvolve Technical Release", "url": "https://deepmind.google/discover/blog/alphaevolve-a-gemini-powered-coding-agent-for-designing-advanced-algorithms/", "publisher": "Google DeepMind" }
+      ]
+    },
+    {
+      "id": "aurora-earth-foundation-2025",
+      "date": "2025-05-21",
+      "domain": "science",
+      "title": "Aurora Foundation Model Forecasts Air Quality, Ocean Waves & Tropical Cyclones",
+      "shortLabel": "Aurora Earth System AI",
+      "plainHeadline": "AI forecasts storms, air quality and ocean waves",
+      "bigStat": { "value": "7", "label": "agencies beaten on cyclone tracks" },
+      "organization": "Microsoft Research & University of Pennsylvania",
+      "impactScore": 4,
+      "verificationTier": "verified",
+      "verificationLabel": "Peer-Reviewed · Nature",
+      "summary": "Published in Nature, Aurora demonstrated that a single pre-trained atmospheric foundation model can be fine-tuned to beat specialized operational physics models on 5-day global air-pollution forecasts, 10-day ocean wave heights, and 100% of 5-day tropical cyclone tracks across 7 agencies.",
+      "whyItMatters": "Extends AI forecasting beyond temperature and rain to breathable air-quality alerts (PM2.5/wildfire smoke) and maritime safety—at orders-of-magnitude lower supercomputing cost.",
+      "caveats": "Depends on high-quality Earth observation inputs and still requires domain-specific fine-tuning for localized microclimates.",
+      "metrics": ["Beat 7 agencies on 5-day cyclone tracks", "Orders-of-magnitude faster than physics sims"],
+      "sources": [
+        { "label": "Nature Paper (Bodnar et al., 2025)", "url": "https://www.nature.com/articles/s41586-025-09005-y", "publisher": "Nature" }
+      ]
+    },
+    {
+      "id": "rentosertib-phase2a-nature-med-2025",
+      "date": "2025-06-03",
+      "domain": "medicine",
+      "title": "Rentosertib: First Fully AI-Discovered Target & Drug Succeeds in Phase IIa Human Trial",
+      "shortLabel": "Rentosertib Phase IIa",
+      "plainHeadline": "First fully AI-discovered drug succeeds in a human trial",
+      "bigStat": { "value": "+98 mL", "label": "lung function gained" },
+      "organization": "Insilico Medicine",
+      "impactScore": 5,
+      "verificationTier": "trial",
+      "verificationLabel": "Peer-Reviewed · Nature Medicine · Phase IIa",
+      "summary": "Published in Nature Medicine, Rentosertib (INS018_055)—whose biological target (TNIK) and novel molecular structure were both discovered by generative AI—met safety endpoints and improved lung function (FVC +98.4 mL vs. −20.3 mL placebo) in patients with fatal idiopathic pulmonary fibrosis (IPF).",
+      "whyItMatters": "IPF is a progressive, lethal lung disease with median survival of 3–5 years. Rentosertib went from AI target discovery to human trials in ~18 months instead of the typical 4–5 years.",
+      "caveats": "Phase IIa involved 71 patients over 12 weeks—larger, multi-year Phase IIb/III randomized trials are still required before potential FDA approval.",
+      "metrics": ["+98.4 mL lung function (FVC) gain", "18 mo discovery vs. 4–5 yr avg"],
+      "sources": [
+        { "label": "Nature Medicine Paper (Xu et al., 2025)", "url": "https://www.nature.com/articles/s41591-025-03743-2", "publisher": "Nature Medicine" },
+        { "label": "ClinicalTrials.gov Record (NCT05938920)", "url": "https://clinicaltrials.gov/study/NCT05938920", "publisher": "ClinicalTrials.gov" }
+      ]
+    },
+    {
+      "id": "imo-2025-gold-medal-2025",
+      "date": "2025-07-21",
+      "domain": "math",
+      "title": "Frontier AI Models Achieve Gold-Medal Level (35/42) at the 2025 Math Olympiad",
+      "shortLabel": "IMO 2025 Gold Medal",
+      "plainHeadline": "AI reached gold-medal level at the Math Olympiad",
+      "bigStat": { "value": "Gold", "label": "35 / 42 points" },
+      "organization": "Google DeepMind & OpenAI",
+      "impactScore": 5,
+      "verificationTier": "milestone",
+      "verificationLabel": "IMO-Graded Proof Solutions",
+      "summary": "General-purpose reasoning models (Google DeepMind's Gemini Deep Think—officially certified by IMO coordinators—and OpenAI's experimental reasoning model graded by former IMO medalists) solved 5 of 6 problems on the 2025 IMO directly in natural language within the 4.5-hour human time limit.",
+      "whyItMatters": "In just 12 months, AI jumped from specialized Lean-assisted silver (requiring days of compute) to general-purpose natural-language gold-medal proof writing at human competition speed.",
+      "caveats": "Competition math problems are self-contained and known to have clean solutions; open research problems like the Riemann Hypothesis remain far harder and unverified until formally checked.",
+      "metrics": ["35 / 42 Gold Medal threshold", "Solved within 4.5-hr human limit"],
+      "sources": [
+        { "label": "DeepMind IMO 2025 Official Gold Certification", "url": "https://deepmind.google/discover/blog/advanced-version-of-gemini-with-deep-think-officially-achieves-gold-medal-standard-at-the-international-mathematical-olympiad/", "publisher": "Google DeepMind" }
+      ]
+    },
+    {
+      "id": "fda-1250-ai-devices-2025",
+      "date": "2025-09-15",
+      "domain": "medicine",
+      "title": "FDA Authorized AI Medical Devices Surpass 1,250+ Tools Across U.S. Healthcare",
+      "shortLabel": "1,250+ FDA AI Devices",
+      "plainHeadline": "FDA-cleared AI medical tools pass 1,250",
+      "bigStat": { "value": "1,250+", "label": "FDA-cleared AI tools" },
+      "organization": "U.S. Food & Drug Administration (FDA)",
+      "impactScore": 4,
+      "verificationTier": "verified",
+      "verificationLabel": "Official Federal Registry · FDA",
+      "summary": "Annual FDA clearances of AI-enabled clinical devices continued climbing past 1,250 cumulative authorizations—expanding beyond radiology into cardiology, neurology, pathology, sepsis early warning, and autonomous diabetic eye screening.",
+      "whyItMatters": "Represents a 20× expansion since 2018 in regulated clinical AI helping catch life-threatening conditions earlier across community and academic hospitals.",
+      "caveats": "Clinical adoption still concentrates in larger health systems; transparency around training-data demographics and ongoing drift monitoring remains an active FDA focus.",
+      "metrics": ["1,250+ FDA-authorized AI tools", "20× growth since 2018"],
+      "sources": [
+        { "label": "FDA AI-Enabled Medical Devices Database", "url": "https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-and-machine-learning-aiml-enabled-medical-devices", "publisher": "U.S. FDA" }
+      ]
+    },
+    {
+      "id": "lean-mathlib-erdos-2025",
+      "date": "2025-11-18",
+      "domain": "math",
+      "title": "Lean 4 Mathlib Crosses 200K+ Verified Theorems as AI Accelerates Erdős Formalization",
+      "shortLabel": "Lean 4 + Erdős Proofs",
+      "plainHeadline": "200,000+ math theorems are now computer-checked",
+      "bigStat": { "value": "200K+", "label": "verified theorems" },
+      "organization": "Lean Community, Terence Tao & Collaborators",
+      "impactScore": 4,
+      "verificationTier": "verified",
+      "verificationLabel": "Lean 4 Machine-Checked · Open Repo",
+      "summary": "The open-source Mathlib4 library surpassed 200,000 formally verified theorems while mathematicians paired frontier reasoning models with Lean 4 to auto-formalize literature and resolve several long-standing Erdős problems tracked on erdosproblems.com.",
+      "whyItMatters": "Formal proof assistants eliminate AI hallucinations: when an AI proposes a proof and Lean's tiny kernel compiles it, mathematicians get 100% mathematical certainty.",
+      "caveats": "Several early AI-assisted Erdős resolutions turned out to rediscover obscure existing literature rather than totally new techniques—highlighting the need for careful mathematical curation.",
+      "metrics": ["200,000+ Lean 4 theorems", "Zero hallucination via proof kernel"],
+      "sources": [
+        { "label": "Lean 4 & Mathlib Community", "url": "https://leanprover-community.github.io/mathlib_stats.html", "publisher": "Lean Community" },
+        { "label": "Erdős Problems Live Tracker", "url": "https://www.erdosproblems.com/", "publisher": "erdosproblems.com" }
+      ]
+    },
+    {
+      "id": "clean-grid-ai-dispatch-2026",
+      "date": "2026-02-10",
+      "domain": "science",
+      "title": "Grid-Scale AI Cuts Renewable Curtailment & Accelerates Transmission Interconnection",
+      "shortLabel": "AI Clean-Grid Dispatch",
+      "plainHeadline": "AI squeezes more clean power out of existing power lines",
+      "bigStat": { "value": "10–30%", "label": "more grid capacity" },
+      "organization": "U.S. National Labs, Grid Operators & Clean-Energy Platforms",
+      "impactScore": 4,
+      "verificationTier": "verified",
+      "verificationLabel": "Deployed · Utility & DOE Pilots",
+      "summary": "Utilities and regional grid operators deployed AI-driven dynamic line rating, hyper-local solar/wind output forecasting, and automated interconnection study tools—unlocking additional gigawatts on existing power lines without waiting years for new steel towers.",
+      "whyItMatters": "Directly ties AI's own energy footprint back to solutions: smarter forecasting reduces wasted wind/solar curtailment and helps clean power come online faster.",
+      "caveats": "AI grid software improves utilization by ~10–30% on congested lines, but cannot replace physical high-voltage transmission buildouts needed for gigawatt AI loads.",
+      "metrics": ["10–30% extra capacity on existing lines", "Faster solar/wind interconnection"],
+      "sources": [
+        { "label": "U.S. DOE AI for Grid Reliability & Energy", "url": "https://www.energy.gov/ai", "publisher": "U.S. Department of Energy" },
+        { "label": "IEA Energy & AI Report", "url": "https://www.iea.org/reports/energy-and-ai", "publisher": "IEA" }
+      ]
+    }
+  ],
+  "openMathProblems": [
+    {
+      "id": "riemann-hypothesis",
+      "name": "Riemann Hypothesis",
+      "category": "Millennium Prize ($1M)",
+      "status": "Open",
+      "statusTone": "open",
+      "progressPct": 15,
+      "aiRole": "Computational zero verification & formalizing analytic number theory prerequisites in Lean 4 (Prime Number Theorem+ project).",
+      "latestMilestone": "No valid proof exists; AI/Lean teams are formalizing modern analytic number theory (e.g., Guth–Maynard 2024 zero-density improvements) so future AI provers can work on the frontier.",
+      "caveat": "Viral social media posts frequently claim 'AI solved the Riemann Hypothesis'—every claim so far has been false or unverified.",
+      "sources": [
+        { "label": "Clay Mathematics Institute", "url": "https://www.claymath.org/millennium/riemann-hypothesis/", "publisher": "Clay Math" },
+        { "label": "PrimeNumberTheoremAnd (Lean 4)", "url": "https://github.com/AlexKontorovich/PrimeNumberTheoremAnd", "publisher": "GitHub" }
+      ]
+    },
+    {
+      "id": "vp-vs-vnp",
+      "name": "VP ≠ VNP & P ≠ NP",
+      "category": "Algebraic & Computational Complexity",
+      "status": "Open",
+      "statusTone": "open",
+      "progressPct": 12,
+      "aiRole": "AI agents (AlphaTensor, AlphaEvolve) actively search for faster bilinear/tensor rank algorithms and test algebraic lower-bound constructions.",
+      "latestMilestone": "Valiant's algebraic complexity analogue (VP vs. VNP) remains open. AlphaEvolve's 2025 improvement to 4×4 complex matrix multiplication shows AI can push concrete algebraic complexity bounds.",
+      "caveat": "Breaking known complexity barriers (relativization, natural proofs, algebrization) remains one of the deepest unsolved challenges in math.",
+      "sources": [
+        { "label": "Clay Math: P vs NP", "url": "https://www.claymath.org/millennium/p-vs-np/", "publisher": "Clay Math" },
+        { "label": "DeepMind AlphaEvolve", "url": "https://deepmind.google/discover/blog/alphaevolve-a-gemini-powered-coding-agent-for-designing-advanced-algorithms/", "publisher": "DeepMind" }
+      ]
+    },
+    {
+      "id": "erdos-problems",
+      "name": "Erdős Open Problems (1,000+ Conjectures)",
+      "category": "Combinatorics & Number Theory",
+      "status": "Active Progress",
+      "statusTone": "progress",
+      "progressPct": 48,
+      "aiRole": "LLM reasoning + Lean 4 auto-formalization assisting mathematicians in verifying proofs, finding counterexamples, and uncovering forgotten solutions.",
+      "latestMilestone": "Hundreds of Erdős problems are now cataloged and formalized on erdosproblems.com, with AI-assisted Lean proofs contributing to multiple recent status changes.",
+      "caveat": "Human mathematicians remain essential to verify that formal statements actually match Erdős's intended mathematical meaning.",
+      "sources": [
+        { "label": "Erdős Problems Database", "url": "https://www.erdosproblems.com/", "publisher": "erdosproblems.com" }
+      ]
+    },
+    {
+      "id": "flt-lean4",
+      "name": "Fermat's Last Theorem — Full Lean 4 Formalization",
+      "category": "Formal Verification Milestone",
+      "status": "In Progress",
+      "statusTone": "progress",
+      "progressPct": 58,
+      "aiRole": "Imperial College London (Kevin Buzzard) & global Lean community formalizing Wiles's proof—creating the training ground for research-grade AI theorem provers.",
+      "latestMilestone": "Major structural blueprints and algebraic geometry prerequisites are actively compiling in Lean 4 under a 5-year EPSRC-funded roadmap.",
+      "caveat": "Fermat's Last Theorem was proven by Andrew Wiles in 1994; this project formally machine-verifies every line from axioms so AI can operate at modern research math depth.",
+      "sources": [
+        { "label": "FLT Lean 4 Blueprint", "url": "https://imperialcollegelondon.github.io/FLT/", "publisher": "Imperial College London" }
+      ]
+    },
+    {
+      "id": "busy-beaver-bb5",
+      "name": "Busy Beaver BB(5) = 47,176,870",
+      "category": "Theoretical Computer Science",
+      "status": "Proven & Lean-Verified",
+      "statusTone": "solved",
+      "progressPct": 100,
+      "aiRole": "Automated deciders + complete Lean 4 formal proof resolved a 40-year-old problem in computability theory.",
+      "latestMilestone": "Completed July 2024; community has now moved on to BB(6) and formalizing decider pipelines.",
+      "caveat": "BB(6) contains Collatz-like 'antihydra' machines likely independent of simple proof systems.",
+      "sources": [
+        { "label": "bbchallenge.org Proof Story", "url": "https://bbchallenge.org/story", "publisher": "bbchallenge" }
+      ]
+    },
+    {
+      "id": "matrix-mult-bounds",
+      "name": "Fast Matrix Multiplication & Kissing Numbers",
+      "category": "Algorithms & Geometry",
+      "status": "Records Broken",
+      "statusTone": "solved",
+      "progressPct": 78,
+      "aiRole": "AlphaTensor (2022) and AlphaEvolve (2025) broke 50+ year-old algorithmic records and improved 11D kissing-number lower bounds.",
+      "latestMilestone": "48 multiplications for 4×4 complex matrices (beating 1969 Strassen's 49) and 593 spheres in 11D kissing number.",
+      "caveat": "The ultimate asymptotic matrix-multiplication exponent ω (whether ω = 2) remains an open problem.",
+      "sources": [
+        { "label": "AlphaEvolve Paper & Results", "url": "https://deepmind.google/discover/blog/alphaevolve-a-gemini-powered-coding-agent-for-designing-advanced-algorithms/", "publisher": "DeepMind" }
+      ]
+    }
+  ],
+  "clinicalPipeline": {
+    "fdaAnnualDevices": [
+      { "year": 2018, "annual": 63, "cumulative": 135 },
+      { "year": 2019, "annual": 77, "cumulative": 212 },
+      { "year": 2020, "annual": 111, "cumulative": 323 },
+      { "year": 2021, "annual": 122, "cumulative": 445 },
+      { "year": 2022, "annual": 144, "cumulative": 589 },
+      { "year": 2023, "annual": 223, "cumulative": 812 },
+      { "year": 2024, "annual": 235, "cumulative": 1047 },
+      { "year": 2025, "annual": 240, "cumulative": 1287 }
+    ],
+    "fdaSource": {
+      "label": "U.S. FDA AI/ML-Enabled Medical Devices Registry (Rounded Annual Trajectory)",
+      "url": "https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-and-machine-learning-aiml-enabled-medical-devices"
+    },
+    "trackedDrugs": [
+      {
+        "id": "rentosertib-ins018-055",
+        "name": "Rentosertib (INS018_055)",
+        "developer": "Insilico Medicine",
+        "indication": "Idiopathic Pulmonary Fibrosis (IPF)",
+        "stage": "Phase IIa Positive",
+        "stageIndex": 3,
+        "nctId": "NCT05938920",
+        "statusNote": "First drug with both AI-discovered target & AI-designed molecule to report positive Phase IIa lung-function results (Nature Medicine, June 2025).",
+        "url": "https://clinicaltrials.gov/study/NCT05938920"
+      },
+      {
+        "id": "rec-994",
+        "name": "REC-994",
+        "developer": "Recursion Pharmaceuticals",
+        "indication": "Cerebral Cavernous Malformation (Rare Brain Vascular Disease)",
+        "stage": "Phase II Completed",
+        "stageIndex": 3,
+        "nctId": "NCT05085561",
+        "statusNote": "AI-phenomics identified candidate met primary safety endpoint in Phase II SYCAMORE trial with encouraging lesion-volume signals at high dose.",
+        "url": "https://clinicaltrials.gov/study/NCT05085561"
+      },
+      {
+        "id": "ism3091",
+        "name": "ISM3091 (USP1 Inhibitor)",
+        "developer": "Insilico Medicine / Exelixis",
+        "indication": "BRCA-Mutated Solid Tumors",
+        "stage": "Phase I Clinical",
+        "stageIndex": 2,
+        "nctId": "NCT05932862",
+        "statusNote": "AI-designed precision oncology small molecule licensed for global clinical development.",
+        "url": "https://clinicaltrials.gov/study/NCT05932862"
+      },
+      {
+        "id": "abaucin-mit",
+        "name": "Abaucin (RS102895)",
+        "developer": "McMaster University & MIT",
+        "indication": "Drug-Resistant Acinetobacter baumannii",
+        "stage": "Preclinical",
+        "stageIndex": 1,
+        "nctId": null,
+        "statusNote": "Narrow-spectrum AI-discovered antibiotic proven effective in mouse wound models; undergoing medicinal chemistry optimization.",
+        "url": "https://www.nature.com/articles/s41589-023-01349-8"
+      },
+      {
+        "id": "dsp-1181",
+        "name": "DSP-1181 (Historical Lesson)",
+        "developer": "Exscientia & Sumitomo Pharma",
+        "indication": "Obsessive-Compulsive Disorder",
+        "stage": "Discontinued in Phase I",
+        "stageIndex": 0,
+        "nctId": null,
+        "statusNote": "First AI-designed molecule to enter human trials (2020), later discontinued in 2022 for not meeting efficacy criteria—included here for honest balance: AI speeds discovery, not guaranteed trial success.",
+        "url": "https://www.nature.com/articles/d41573-022-00148-9"
+      }
+    ]
+  }
+}

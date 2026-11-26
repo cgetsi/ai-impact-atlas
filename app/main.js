@@ -3,6 +3,8 @@ import { DetailSidebar } from './sidebar.js';
 import { IndustryCompareView } from './compareView.js';
 import { DirectoryDrawer, SiteCompareManager } from './directoryView.js';
 import { ImpactsPipelineView } from './impactsView.js';
+import { BreakthroughsView } from './breakthroughsView.js';
+import { ScalingView } from './scalingView.js';
 import { getCleanEnergyProfile } from './cleanResources.js';
 import { getAiCompanyById, matchFacilityToAiCompany } from './aiCompanies.js';
 import {
@@ -14,11 +16,17 @@ import {
   prefersReducedMotion
 } from './utils.js';
 
+const VALID_VIEWS = ['breakthroughs', 'scaling', 'map', 'compare', 'impacts', 'about'];
+// Sub-sections grouped under the "Data Centers" top-level tab
+const DATA_CENTER_VIEWS = ['compare', 'map', 'impacts'];
+let lastDataCenterView = 'compare';
+
 const state = {
   theme: document.documentElement.getAttribute('data-theme') || localStorage.getItem('atlas-theme') || 'dark',
   density: document.documentElement.getAttribute('data-density') || localStorage.getItem('atlas-density') || 'simple',
-  view: 'map',
+  view: 'breakthroughs',
   metric: 'energy',
+  eventId: null,
   filter: 'all',
   usState: 'all',
   operator: 'all',
@@ -29,6 +37,8 @@ const state = {
   featureById: new Map(),
   selectedFacility: null,
   industries: null,
+  breakthroughs: null,
+  scaling: null,
   meta: null
 };
 
@@ -37,6 +47,8 @@ let sidebar = null;
 let directory = null;
 let siteCompare = null;
 let compareViewInstance = null;
+let breakthroughsViewInstance = null;
+let scalingViewInstance = null;
 let toastTimer = null;
 
 function showToast(msg) {
@@ -53,7 +65,15 @@ function showToast(msg) {
 function readUrlParams() {
   const params = new URLSearchParams(window.location.search);
   const v = params.get('view');
-  if (v && ['map', 'compare', 'impacts', 'about'].includes(v)) state.view = v;
+  const siteId = params.get('site') || null;
+  if (v && VALID_VIEWS.includes(v)) {
+    state.view = v;
+  } else if (siteId) {
+    state.view = 'map';
+  }
+
+  const ev = params.get('event');
+  if (ev) state.eventId = ev;
 
   const m = params.get('metric');
   if (m && ['energy', 'water', 'land', 'companies'].includes(m)) state.metric = m;
@@ -73,12 +93,13 @@ function readUrlParams() {
   const imp = params.get('impact');
   if (imp && ['all', 'clean_grid', 'high_water_stress', 'operating', 'planned'].includes(imp)) state.impactFilter = imp;
 
-  return params.get('site') || null;
+  return siteId;
 }
 
 function syncUrlState(push = false) {
   const params = new URLSearchParams();
-  if (state.view !== 'map') params.set('view', state.view);
+  if (state.view !== 'breakthroughs') params.set('view', state.view);
+  if (state.view === 'breakthroughs' && state.eventId) params.set('event', state.eventId);
   if (state.view === 'compare' && state.metric !== 'energy') params.set('metric', state.metric);
   if (state.filter !== 'all') params.set('filter', state.filter);
   if (state.usState !== 'all') params.set('state', state.usState);
@@ -101,16 +122,22 @@ function syncUrlState(push = false) {
 }
 
 function updateDocumentTitle() {
-  if (state.view === 'map' && state.selectedFacility) {
-    document.title = `${state.selectedFacility.properties.name} — U.S. Data Center Atlas`;
+  if (state.view === 'breakthroughs') {
+    document.title = 'AI Impact Atlas — Verifiable Breakthroughs & Progress';
+  } else if (state.view === 'scaling') {
+    document.title = 'Intelligence Growth & Token Cost Collapse — AI Impact Atlas';
+  } else if (state.view === 'map' && state.selectedFacility) {
+    document.title = `${state.selectedFacility.properties.name} — AI Impact Atlas`;
+  } else if (state.view === 'map') {
+    document.title = 'U.S. Data Centers Map — AI Impact Atlas';
   } else if (state.view === 'compare') {
-    document.title = 'Industry Resource Comparison — U.S. Data Center Atlas';
+    document.title = 'Industry Resource Comparison — AI Impact Atlas';
   } else if (state.view === 'impacts') {
-    document.title = 'Pros, Cons & Construction Pipeline — U.S. Data Center Atlas';
+    document.title = 'Pros, Cons & Construction Pipeline — AI Impact Atlas';
   } else if (state.view === 'about') {
-    document.title = 'Methodology & Sources — U.S. Data Center Atlas';
+    document.title = 'Methodology & Sources — AI Impact Atlas';
   } else {
-    document.title = 'U.S. Data Center Atlas — Energy, Water & Local Impact';
+    document.title = 'AI Impact Atlas — Breakthroughs, Scaling & U.S. Data Centers';
   }
 }
 
@@ -136,6 +163,12 @@ function applyTheme(theme) {
   if (mapView) {
     mapView.setTheme(theme);
   }
+  if (breakthroughsViewInstance) {
+    breakthroughsViewInstance.setTheme(theme);
+  }
+  if (scalingViewInstance) {
+    scalingViewInstance.setTheme(theme);
+  }
 }
 
 function applyDensity(mode) {
@@ -154,13 +187,25 @@ function applyDensity(mode) {
 }
 
 function switchView(viewName, { pushHistory = true } = {}) {
+  if (viewName === 'datacenters') viewName = lastDataCenterView;
+  if (!VALID_VIEWS.includes(viewName)) viewName = 'breakthroughs';
   state.view = viewName;
+  const inDataCenters = DATA_CENTER_VIEWS.includes(viewName);
+  if (inDataCenters) lastDataCenterView = viewName;
   document.querySelectorAll('.view-tab').forEach((btn) => {
+    const active = btn.dataset.view === 'datacenters' ? inDataCenters : btn.dataset.view === viewName;
+    btn.classList.toggle('active', active);
+    btn.setAttribute('aria-current', active ? 'page' : 'false');
+  });
+  document.getElementById('dcSubTabs').classList.toggle('hidden', !inDataCenters);
+  document.querySelectorAll('.sub-tab').forEach((btn) => {
     const active = btn.dataset.view === viewName;
     btn.classList.toggle('active', active);
     btn.setAttribute('aria-current', active ? 'page' : 'false');
   });
 
+  document.getElementById('breakthroughsView').classList.toggle('active', viewName === 'breakthroughs');
+  document.getElementById('scalingView').classList.toggle('active', viewName === 'scaling');
   document.getElementById('mapView').classList.toggle('active', viewName === 'map');
   document.getElementById('compareView').classList.toggle('active', viewName === 'compare');
   document.getElementById('impactsView').classList.toggle('active', viewName === 'impacts');
@@ -739,7 +784,7 @@ async function init() {
     applyTheme(state.theme === 'dark' ? 'light' : 'dark');
   });
 
-  document.querySelectorAll('.view-tab').forEach((btn) => {
+  document.querySelectorAll('.view-tab, .sub-tab').forEach((btn) => {
     btn.addEventListener('click', () => switchView(btn.dataset.view, { pushHistory: true }));
   });
 
@@ -756,12 +801,15 @@ async function init() {
   }
 
   document.getElementById('brandBtn').addEventListener('click', () => {
-    resetAllFilters(false);
-    switchView('map', { pushHistory: true });
-    if (sidebar) sidebar.hide();
-    if (directory) directory.hide();
-    applyFilters();
-    if (mapView) mapView.resetView();
+    if (state.view === 'map') {
+      resetAllFilters(false);
+      if (sidebar) sidebar.hide();
+      if (directory) directory.hide();
+      applyFilters();
+      if (mapView) mapView.resetView();
+    } else {
+      switchView('breakthroughs', { pushHistory: true });
+    }
   });
 
   document.querySelectorAll('.filter-pill').forEach((btn) => {
@@ -877,8 +925,9 @@ async function init() {
 
   // Browser Back / Forward navigation support
   window.addEventListener('popstate', () => {
-    state.view = 'map';
+    state.view = 'breakthroughs';
     state.metric = 'energy';
+    state.eventId = null;
     state.filter = 'all';
     state.usState = 'all';
     state.operator = 'all';
@@ -892,6 +941,9 @@ async function init() {
     if (compareViewInstance) {
       compareViewInstance.setMetric(state.metric, false);
     }
+    if (breakthroughsViewInstance && state.eventId) {
+      breakthroughsViewInstance.selectEvent(state.eventId, { notify: false });
+    }
 
     if (siteId && state.featureById.has(siteId)) {
       selectFacility(state.featureById.get(siteId), { shouldFly: true, pushHistory: false });
@@ -902,15 +954,20 @@ async function init() {
 
   // Load compiled static datasets
   try {
-    const [geoRes, indRes, metaRes] = await Promise.all([
+    const [geoRes, indRes, metaRes, btRes, scRes] = await Promise.all([
       fetch('data/facilities.geojson'),
       fetch('data/industries.json'),
-      fetch('data/meta.json')
+      fetch('data/meta.json'),
+      fetch('data/breakthroughs.json'),
+      fetch('data/ai-scaling.json')
     ]);
 
     const geojson = await geoRes.json();
     state.industries = await indRes.json();
     state.meta = await metaRes.json();
+    state.breakthroughs = await btRes.json();
+    state.scaling = await scRes.json();
+
     state.allFeatures = (geojson.features || []).map((f) => hydrateFeature(f));
     state.allFeatures.forEach((f) => state.featureById.set(f.properties.id, f));
 
@@ -918,6 +975,38 @@ async function init() {
     syncFilterUiControls();
     setupSearch();
     applyFilters();
+
+    breakthroughsViewInstance = new BreakthroughsView(state.breakthroughs, {
+      initialEventId: state.eventId,
+      onEventSelect: (eventId) => {
+        state.eventId = eventId;
+        syncUrlState(false);
+      },
+      onCopyLink: async (eventId) => {
+        state.eventId = eventId;
+        syncUrlState(false);
+        try {
+          await navigator.clipboard.writeText(window.location.href);
+          showToast('Direct breakthrough link copied to clipboard');
+        } catch {
+          showToast('Share URL updated in address bar');
+        }
+      },
+      onJumpToView: (v) => switchView(v, { pushHistory: true }),
+      isSimple: () => state.density === 'simple',
+      onRequestDetailed: (eventId) => {
+        applyDensity('detailed');
+        breakthroughsViewInstance.selectEvent(eventId, { notify: true });
+        requestAnimationFrame(() => {
+          const stage = document.getElementById('btStageCard');
+          if (stage) stage.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'start' });
+        });
+      }
+    });
+
+    scalingViewInstance = new ScalingView(state.scaling, {
+      onJumpToDataCenters: () => switchView('map', { pushHistory: true })
+    });
 
     compareViewInstance = new IndustryCompareView(state.industries, {
       allFeatures: state.allFeatures,
@@ -942,18 +1031,21 @@ async function init() {
 
     const metaFooter = document.getElementById('datasetMetaFooter');
     if (metaFooter && state.meta) {
-      metaFooter.textContent = `Dataset compiled ${state.meta.builtAt} · ${formatNumber(state.meta.totalFacilities)} verified U.S. locations (${state.meta.flagshipCount} deep-dive impact profiles, ${state.meta.epochAiCount} Epoch AI campuses, ${formatNumber(state.meta.peeringDbCount)} PeeringDB colocation facilities).`;
+      const btCount = state.breakthroughs?.events?.length || 0;
+      const btDate = state.breakthroughs?.meta?.updatedAt || state.meta.builtAt;
+      metaFooter.textContent = `Breakthroughs updated ${btDate} (${btCount} cited milestones) · Infrastructure dataset compiled ${state.meta.builtAt} (${formatNumber(state.meta.totalFacilities)} verified U.S. data centers: ${state.meta.flagshipCount} deep-dive profiles, ${state.meta.epochAiCount} Epoch AI campuses, ${formatNumber(state.meta.peeringDbCount)} PeeringDB sites).`;
     }
 
     document.getElementById('mapLoading').classList.add('hidden');
 
     // Apply initial deep-linked view or facility
-    if (state.view !== 'map') {
-      switchView(state.view, { pushHistory: false });
-    } else if (initialSiteId && state.featureById.has(initialSiteId)) {
-      selectFacilityById(initialSiteId, { shouldFly: true, pushHistory: false });
-    } else if (state.usState !== 'all' || state.operator !== 'all' || state.aiCompany !== 'all' || state.impactFilter !== 'all') {
-      fitToFilteredBounds();
+    switchView(state.view, { pushHistory: false });
+    if (state.view === 'map') {
+      if (initialSiteId && state.featureById.has(initialSiteId)) {
+        selectFacility(state.featureById.get(initialSiteId), { shouldFly: true, pushHistory: false });
+      } else if (state.usState !== 'all' || state.operator !== 'all' || state.aiCompany !== 'all' || state.impactFilter !== 'all') {
+        fitToFilteredBounds();
+      }
     }
   } catch (err) {
     console.error('Failed to load dataset:', err);

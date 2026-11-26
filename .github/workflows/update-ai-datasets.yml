@@ -1,0 +1,45 @@
+name: Update AI Impact Atlas Datasets
+
+on:
+  schedule:
+    # Runs every Monday & Thursday at 13:00 UTC
+    - cron: '0 13 * * 1,4'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync-datasets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run automated structured feeds & optional Grok/Gemini triage
+        env:
+          # Optional: add XAI_API_KEY (Grok) or GEMINI_API_KEY in GitHub Repo Settings -> Secrets -> Actions
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node scripts/update-ai-data.mjs
+
+      - name: Validate JSON schema & anti-hype verification rules
+        run: node scripts/validate-datasets.mjs
+
+      - name: Open Pull Request for 1-click human review
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: 'data: automated AI breakthroughs & clinical trial sync'
+          branch: bot/automated-ai-data-sync
+          delete-branch: true
+          title: 'Automated AI Impact Atlas Dataset Sync'
+          body-path: data-sources/last-sync-summary.md
+          labels: |
+            data-sync
+            automated

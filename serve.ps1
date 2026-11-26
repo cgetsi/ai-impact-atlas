@@ -8,7 +8,7 @@ $prefix = "http://localhost:$Port/"
 $listener.Prefixes.Add($prefix)
 $listener.Start()
 
-Write-Host "U.S. Data Center Atlas running at $prefix" -ForegroundColor Cyan
+Write-Host "AI Impact Atlas running at $prefix" -ForegroundColor Cyan
 Write-Host "Serving: $root"
 Write-Host "Press Ctrl+C to stop."
 

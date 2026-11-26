@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>U.S. Data Center Atlas — Energy, Water &amp; Local Impact</title>
-  <meta name="description" content="Interactive visual atlas of U.S. data centers and AI campuses showing power, water, land, clean energy, community trade-offs, and industry comparisons." />
+  <title>AI Impact Atlas — Breakthroughs, Scaling &amp; U.S. Data Centers</title>
+  <meta name="description" content="Verifiable atlas tracking real-world AI breakthroughs in medicine, math, science, and accessibility alongside intelligence scaling, collapsing token costs, and U.S. data center infrastructure." />
 
   <!-- Apply saved theme & visual simplicity mode before first paint -->
   <script>
@@ -28,45 +28,65 @@
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
   <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 
-  <link rel="stylesheet" href="styles.css?v=7" />
+  <link rel="stylesheet" href="styles.css?v=12" />
 </head>
 <body>
   <div id="app" class="app-shell">
     <!-- Floating Top Navigation Bar -->
     <header class="topbar" role="banner">
       <div class="topbar-left">
-        <button id="brandBtn" class="brand" type="button" title="Reset U.S. map view and filters">
+        <button id="brandBtn" class="brand" type="button" title="Return to AI Impact Atlas home">
           <span class="brand-dot" aria-hidden="true"></span>
           <span class="brand-text">
-            <span class="brand-title">U.S. Data Center Atlas</span>
-            <span class="brand-sub detail-prose">Energy, Water &amp; Local Impact</span>
+            <span class="brand-title">AI Impact Atlas</span>
+            <span class="brand-sub detail-prose">Breakthroughs, Scaling &amp; Data Centers</span>
           </span>
         </button>
 
-        <!-- View Switcher -->
+        <!-- View Switcher (primary tabs, with Data Centers sub-sections stacked beneath) -->
+        <div class="nav-stack">
         <nav class="view-tabs" aria-label="Primary views">
-          <button class="view-tab active" data-view="map" aria-current="page" type="button">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
-            <span>Map</span>
+          <button class="view-tab active" data-view="breakthroughs" aria-current="page" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            <span class="tab-lbl-full">Breakthroughs</span>
+            <span class="tab-lbl-short">Progress</span>
           </button>
-          <button class="view-tab" data-view="compare" aria-current="false" type="button">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
-            <span>Compare</span>
+          <button class="view-tab" data-view="scaling" aria-current="false" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            <span class="tab-lbl-full">Intelligence</span>
+            <span class="tab-lbl-short">Cost/IQ</span>
           </button>
-          <button class="view-tab" data-view="impacts" aria-current="false" type="button">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18"/><path d="M5 8h14"/><path d="M3 14l3-6 3 6a3 3 0 0 1-6 0z"/><path d="M15 14l3-6 3 6a3 3 0 0 1-6 0z"/></svg>
-            <span class="tab-lbl-full">Pros &amp; Cons</span>
-            <span class="tab-lbl-short">Pros/Cons</span>
+          <button class="view-tab" data-view="datacenters" aria-current="false" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="7" rx="1.5"/><rect x="2" y="14" width="20" height="7" rx="1.5"/><line x1="6" y1="6.5" x2="6.01" y2="6.5"/><line x1="6" y1="17.5" x2="6.01" y2="17.5"/></svg>
+            <span class="tab-lbl-full">Data Centers</span>
+            <span class="tab-lbl-short">Centers</span>
           </button>
           <button class="view-tab" data-view="about" aria-current="false" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
             <span>Sources</span>
           </button>
         </nav>
+
+        <!-- Data Centers Sub-Sections -->
+        <nav id="dcSubTabs" class="sub-tabs hidden" aria-label="Data Centers sections">
+          <button class="sub-tab" data-view="compare" aria-current="false" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+            <span>Compare</span>
+          </button>
+          <button class="sub-tab" data-view="map" aria-current="false" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+            <span>Map</span>
+          </button>
+          <button class="sub-tab" data-view="impacts" aria-current="false" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18"/><path d="M5 8h14"/><path d="M3 14l3-6 3 6a3 3 0 0 1-6 0z"/><path d="M15 14l3-6 3 6a3 3 0 0 1-6 0z"/></svg>
+            <span>Pros &amp; Cons</span>
+          </button>
+        </nav>
+        </div>
       </div>
 
       <!-- Search & Controls (visible on Map view) -->
-      <div id="mapControls" class="topbar-controls">
+      <div id="mapControls" class="topbar-controls hidden">
         <div class="search-wrap">
           <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           <input id="searchInput" type="text" role="combobox" aria-expanded="false" aria-controls="searchResults" aria-autocomplete="list" placeholder="Search city, state, or operator..." autocomplete="off" aria-label="Search data centers" />
@@ -148,8 +168,92 @@
       </div>
     </header>
 
+    <!-- BREAKTHROUGHS TIMELINE & IMPACT VIEW -->
+    <section id="breakthroughsView" class="view-pane panel-view active" aria-label="Verifiable AI Breakthroughs Timeline">
+      <div class="panel-container">
+        <div class="panel-hero">
+          <div>
+            <span class="eyebrow">Verifiable Progress · 2020–2026</span>
+            <h1>How AI Is Changing the World</h1>
+            <p class="hero-lead detail-prose">
+              Beyond clickbait headlines—an evidence-backed timeline of peer-reviewed medical discoveries, formally verified math proofs, life-saving weather models, and accessibility tools, complete with honest limitations and primary sources.
+            </p>
+          </div>
+          <div id="btHeroKpis" class="hero-kpis"></div>
+        </div>
+
+        <!-- SIMPLE VIEW: people-first visuals (hidden in Detailed) -->
+        <div id="btSimple" class="sv-stack simple-only"></div>
+
+        <!-- DETAILED VIEW: interactive timeline, inspector & evidence feed (hidden in Simple) -->
+        <div id="btControls" class="bt-controls-bar detail-only"></div>
+
+        <div id="btStageCard" class="bt-stage-card detail-only">
+          <div id="btTimelineChart"></div>
+          <div id="btInspector" class="bt-inspector" aria-live="polite"></div>
+        </div>
+
+        <div class="bt-section detail-only">
+          <div class="bt-section-head">
+            <div>
+              <span class="eyebrow">Browse All Milestones</span>
+              <h2>Chronological Evidence Feed</h2>
+            </div>
+          </div>
+          <div id="btCardsGrid" class="bt-cards-grid"></div>
+        </div>
+
+        <div class="bt-section">
+          <div class="bt-section-head">
+            <div>
+              <span class="eyebrow">Medicine &amp; Healthcare</span>
+              <h2><span class="simple-only">AI in medicine</span><span class="detail-only">From Lab Discovery to FDA &amp; Clinical Trials</span></h2>
+              <p class="detail-prose">Tracking both deployed FDA-authorized clinical AI tools and AI-discovered drugs moving through human trials on ClinicalTrials.gov.</p>
+            </div>
+          </div>
+          <div id="btMedicalPipeline"></div>
+        </div>
+
+        <div class="bt-section">
+          <div class="bt-section-head">
+            <div>
+              <span class="eyebrow">Mathematics &amp; Formal Verification</span>
+              <h2><span class="simple-only">Famous math problems: how close are we?</span><span class="detail-only">Open Problems &amp; Lean 4 Progress Board</span></h2>
+              <p class="detail-prose">Real-time status on iconic unsolved conjectures (Riemann Hypothesis, VP ≠ VNP) alongside formally machine-checked milestones—separating genuine mathematical progress from social-media hype.</p>
+            </div>
+          </div>
+          <div id="btMathBoard" class="math-grid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTELLIGENCE & COST SCALING VIEW -->
+    <section id="scalingView" class="view-pane panel-view" aria-label="AI Intelligence Growth and Token Cost Collapse">
+      <div class="panel-container">
+        <div class="panel-hero">
+          <div>
+            <span class="eyebrow">Exponential Capability · Shrinking Cost</span>
+            <h1><span class="simple-only">AI Is Getting Smarter — and Cheaper</span><span class="detail-only">Intelligence Growth &amp; Cost per Token</span></h1>
+            <p class="hero-lead detail-prose">
+              Two curves explain why AI breakthroughs are accelerating: frontier reasoning is climbing steeply across PhD science, math, and software engineering while the price for the same level of intelligence has fallen over 300× since 2023.
+            </p>
+          </div>
+          <div id="scalingHeroKpis" class="hero-kpis"></div>
+        </div>
+
+        <!-- SIMPLE VIEW: plain-language visuals (hidden in Detailed) -->
+        <div id="scalingSimple" class="sv-stack simple-only"></div>
+
+        <!-- DETAILED VIEW: full interactive charts & takeaways (hidden in Simple) -->
+        <div id="scalingCostCard" class="compare-card detail-only"></div>
+        <div id="scalingBenchCard" class="compare-card detail-only"></div>
+        <div id="scalingHorizonCard" class="compare-card detail-only"></div>
+        <div id="scalingTakeaways" class="detail-only"></div>
+      </div>
+    </section>
+
     <!-- MAIN MAP VIEW -->
-    <main id="mapView" class="view-pane active">
+    <main id="mapView" class="view-pane">
       <div id="map" class="map-canvas" aria-label="Interactive map of U.S. data centers"></div>
 
       <!-- Loading Indicator -->
@@ -369,6 +473,54 @@
             <h3>Not Published</h3>
             <p>Site location is verified, but the operator keeps power and water numbers private.</p>
           </div>
+        </div>
+
+        <div class="source-list-card">
+          <h2>AI Breakthroughs, Formal Math &amp; Scaling Registries</h2>
+          <ul class="source-directory">
+            <li>
+              <div>
+                <strong>U.S. FDA — AI/ML-Enabled Medical Devices Database</strong>
+                <p class="detail-prose">Official federal registry of authorized clinical AI/ML tools across radiology, cardiology, neurology, and pathology.</p>
+              </div>
+              <a href="https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-and-machine-learning-aiml-enabled-medical-devices" target="_blank" rel="noopener noreferrer">fda.gov ↗</a>
+            </li>
+            <li>
+              <div>
+                <strong>ClinicalTrials.gov (NIH / NLM)</strong>
+                <p class="detail-prose">Public U.S. National Library of Medicine clinical trial registry used to verify human trial phases (Phase I–III) for AI-discovered drugs.</p>
+              </div>
+              <a href="https://clinicaltrials.gov/" target="_blank" rel="noopener noreferrer">clinicaltrials.gov ↗</a>
+            </li>
+            <li>
+              <div>
+                <strong>Lean 4 &amp; Mathlib4 Community + Erdős Problems Tracker</strong>
+                <p class="detail-prose">Machine-checked formal proof library (200,000+ verified theorems) and open-problem status tracker preventing unverified math claims.</p>
+              </div>
+              <a href="https://leanprover-community.github.io/" target="_blank" rel="noopener noreferrer">leanprover ↗</a>
+            </li>
+            <li>
+              <div>
+                <strong>Epoch AI — Models, Benchmarks &amp; Inference Price Trends</strong>
+                <p class="detail-prose">Independent open-data research tracking frontier AI models, FrontierMath, GPQA, token price deflation, and AI data center capacity.</p>
+              </div>
+              <a href="https://epoch.ai/data" target="_blank" rel="noopener noreferrer">epoch.ai/data ↗</a>
+            </li>
+            <li>
+              <div>
+                <strong>METR — Autonomous Task Horizon Evaluations</strong>
+                <p class="detail-prose">Empirical measurements of how long complex real-world tasks take human experts that AI agents can reliably complete autonomously.</p>
+              </div>
+              <a href="https://metr.org/" target="_blank" rel="noopener noreferrer">metr.org ↗</a>
+            </li>
+            <li>
+              <div>
+                <strong>Peer-Reviewed Scientific Journals (Nature, Science, Cell, NEJM)</strong>
+                <p class="detail-prose">Primary peer-reviewed publications required before labeling any medical, mathematical, weather, or materials breakthrough as "Verified."</p>
+              </div>
+              <a href="https://www.nature.com/" target="_blank" rel="noopener noreferrer">nature.com ↗</a>
+            </li>
+          </ul>
         </div>
 
         <div class="source-list-card">
