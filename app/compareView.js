@@ -96,7 +96,7 @@ export class IndustryCompareView {
     this.onFilterAiCompany = onFilterAiCompany;
     this.onMetricChange = onMetricChange;
     this.activeMetric = ['energy', 'water', 'land', 'companies'].includes(initialMetric) ? initialMetric : 'energy';
-    this.chartType = 'pie'; // 'pie' | 'vbar' | 'linear'
+    this.chartType = 'pie'; // 'pie' | 'vbar'
     this.showDeepNotes = false;
 
     this.heroEl = document.getElementById('compareHeroKpis');
@@ -514,45 +514,6 @@ export class IndustryCompareView {
     `;
   }
 
-  buildLinearHorizontalHtml(items, maxVal, dcBaseline) {
-    const barsHtml = items
-      .map((item, idx) => {
-        const width = Math.max(1.2, (item.value / maxVal) * 100);
-        const isDc = item.category === 'datacenter' || item.category === 'datacenter_proj';
-        const isProj = item.category === 'datacenter_proj';
-        const barColor = getRankIntensityColor(idx, items.length);
-        const fillStyle = isProj
-          ? `width:${width.toFixed(2)}%; ${buildStripedFillStyle(barColor)}`
-          : `width:${width.toFixed(2)}%; background:${barColor};`;
-        const multipleText = this.formatMultipleVsBaseline(item.value, dcBaseline);
-
-        return `
-          <div class="bar-row ${isDc ? 'is-dc' : ''}">
-            <div class="bar-row-head">
-              <div class="bar-label ${isDc ? 'is-dc' : ''}">
-                <span>${escapeHtml(item.label)}</span>
-                ${isDc ? '<span class="dc-marker-pill">DC</span>' : ''}
-              </div>
-              <div class="bar-value-group">
-                ${multipleText ? `<span class="bar-ratio">${escapeHtml(multipleText)}</span>` : ''}
-                <span class="bar-value">${escapeHtml(this.formatBarValue(item.value, this.activeMetric))}</span>
-              </div>
-            </div>
-            <div class="bar-track">
-              <div class="bar-fill ${isDc ? 'is-dc' : ''}" style="${fillStyle}"></div>
-            </div>
-            <div class="bar-meta detail-prose">
-              <span>${escapeHtml(item.note)}</span>
-              <a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.source)} ↗</a>
-            </div>
-          </div>
-        `;
-      })
-      .join('');
-
-    return `<div class="bar-chart">${barsHtml}</div>`;
-  }
-
   buildAiOwnershipPieHtml(pieSlices) {
     if (!pieSlices || !pieSlices.length) return '';
     const totalSites = pieSlices.reduce((acc, s) => acc + s.count, 0);
@@ -818,14 +779,8 @@ export class IndustryCompareView {
       land: 'Land Footprint — Data Centers vs. U.S. Land'
     };
 
-    let mainVisualHtml = '';
-    if (this.chartType === 'pie') {
-      mainVisualHtml = this.buildPieChartHtml(section);
-    } else if (this.chartType === 'vbar') {
-      mainVisualHtml = this.buildVerticalBarChartHtml(items, maxVal);
-    } else {
-      mainVisualHtml = this.buildLinearHorizontalHtml(items, maxVal, dcBaseline);
-    }
+    const mainVisualHtml =
+      this.chartType === 'vbar' ? this.buildVerticalBarChartHtml(items, maxVal) : this.buildPieChartHtml(section);
 
     const intensityLegendHtml = `
       <div class="intensity-legend" aria-label="Resource consumption color scale">
@@ -870,10 +825,6 @@ export class IndustryCompareView {
           <button class="scale-btn ${this.chartType === 'vbar' ? 'active' : ''}" data-chart="vbar" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
             Bar Chart
-          </button>
-          <button class="scale-btn ${this.chartType === 'linear' ? 'active' : ''}" data-chart="linear" type="button">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="18" x2="9" y2="18"/></svg>
-            Linear Scale
           </button>
         </div>
       </div>
