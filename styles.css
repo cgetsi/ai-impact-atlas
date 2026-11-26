@@ -6050,3 +6050,28 @@ a:hover {
   font-size: 0.82rem;
   font-weight: 600;
 }
+
+/* Top bar matches the centered page width on wide screens (all views, so tabs never jump) */
+.topbar {
+  max-width: 1080px;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (min-width: 861px) {
+  .topbar {
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+  .topbar-controls {
+    order: 3;
+    flex-basis: 100%;
+    justify-content: flex-start;
+    padding-top: 7px;
+    border-top: 1px solid var(--border-subtle);
+  }
+}
+
+/* Reserve scrollbar space on both sides so the page centers exactly under the top bar */
+.panel-view {
+  scrollbar-gutter: stable both-edges;
+}
