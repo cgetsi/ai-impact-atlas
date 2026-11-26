@@ -1,5 +1,5 @@
 import { escapeHtml, formatNumber, formatMw } from './utils.js';
-import { computeAiCompanyScorecards, scoreToColor } from './aiCompanies.js';
+import { computeAiCompanyScorecards, computeAiOwnershipPie, scoreToColor } from './aiCompanies.js';
 
 const LOCAL_SPOTLIGHTS = {
   energy: [
@@ -553,8 +553,101 @@ export class IndustryCompareView {
     return `<div class="bar-chart">${barsHtml}</div>`;
   }
 
+  buildAiOwnershipPieHtml(pieSlices) {
+    if (!pieSlices || !pieSlices.length) return '';
+    const totalSites = pieSlices.reduce((acc, s) => acc + s.count, 0);
+
+    const cx = 142;
+    const cy = 142;
+    const rOuter = 114;
+    const rInner = 64;
+
+    let angle = 0;
+    const paths = pieSlices
+      .map((s, idx) => {
+        const span = (s.count / totalSites) * 360;
+        const start = angle;
+        const end = angle + span;
+        angle = end;
+
+        const color = getRankIntensityColor(idx, pieSlices.length);
+        const d = describeDonutArc(cx, cy, rOuter, rInner, start, end);
+        const pctStr = `${s.pct.toFixed(1)}%`;
+
+        return `
+          <path
+            class="pie-slice"
+            data-co-slice="${escapeHtml(s.id)}"
+            data-label="${escapeHtml(s.label)}"
+            data-pct="${escapeHtml(pctStr)}"
+            data-val="${s.count} ${s.count === 1 ? 'campus' : 'campuses'}"
+            ${s.companyId ? `data-slice-company="${escapeHtml(s.companyId)}"` : ''}
+            d="${d}"
+            fill="${color}"
+          >
+            <title>${escapeHtml(s.label)}: ${s.count} sites (${pctStr})</title>
+          </path>
+        `;
+      })
+      .join('');
+
+    const centerSvg = `
+      <g class="pie-center-svg" pointer-events="none">
+        <text id="coPieCenterVal" x="${cx}" y="${cy - 8}" text-anchor="middle" class="pie-center-pct-svg">${totalSites}</text>
+        <text id="coPieCenterTitle" x="${cx}" y="${cy + 11}" text-anchor="middle" class="pie-center-title-svg">AI Campuses</text>
+        <text id="coPieCenterSub" x="${cx}" y="${cy + 27}" text-anchor="middle" class="pie-center-sub-svg">Owned / Run</text>
+      </g>
+    `;
+
+    const legendCards = pieSlices
+      .map((s, idx) => {
+        const color = getRankIntensityColor(idx, pieSlices.length);
+        const pctStr = `${s.pct.toFixed(1)}%`;
+        return `
+          <div class="pie-legend-row" data-co-target="${escapeHtml(s.id)}" ${s.companyId ? `data-filter-company="${escapeHtml(s.companyId)}"` : ''}>
+            <span class="pie-swatch" style="background:${color}"></span>
+            <div class="pie-legend-main">
+              <span class="pie-legend-name">${escapeHtml(s.label)}</span>
+              <span class="pie-legend-val">${s.count} ${s.count === 1 ? 'site' : 'sites'}</span>
+            </div>
+            <span class="pie-legend-pct">${escapeHtml(pctStr)}</span>
+          </div>
+        `;
+      })
+      .join('');
+
+    return `
+      <div class="co-pie-section">
+        <div class="compare-header" style="margin-bottom:4px">
+          <div>
+            <h2>U.S. AI Campuses Owned / Run by Company</h2>
+            <p class="detail-prose">A company with cleaner energy policies can still carry a much larger total footprint if it operates far more campuses.</p>
+          </div>
+        </div>
+        <div class="pie-stage">
+          <div class="pie-wheel-wrap co-pie-wrap">
+            <svg class="pie-svg co-pie-svg" viewBox="18 18 248 248" role="img" aria-label="Owned AI data center share by company">
+              ${paths}
+              ${centerSvg}
+            </svg>
+          </div>
+          <div class="pie-legend-col">
+            <div class="pie-legend-list co-pie-legend-list">${legendCards}</div>
+          </div>
+        </div>
+        <div class="intensity-legend">
+          <span class="intensity-lbl">Most Campuses Owned</span>
+          <span class="intensity-gradient-bar"></span>
+          <span class="intensity-lbl">Fewest Campuses Owned</span>
+        </div>
+      </div>
+    `;
+  }
+
   renderAiCompaniesScorecard() {
     const cards = computeAiCompanyScorecards(this.allFeatures);
+    const pieSlices = computeAiOwnershipPie(this.allFeatures);
+    const totalOwned = pieSlices.reduce((acc, s) => acc + s.count, 0);
 
     const buildMeter = (label, pct, tag, detail) => {
       const col = scoreToColor(pct);
@@ -622,9 +715,13 @@ export class IndustryCompareView {
       .join('');
 
     this.contentEl.innerHTML = `
+      ${this.buildAiOwnershipPieHtml(pieSlices)}
+
+      <div class="co-section-divider"></div>
+
       <div class="compare-header">
         <div>
-          <h2>Leading AI Companies — Environmental Scorecard</h2>
+          <h2>Environmental Scorecard</h2>
           <p class="detail-prose">Scored across physical grid cleanliness (EPA eGRID), renewable power vs. on-site gas, water cooling tech, and site-level transparency—including both owned and rented compute.</p>
         </div>
         <div class="co-legend" aria-label="Standing color legend">
@@ -637,9 +734,62 @@ export class IndustryCompareView {
       <div class="co-scorecard-list">${cardsHtml}</div>
 
       <div class="distinction-banner detail-only">
-        <strong>Owned vs. Rented Compute:</strong> AI labs like OpenAI and Anthropic train extensively on partner cloud campuses (Microsoft Azure, AWS, Oracle, CoreWeave). Clicking <strong>Map →</strong> highlights both their dedicated builds and verified partner-hosted campuses.
+        <strong>Owned vs. Rented Compute:</strong> The pie chart above counts who directly owns/builds each of the ${totalOwned} tracked U.S. AI campuses (zero double-counting). In the scorecard below, AI labs like OpenAI and Anthropic also include partner-hosted cloud campuses (Microsoft Azure, AWS, Oracle, CoreWeave).
       </div>
     `;
+
+    // Bind interactive hover sync on the Ownership Pie Chart
+    const svgEl = this.contentEl.querySelector('.co-pie-svg');
+    const legendListEl = this.contentEl.querySelector('.co-pie-legend-list');
+    const centerVal = this.contentEl.querySelector('#coPieCenterVal');
+    const centerTitle = this.contentEl.querySelector('#coPieCenterTitle');
+    const centerSub = this.contentEl.querySelector('#coPieCenterSub');
+
+    const highlightCoSlice = (id) => {
+      if (svgEl) svgEl.classList.add('has-hover');
+      if (legendListEl) legendListEl.classList.add('has-hover');
+      const centerNode = svgEl ? svgEl.querySelector('.pie-center-svg') : null;
+      this.contentEl.querySelectorAll('[data-co-slice]').forEach((el) => {
+        const match = el.dataset.coSlice === id;
+        el.classList.toggle('hovered', match);
+        if (match) {
+          if (svgEl && centerNode) svgEl.insertBefore(el, centerNode);
+          if (centerVal && centerTitle && centerSub) {
+            centerVal.textContent = el.dataset.pct;
+            centerTitle.textContent = el.dataset.label;
+            centerSub.textContent = el.dataset.val;
+          }
+        }
+      });
+      this.contentEl.querySelectorAll('[data-co-target]').forEach((row) => {
+        row.classList.toggle('hovered', row.dataset.coTarget === id);
+      });
+    };
+
+    const resetCoSlice = () => {
+      if (svgEl) svgEl.classList.remove('has-hover');
+      if (legendListEl) legendListEl.classList.remove('has-hover');
+      this.contentEl.querySelectorAll('[data-co-slice], [data-co-target]').forEach((el) => el.classList.remove('hovered'));
+      if (centerVal && centerTitle && centerSub) {
+        centerVal.textContent = String(totalOwned);
+        centerTitle.textContent = 'AI Campuses';
+        centerSub.textContent = 'Owned / Run';
+      }
+    };
+
+    this.contentEl.querySelectorAll('[data-co-slice]').forEach((el) => {
+      el.addEventListener('mouseenter', () => highlightCoSlice(el.dataset.coSlice));
+      el.addEventListener('mouseleave', resetCoSlice);
+      if (el.dataset.sliceCompany) {
+        el.addEventListener('click', () => {
+          if (this.onFilterAiCompany) this.onFilterAiCompany(el.dataset.sliceCompany);
+        });
+      }
+    });
+    this.contentEl.querySelectorAll('[data-co-target]').forEach((row) => {
+      row.addEventListener('mouseenter', () => highlightCoSlice(row.dataset.coTarget));
+      row.addEventListener('mouseleave', resetCoSlice);
+    });
 
     this.contentEl.querySelectorAll('[data-filter-company]').forEach((btn) => {
       btn.addEventListener('click', () => {

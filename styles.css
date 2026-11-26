@@ -3610,3 +3610,28 @@ a:hover {
     gap: 8px;
   }
 }
+
+
+/* AI Companies Ownership Pie Section */
+.co-pie-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.co-pie-wrap {
+  width: 270px;
+  height: 270px;
+}
+.co-section-divider {
+  height: 1px;
+  background: var(--border-subtle);
+  margin: 4px 0;
+}
+@media (max-width: 680px) {
+  .co-pie-wrap {
+    width: 100%;
+    max-width: 260px;
+    height: auto;
+    aspect-ratio: 1 / 1;
+  }
+}

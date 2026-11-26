@@ -252,6 +252,46 @@ export function computeAiCompanyScorecards(allFeatures) {
 }
 
 /**
+ * Computes a mutually exclusive 100% ownership/operator pie breakdown across all
+ * tracked U.S. AI & hyperscale campuses (zero double-counting).
+ */
+export function computeAiOwnershipPie(allFeatures) {
+  const aiFeatures = (allFeatures || []).filter((f) => f.properties && f.properties.category === 'ai_hyperscale');
+  const buckets = new Map();
+
+  const addToBucket = (id, label, companyId, mw) => {
+    if (!buckets.has(id)) {
+      buckets.set(id, { id, label, companyId, count: 0, mw: 0 });
+    }
+    const b = buckets.get(id);
+    b.count += 1;
+    b.mw += Number(mw) || 0;
+  };
+
+  for (const f of aiFeatures) {
+    const p = f.properties;
+    const hay = `${p.operator || ''} ${p.name || ''}`;
+    if (/google/i.test(hay)) addToBucket('google', 'Google', 'google', p.powerMw);
+    else if (/\bmeta\b|facebook/i.test(hay)) addToBucket('meta', 'Meta', 'meta', p.powerMw);
+    else if (/microsoft/i.test(hay)) addToBucket('microsoft', 'Microsoft', 'microsoft', p.powerMw);
+    else if (/amazon|\baws\b/i.test(hay)) addToBucket('aws', 'Amazon / AWS', 'aws', p.powerMw);
+    else if (/openai|stargate/i.test(hay)) addToBucket('openai', 'OpenAI / Stargate', 'openai', p.powerMw);
+    else if (/coreweave/i.test(hay)) addToBucket('coreweave', 'CoreWeave', null, p.powerMw);
+    else if (/\bxai\b|spacex|colossus/i.test(hay)) addToBucket('xai', 'xAI', 'xai', p.powerMw);
+    else if (/anthropic/i.test(hay)) addToBucket('anthropic', 'Anthropic Partners', 'anthropic', p.powerMw);
+    else addToBucket('other', 'Other Developers (QTS, Switch, etc.)', null, p.powerMw);
+  }
+
+  const total = aiFeatures.length || 1;
+  return [...buckets.values()]
+    .sort((a, b) => b.count - a.count)
+    .map((b) => ({
+      ...b,
+      pct: (b.count / total) * 100
+    }));
+}
+
+/**
  * Maps a 0..100 environmental score to the intuitive Red (low/harm) -> Amber (mixed) -> Green (stronger) palette.
  */
 export function scoreToColor(score) {

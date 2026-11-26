@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
   <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 
-  <link rel="stylesheet" href="styles.css?v=5" />
+  <link rel="stylesheet" href="styles.css?v=6" />
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -372,42 +372,138 @@
         </div>
 
         <div class="source-list-card">
-          <h2>Primary Sources</h2>
+          <h2>Federal Agencies &amp; U.S. National Labs</h2>
           <ul class="source-directory">
             <li>
               <div>
-                <strong>PeeringDB Facility Registry</strong>
-                <p class="detail-prose">Open network interconnection registry verifying 1,350+ U.S. colocation sites and carrier counts.</p>
-              </div>
-              <a href="https://www.peeringdb.com/" target="_blank" rel="noopener noreferrer">peeringdb.com ↗</a>
-            </li>
-            <li>
-              <div>
-                <strong>Epoch AI — Frontier Data Centers</strong>
-                <p class="detail-prose">Independent database tracking AI training megacampuses, power capacity, chips, and build status.</p>
-              </div>
-              <a href="https://epoch.ai/data/ai-data-centers" target="_blank" rel="noopener noreferrer">epoch.ai ↗</a>
-            </li>
-            <li>
-              <div>
                 <strong>Lawrence Berkeley National Lab (2024 DOE Report)</strong>
-                <p class="detail-prose">Federal baseline for U.S. data center electricity (176 TWh) and cooling water (17.4B gal).</p>
+                <p class="detail-prose">Congressionally mandated DOE baseline for U.S. data center electricity (176 TWh in 2023; 325–580 TWh by 2028) and direct/indirect cooling water.</p>
               </div>
               <a href="https://eta.lbl.gov/publications/2024-lbnl-data-center-energy-usage-report" target="_blank" rel="noopener noreferrer">eta.lbl.gov ↗</a>
             </li>
             <li>
               <div>
-                <strong>Google &amp; Meta Environmental Reports</strong>
-                <p class="detail-prose">Campus-by-campus water withdrawals/consumption (Google) and annual MWh electricity tables (Meta).</p>
+                <strong>U.S. DOE / Pacific Northwest National Lab (PNNL) — IM3 Data Center Atlas</strong>
+                <p class="detail-prose">Open-source U.S. Department of Energy spatial dataset mapping data center footprints and regional grid intersections (DOI: 10.57931/17054299).</p>
+              </div>
+              <a href="https://im3.pnnl.gov/datacenter-atlas" target="_blank" rel="noopener noreferrer">im3.pnnl.gov ↗</a>
+            </li>
+            <li>
+              <div>
+                <strong>U.S. EPA — eGRID &amp; ECHO (Air Permits)</strong>
+                <p class="detail-prose">Official federal database of state/regional grid carbon-free generation mixes (eGRID) and industrial air permits for generators &amp; turbines (ECHO).</p>
+              </div>
+              <a href="https://www.epa.gov/egrid" target="_blank" rel="noopener noreferrer">epa.gov/egrid ↗</a>
+            </li>
+            <li>
+              <div>
+                <strong>U.S. Energy Information Administration (EIA)</strong>
+                <p class="detail-prose">Annual U.S. electricity consumption by residential, commercial, and industrial sectors (Electric Power Annual, RECS, MECS, Form EIA-923).</p>
+              </div>
+              <a href="https://www.eia.gov/electricity/annual/" target="_blank" rel="noopener noreferrer">eia.gov ↗</a>
+            </li>
+            <li>
+              <div>
+                <strong>U.S. Geological Survey (USGS) — National Water Use</strong>
+                <p class="detail-prose">Federal baseline for U.S. agricultural irrigation, municipal public supply, industrial, and thermoelectric power plant water withdrawals and consumption.</p>
+              </div>
+              <a href="https://www.usgs.gov/mission-areas/water-resources/science/water-use-united-states" target="_blank" rel="noopener noreferrer">usgs.gov ↗</a>
+            </li>
+            <li>
+              <div>
+                <strong>USDA Economic Research Service &amp; NREL</strong>
+                <p class="detail-prose">Official U.S. Major Land Uses inventory (2.26B acres across pasture, forest, cropland, urban, and highways) and NREL utility-scale solar land baselines.</p>
+              </div>
+              <a href="https://www.ers.usda.gov/data-products/major-land-uses/" target="_blank" rel="noopener noreferrer">ers.usda.gov ↗</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="source-list-card">
+          <h2>Grid Reliability, Water Risk &amp; Policy Audits</h2>
+          <ul class="source-directory">
+            <li>
+              <div>
+                <strong>International Energy Agency (IEA) — Energy and AI &amp; Electricity 2025</strong>
+                <p class="detail-prose">Global and U.S. electricity generation breakdown for data centers (renewables, nuclear, natural gas, coal) and AI load projections.</p>
+              </div>
+              <a href="https://www.iea.org/reports/energy-and-ai" target="_blank" rel="noopener noreferrer">iea.org ↗</a>
+            </li>
+            <li>
+              <div>
+                <strong>World Resources Institute (WRI) — Aqueduct Water Risk Atlas</strong>
+                <p class="detail-prose">Peer-reviewed watershed stress index used across industry disclosures to classify Low through Extremely High water-stress basins.</p>
+              </div>
+              <a href="https://www.wri.org/applications/aqueduct/water-risk-atlas" target="_blank" rel="noopener noreferrer">wri.org/aqueduct ↗</a>
+            </li>
+            <li>
+              <div>
+                <strong>NERC — Long-Term Reliability Assessment (LTRA)</strong>
+                <p class="detail-prose">North American electric grid reliability authority tracking hyperscale peak demand growth, transmission bottlenecks, and reserve margins.</p>
+              </div>
+              <a href="https://www.nerc.com/globalassets/our-work/assessments/nerc_ltra_2025.pdf" target="_blank" rel="noopener noreferrer">nerc.com ↗</a>
+            </li>
+            <li>
+              <div>
+                <strong>Virginia JLARC — Data Centers in Virginia (2024 Audit)</strong>
+                <p class="detail-prose">State legislative audit of Northern Virginia's Data Center Alley covering statewide power forecasts, tax revenue, generator permits, and water use.</p>
+              </div>
+              <a href="https://jlarc.virginia.gov/landing-2024-data-centers-in-virginia.asp" target="_blank" rel="noopener noreferrer">jlarc.virginia.gov ↗</a>
+            </li>
+            <li>
+              <div>
+                <strong>USGA / GCSAA — Golf Course Water &amp; Land Surveys</strong>
+                <p class="detail-prose">National survey benchmarks for U.S. golf course irrigation (~759B gal/yr) and acreage (~2M acres across ~15,500 facilities).</p>
+              </div>
+              <a href="https://www.usga.org/content/usga/home-page/course-care/water-resource-center.html" target="_blank" rel="noopener noreferrer">usga.org ↗</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="source-list-card">
+          <h2>Open Infrastructure Registries &amp; Corporate Disclosures</h2>
+          <ul class="source-directory">
+            <li>
+              <div>
+                <strong>PeeringDB Global Facility Registry</strong>
+                <p class="detail-prose">Open network interconnection registry verifying 1,350+ U.S. colocation sites, addresses, coordinates, and connected carrier counts.</p>
+              </div>
+              <a href="https://www.peeringdb.com/" target="_blank" rel="noopener noreferrer">peeringdb.com ↗</a>
+            </li>
+            <li>
+              <div>
+                <strong>Epoch AI — Frontier Data Centers Database</strong>
+                <p class="detail-prose">Independent research database tracking frontier AI campuses, IT power estimates, hardware accelerators, compute tenants, and build status.</p>
+              </div>
+              <a href="https://epoch.ai/data/ai-data-centers" target="_blank" rel="noopener noreferrer">epoch.ai ↗</a>
+            </li>
+            <li>
+              <div>
+                <strong>Google Environmental Report</strong>
+                <p class="detail-prose">Audited annual campus-by-campus U.S. water withdrawal/consumption disclosures and 24/7 Carbon-Free Energy reporting.</p>
               </div>
               <a href="https://sustainability.google/reports/" target="_blank" rel="noopener noreferrer">sustainability.google ↗</a>
             </li>
             <li>
               <div>
-                <strong>U.S. EIA, EPA eGRID, USGS &amp; USDA</strong>
-                <p class="detail-prose">State clean-grid generation mixes (EIA/eGRID), sector water (USGS), and U.S. land use (USDA ERS).</p>
+                <strong>Meta Sustainability Report &amp; Environmental Data Index</strong>
+                <p class="detail-prose">Audited annual campus-level MWh electricity disclosures, fleet WUE/PUE benchmarks, and watershed restoration reporting.</p>
               </div>
-              <a href="https://www.epa.gov/egrid" target="_blank" rel="noopener noreferrer">epa.gov/egrid ↗</a>
+              <a href="https://sustainability.atmeta.com/" target="_blank" rel="noopener noreferrer">sustainability.atmeta.com ↗</a>
+            </li>
+            <li>
+              <div>
+                <strong>Microsoft Environmental Sustainability Report</strong>
+                <p class="detail-prose">Zero-water closed-loop cooling transition disclosures, renewable PPA procurement, and regional water stewardship metrics.</p>
+              </div>
+              <a href="https://www.microsoft.com/en-us/corporate-responsibility/sustainability/report" target="_blank" rel="noopener noreferrer">microsoft.com ↗</a>
+            </li>
+            <li>
+              <div>
+                <strong>Amazon / AWS Sustainability Report</strong>
+                <p class="detail-prose">Global 100% renewable electricity matching audit, fleet water-use efficiency (WUE), and Water Positive watershed investments.</p>
+              </div>
+              <a href="https://sustainability.aboutamazon.com/" target="_blank" rel="noopener noreferrer">sustainability.aboutamazon.com ↗</a>
             </li>
           </ul>
         </div>
