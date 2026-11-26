@@ -308,11 +308,10 @@ function updateCompanyMapBanner(filtered) {
     syncFilterUiControls();
     applyFilters();
     syncUrlState(false);
-    if (mapView) mapView.resetView();
   });
 }
 
-function filterByAiCompany(companyId, { switchToMap = true } = {}) {
+function filterByAiCompany(companyId, { switchToMap = true, fitBounds = true } = {}) {
   state.filter = 'all';
   state.usState = 'all';
   state.operator = 'all';
@@ -325,10 +324,12 @@ function filterByAiCompany(companyId, { switchToMap = true } = {}) {
   } else {
     syncUrlState(false);
   }
-  if (state.aiCompany !== 'all') {
-    setTimeout(() => fitToFilteredBounds(), 90);
-  } else if (mapView) {
-    mapView.resetView();
+  if (fitBounds) {
+    if (state.aiCompany !== 'all') {
+      setTimeout(() => fitToFilteredBounds(), 90);
+    } else if (mapView) {
+      mapView.resetView();
+    }
   }
 }
 
@@ -795,7 +796,7 @@ async function init() {
   const coFilter = document.getElementById('aiCompanyFilter');
   if (coFilter) {
     coFilter.addEventListener('change', (e) => {
-      filterByAiCompany(e.target.value, { switchToMap: false });
+      filterByAiCompany(e.target.value, { switchToMap: false, fitBounds: false });
     });
   }
 
