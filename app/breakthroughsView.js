@@ -170,7 +170,7 @@ export class BreakthroughsView {
       </div>
       <div class="hero-kpi">
         <div class="hero-kpi-val">${formatNumber(total)}</div>
-        <div class="hero-kpi-label">Verified breakthroughs</div>
+        <div class="hero-kpi-label">Breakthroughs tracked</div>
         <div class="hero-kpi-sub detail-only">Curated 2020–2026 breakthroughs with primary citations</div>
       </div>
       <div class="hero-kpi">
@@ -228,17 +228,19 @@ export class BreakthroughsView {
     const colsHtml = years
       .map((y, i) => {
         const total = totals[i];
+        // Segment heights are exact shares of the column; the column height is an exact share of the plot
         const segs = DOMAIN_ORDER.map((d) => {
           const n = counts.get(y).get(d);
           if (!n) return '';
           const dom = this.domainMap.get(d);
-          return `<span class="sv-year-seg" style="flex:${n};background:${this.getDomainColor(d)}" title="${y} · ${escapeHtml(dom ? dom.shortLabel : d)}: ${n}"></span>`;
+          return `<span class="sv-year-seg" style="height:${((n / total) * 100).toFixed(2)}%;background:${this.getDomainColor(d)}" title="${y} · ${escapeHtml(dom ? dom.shortLabel : d)}: ${n}"></span>`;
         }).join('');
+        const colPct = ((total / maxTotal) * 100).toFixed(2);
         return `
           <div class="sv-year-col">
             <div class="sv-year-plot">
-              <span class="sv-year-total">${total || ''}</span>
-              <div class="sv-year-bar" style="height:${((total / maxTotal) * 100).toFixed(1)}%">${segs}</div>
+              <div class="sv-year-bar" style="height:${colPct}%">${segs}</div>
+              <span class="sv-year-total" style="bottom:calc(${colPct}% + 4px)">${total || ''}</span>
             </div>
             <span class="sv-year-lbl">${y}${y === partialYear ? '*' : ''}</span>
           </div>
@@ -968,7 +970,7 @@ export class BreakthroughsView {
 
             <div class="math-bar-row">
               <div class="math-bar-track">
-                <div class="math-bar-fill ${toneCls}" style="width:${Math.max(6, Math.min(100, m.progressPct))}%"></div>
+                <div class="math-bar-fill ${toneCls}" style="width:${Math.max(0, Math.min(100, m.progressPct))}%"></div>
               </div>
               <span class="math-pct">${m.progressPct}%</span>
             </div>

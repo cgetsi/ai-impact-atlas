@@ -475,7 +475,7 @@ export class IndustryCompareView {
       .map((item, idx) => {
         // Scale tallest bar to 86% of track height so the top value label sits cleanly inside the frame
         const rawPct = (item.value / maxVal) * 86;
-        const heightPct = Math.max(2.2, rawPct);
+        const heightPct = Math.max(0, rawPct);
         const isDc = item.category === 'datacenter' || item.category === 'datacenter_proj';
         const isProj = item.category === 'datacenter_proj';
         const barColor = getRankIntensityColor(idx, items.length);
@@ -498,7 +498,7 @@ export class IndustryCompareView {
         return `
           <div class="vbar-col ${isDc ? 'is-dc' : ''}" title="${escapeHtml(item.label)}: ${escapeHtml(this.formatBarValue(item.value, this.activeMetric))}">
             <div class="vbar-track">
-              <div class="vbar-val">${escapeHtml(this.formatCompactValue(item.value, this.activeMetric))}</div>
+              <div class="vbar-val" style="bottom:calc(${heightPct.toFixed(2)}% + 5px)">${escapeHtml(this.formatCompactValue(item.value, this.activeMetric))}</div>
               <div class="vbar-fill" style="${fillStyle}"></div>
             </div>
             <div class="vbar-lbl">${escapeHtml(shortLbl)}</div>
@@ -622,7 +622,7 @@ export class IndustryCompareView {
             <span class="co-meter-tag detail-only" style="color:${col}">${escapeHtml(tag)}</span>
           </div>
           <div class="co-meter-track">
-            <div class="co-meter-fill" style="width:${Math.max(6, Math.min(100, pct))}%; background:${col}"></div>
+            <div class="co-meter-fill" style="width:${Math.max(0, Math.min(100, pct))}%; background:${col}"></div>
           </div>
           ${detail ? `<div class="co-meter-detail detail-prose">${escapeHtml(detail)}</div>` : ''}
         </div>

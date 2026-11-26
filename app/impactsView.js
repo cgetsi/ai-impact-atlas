@@ -413,7 +413,7 @@ export class ImpactsPipelineView {
           </div>
         </div>
         <div class="theme-bar-track">
-          <div class="theme-bar-fill ${kind}" style="width:${Math.max(4, Math.min(100, theme.pct)).toFixed(1)}%"></div>
+          <div class="theme-bar-fill ${kind}" style="width:${Math.max(0, Math.min(100, theme.pct)).toFixed(1)}%"></div>
         </div>
         ${detailsHtml}
         <button class="theme-expand-btn detail-only" data-expand-theme="${escapeHtml(theme.id)}" aria-expanded="${String(isExpanded)}" type="button">

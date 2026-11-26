@@ -670,6 +670,50 @@
         { "label": "U.S. DOE AI for Grid Reliability & Energy", "url": "https://www.energy.gov/ai", "publisher": "U.S. Department of Energy" },
         { "label": "IEA Energy & AI Report", "url": "https://www.iea.org/reports/energy-and-ai", "publisher": "IEA" }
       ]
+    },
+    {
+      "id": "erdos-unit-distance-disproof-2026",
+      "date": "2026-05-20",
+      "domain": "math",
+      "title": "AI Model Disproves Erdős's 1946 Unit-Distance Conjecture",
+      "shortLabel": "Erdős Conjecture Disproved",
+      "plainHeadline": "AI disproved an 80-year-old conjecture from one of history's great mathematicians",
+      "bigStat": { "value": "80 yrs", "label": "old conjecture disproved" },
+      "organization": "OpenAI; proof assessed by Alon, Bloom, Gowers, Litt, Sawin, Shankar, Tsimerman, Wang & Wood",
+      "impactScore": 5,
+      "verificationTier": "verified",
+      "verificationLabel": "Assessed by Leading Mathematicians",
+      "summary": "An internal OpenAI model disproved Paul Erdős's 1946 unit-distance conjecture in discrete geometry. A companion paper by nine prominent mathematicians assessed the argument; Fields Medalist Tim Gowers said he would have recommended it for the Annals of Mathematics.",
+      "whyItMatters": "It is one of the clearest cases of AI producing genuinely new, research-level mathematics that top human experts have checked and endorsed.",
+      "caveats": "The proof has not been formalized in Lean. Some other AI 'solutions' to Erdős problems turned out to rediscover existing proofs, so each result needs individual expert checking.",
+      "metrics": ["1946 conjecture disproved", "Assessed by 9 named mathematicians"],
+      "sources": [
+        { "label": "OpenAI announcement", "url": "https://openai.com/index/model-disproves-discrete-geometry-conjecture/", "publisher": "OpenAI" },
+        { "label": "Gil Kalai on the result", "url": "https://gilkalai.wordpress.com/2026/05/21/amazing-erdos-unit-distance-problem-was-disproved-it-was-achieved-by-ai/", "publisher": "Combinatorics and more" }
+      ]
+    },
+    {
+      "id": "riemann-hypothesis-lean-proof-2026",
+      "date": "2026-11-20",
+      "domain": "math",
+      "title": "Machine-Verified Proof of the Riemann Hypothesis Found With AI",
+      "shortLabel": "Riemann Hypothesis (Lean)",
+      "plainHeadline": "A computer-checked proof of the 167-year-old Riemann Hypothesis was found with AI's help",
+      "bigStat": { "value": "167 yrs", "label": "old problem; proof machine-checked" },
+      "organization": "Levent Alpöge (Anthropic) with Claude; verified by Lean FRO & Mathlib Initiative",
+      "impactScore": 5,
+      "verificationTier": "milestone",
+      "verificationLabel": "Lean-Verified · Under Human Review",
+      "summary": "Mathematician Levent Alpöge, working with Claude, released a proof of the Riemann Hypothesis (and the Generalized Riemann Hypothesis for Dirichlet L-functions) as ~17 million lines of Lean 4 code. The Lean FRO and Mathlib Initiative stated that both the statement and the proof are correct, and MIT's Andrew Sutherland independently rebuilt and checked it.",
+      "whyItMatters": "The Riemann Hypothesis, posed in 1859, is one of the seven $1M Millennium Prize problems and underpins our understanding of prime numbers. A machine-checked proof means a computer has confirmed every logical step.",
+      "caveats": "No human-readable proof exists yet and no one yet understands why it works; it is not peer reviewed and the Clay Mathematics Institute still lists the problem as active. Mathematicians such as Maksym Radziwill and Kevin Buzzard have urged caution.",
+      "metrics": ["~17M lines of Lean 4", "175,187 modules independently rebuilt"],
+      "sources": [
+        { "label": "Lean FRO / Mathlib verification statement", "url": "https://leanprover-community.github.io/blog/posts/riemann-hypothesis/", "publisher": "Lean Community" },
+        { "label": "Independent rebuild (MIT)", "url": "https://math.mit.edu/~drew/grh/", "publisher": "MIT" },
+        { "label": "Quanta Magazine coverage", "url": "https://www.quantamagazine.org/update/169569/", "publisher": "Quanta" },
+        { "label": "Scientific American coverage", "url": "https://www.scientificamerican.com/article/dueling-claims-of-riemann-hypothesis-proofs-emerge/", "publisher": "Scientific American" }
+      ]
     }
   ],
   "openMathProblems": [
@@ -677,30 +721,34 @@
       "id": "riemann-hypothesis",
       "name": "Riemann Hypothesis",
       "category": "Millennium Prize ($1M)",
-      "status": "Open",
-      "statusTone": "open",
-      "progressPct": 15,
-      "aiRole": "Computational zero verification & formalizing analytic number theory prerequisites in Lean 4 (Prime Number Theorem+ project).",
-      "latestMilestone": "No valid proof exists; AI/Lean teams are formalizing modern analytic number theory (e.g., Guth–Maynard 2024 zero-density improvements) so future AI provers can work on the frontier.",
-      "caveat": "Viral social media posts frequently claim 'AI solved the Riemann Hypothesis'—every claim so far has been false or unverified.",
+      "status": "Machine-Verified Proof · Under Human Review",
+      "statusTone": "progress",
+      "progressPct": 90,
+      "aiRole": "Mathematician Levent Alpöge (Anthropic) found a proof working with Claude, delivered as ~17 million lines of Lean 4 code (also covering the Generalized Riemann Hypothesis for Dirichlet L-functions).",
+      "latestMilestone": "Nov 20, 2026: proof posted. Nov 21: the Lean FRO and Mathlib Initiative stated that both the statement and the proof are correct, checked against Mathlib's own Riemann Hypothesis statement; MIT's Andrew Sutherland independently rebuilt all 175,187 modules using only Lean's standard axioms.",
+      "caveat": "No human-readable proof exists yet, it is not peer reviewed, and the Clay Mathematics Institute still lists the problem as active. Mathematicians including Maksym Radziwill and Kevin Buzzard stress that no one yet understands why the proof works.",
       "sources": [
-        { "label": "Clay Mathematics Institute", "url": "https://www.claymath.org/millennium/riemann-hypothesis/", "publisher": "Clay Math" },
-        { "label": "PrimeNumberTheoremAnd (Lean 4)", "url": "https://github.com/AlexKontorovich/PrimeNumberTheoremAnd", "publisher": "GitHub" }
+        { "label": "Lean FRO / Mathlib verification statement", "url": "https://leanprover-community.github.io/blog/posts/riemann-hypothesis/", "publisher": "Lean Community" },
+        { "label": "Independent rebuild (A. Sutherland, MIT)", "url": "https://math.mit.edu/~drew/grh/", "publisher": "MIT" },
+        { "label": "Alpöge's note", "url": "https://alpo.ge/remark.pdf", "publisher": "L. Alpöge" },
+        { "label": "Quanta Magazine coverage", "url": "https://www.quantamagazine.org/update/169569/", "publisher": "Quanta" },
+        { "label": "Clay Mathematics Institute (status: active)", "url": "https://www.claymath.org/millennium/riemann-hypothesis/", "publisher": "Clay Math" }
       ]
     },
     {
       "id": "vp-vs-vnp",
       "name": "VP ≠ VNP & P ≠ NP",
       "category": "Algebraic & Computational Complexity",
-      "status": "Open",
-      "statusTone": "open",
-      "progressPct": 12,
-      "aiRole": "AI agents (AlphaTensor, AlphaEvolve) actively search for faster bilinear/tensor rank algorithms and test algebraic lower-bound constructions.",
-      "latestMilestone": "Valiant's algebraic complexity analogue (VP vs. VNP) remains open. AlphaEvolve's 2025 improvement to 4×4 complex matrix multiplication shows AI can push concrete algebraic complexity bounds.",
-      "caveat": "Breaking known complexity barriers (relativization, natural proofs, algebrization) remains one of the deepest unsolved challenges in math.",
+      "status": "VP ≠ VNP Proof Claimed (Unreviewed) · P vs NP Open",
+      "statusTone": "progress",
+      "progressPct": 50,
+      "aiRole": "Nov 23, 2026: Anthropic posted a 70-page proof of VP ≠ VNP over every field, written by an internal Claude model, with a Lean 4 formalization; OpenAI posted its own VP ≠ VNP manuscript and Lean code hours later.",
+      "latestMilestone": "Anthropic's Lean proof compiles and is re-checked by a second proof kernel, but Anthropic states that no human mathematician has checked it and that machines cannot confirm the formal statement says exactly what is claimed.",
+      "caveat": "Unreviewed by independent experts and not peer reviewed. It does not settle P vs NP, which remains open.",
       "sources": [
-        { "label": "Clay Math: P vs NP", "url": "https://www.claymath.org/millennium/p-vs-np/", "publisher": "Clay Math" },
-        { "label": "DeepMind AlphaEvolve", "url": "https://deepmind.google/discover/blog/alphaevolve-a-gemini-powered-coding-agent-for-designing-advanced-algorithms/", "publisher": "DeepMind" }
+        { "label": "Anthropic formal-math: vp-vnp", "url": "https://github.com/anthropics/formal-math/tree/main/vp-vnp", "publisher": "Anthropic (GitHub)" },
+        { "label": "OpenAI math repository", "url": "https://github.com/openai/math", "publisher": "OpenAI (GitHub)" },
+        { "label": "Clay Math: P vs NP", "url": "https://www.claymath.org/millennium/p-vs-np/", "publisher": "Clay Math" }
       ]
     },
     {
