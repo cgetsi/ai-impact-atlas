@@ -251,9 +251,22 @@ export function computeAiCompanyScorecards(allFeatures) {
   }).sort((a, b) => b.compositeScore - a.compositeScore);
 }
 
+const OWNERSHIP_SLICE_META = {
+  google: { standing: 'stronger', color: '#10b981' },
+  microsoft: { standing: 'stronger', color: '#34d399' },
+  meta: { standing: 'mixed', color: '#f59e0b' },
+  aws: { standing: 'mixed', color: '#eab308' },
+  openai: { standing: 'mixed', color: '#d97706' },
+  anthropic: { standing: 'mixed', color: '#fbbf24' },
+  xai: { standing: 'higher_impact', color: '#e5484d' },
+  coreweave: { standing: 'neutral', color: '#64748b' },
+  other: { standing: 'neutral', color: '#475569' }
+};
+
 /**
  * Computes a mutually exclusive 100% ownership/operator pie breakdown across all
  * tracked U.S. AI & hyperscale campuses (zero double-counting).
+ * Slice size = fleet count; slice color = environmental standing.
  */
 export function computeAiOwnershipPie(allFeatures) {
   const aiFeatures = (allFeatures || []).filter((f) => f.properties && f.properties.category === 'ai_hyperscale');
@@ -261,7 +274,8 @@ export function computeAiOwnershipPie(allFeatures) {
 
   const addToBucket = (id, label, companyId, mw) => {
     if (!buckets.has(id)) {
-      buckets.set(id, { id, label, companyId, count: 0, mw: 0 });
+      const meta = OWNERSHIP_SLICE_META[id] || { standing: 'neutral', color: '#64748b' };
+      buckets.set(id, { id, label, companyId, standing: meta.standing, color: meta.color, count: 0, mw: 0 });
     }
     const b = buckets.get(id);
     b.count += 1;

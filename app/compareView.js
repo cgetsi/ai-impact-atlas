@@ -525,13 +525,13 @@ export class IndustryCompareView {
 
     let angle = 0;
     const paths = pieSlices
-      .map((s, idx) => {
+      .map((s) => {
         const span = (s.count / totalSites) * 360;
         const start = angle;
         const end = angle + span;
         angle = end;
 
-        const color = getRankIntensityColor(idx, pieSlices.length);
+        const color = s.color || '#64748b';
         const d = describeDonutArc(cx, cy, rOuter, rInner, start, end);
         const pctStr = `${s.pct.toFixed(1)}%`;
 
@@ -561,8 +561,8 @@ export class IndustryCompareView {
     `;
 
     const legendCards = pieSlices
-      .map((s, idx) => {
-        const color = getRankIntensityColor(idx, pieSlices.length);
+      .map((s) => {
+        const color = s.color || '#64748b';
         const pctStr = `${s.pct.toFixed(1)}%`;
         return `
           <div class="pie-legend-row" data-co-target="${escapeHtml(s.id)}" ${s.companyId ? `data-filter-company="${escapeHtml(s.companyId)}"` : ''}>
@@ -582,12 +582,12 @@ export class IndustryCompareView {
         <div class="compare-header" style="margin-bottom:4px">
           <div>
             <h2>U.S. AI Campuses Owned / Run by Company</h2>
-            <p class="detail-prose">A company with cleaner energy policies can still carry a much larger total footprint if it operates far more campuses.</p>
+            <p class="detail-prose">Slice width shows total campuses owned; slice color reflects each company's environmental standing below.</p>
           </div>
         </div>
         <div class="pie-stage">
           <div class="pie-wheel-wrap co-pie-wrap">
-            <svg class="pie-svg co-pie-svg" viewBox="18 18 248 248" role="img" aria-label="Owned AI data center share by company">
+            <svg class="pie-svg co-pie-svg" viewBox="18 18 248 248" role="img" aria-label="Owned AI data center share by company, colored by environmental standing">
               ${paths}
               ${centerSvg}
             </svg>
@@ -596,10 +596,13 @@ export class IndustryCompareView {
             <div class="pie-legend-list co-pie-legend-list">${legendCards}</div>
           </div>
         </div>
-        <div class="intensity-legend">
-          <span class="intensity-lbl">Most Campuses Owned</span>
-          <span class="intensity-gradient-bar"></span>
-          <span class="intensity-lbl">Fewest Campuses Owned</span>
+        <div class="co-legend" aria-label="Pie chart encoding legend">
+          <span class="intensity-lbl">Slice Width = Fleet Size</span>
+          <span class="intensity-sep">·</span>
+          <span class="co-legend-item"><i class="mix-dot" style="background:#10b981"></i>Stronger</span>
+          <span class="co-legend-item"><i class="mix-dot" style="background:#f59e0b"></i>Mixed</span>
+          <span class="co-legend-item"><i class="mix-dot" style="background:#e5484d"></i>Higher Impact</span>
+          <span class="co-legend-item"><i class="mix-dot" style="background:#64748b"></i>3rd-Party Host</span>
         </div>
       </div>
     `;

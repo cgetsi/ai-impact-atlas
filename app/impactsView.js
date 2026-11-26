@@ -377,7 +377,7 @@ export class ImpactsPipelineView {
 
     const detailsHtml = isExpanded
       ? `
-        <div class="theme-matches">
+        <div class="theme-matches detail-only">
           <p class="theme-desc-expanded">${escapeHtml(theme.desc)}</p>
           <div class="theme-matches-list">
             ${previewList
@@ -416,7 +416,7 @@ export class ImpactsPipelineView {
           <div class="theme-bar-fill ${kind}" style="width:${Math.max(4, Math.min(100, theme.pct)).toFixed(1)}%"></div>
         </div>
         ${detailsHtml}
-        <button class="theme-expand-btn" data-expand-theme="${escapeHtml(theme.id)}" aria-expanded="${String(isExpanded)}" type="button">
+        <button class="theme-expand-btn detail-only" data-expand-theme="${escapeHtml(theme.id)}" aria-expanded="${String(isExpanded)}" type="button">
           ${isExpanded ? 'Hide sites ▴' : `See ${formatNumber(theme.count)} sites ▾`}
         </button>
       </div>
