@@ -3356,3 +3356,257 @@ a:hover {
     width: 100%;
   }
 }
+
+
+/* ==========================================================================
+   AI Company Filter, Active Map Banner & Environmental Scorecard
+   ========================================================================== */
+.ai-company-select.active-select {
+  border-color: var(--accent-flagship);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.company-map-banner {
+  position: fixed;
+  top: var(--topbar-offset);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 33;
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 7px 12px;
+  background: var(--bg-surface-solid);
+  border: 1px solid var(--border-panel);
+  border-radius: 999px;
+  box-shadow: var(--shadow-float);
+  font-size: 0.78rem;
+  color: var(--text-primary);
+  max-width: calc(100vw - 28px);
+}
+.company-banner-meta {
+  color: var(--text-secondary);
+  font-size: 0.74rem;
+}
+.company-banner-link {
+  background: none;
+  border: none;
+  color: var(--accent-flagship);
+  font-size: 0.74rem;
+  font-weight: 650;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+.company-banner-link:hover {
+  text-decoration: underline;
+}
+.company-banner-close {
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  line-height: 1;
+}
+.company-banner-close:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* Environmental Standing Pills (Green -> Amber -> Red) */
+.standing-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 0.69rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.standing-good {
+  background: rgba(52, 211, 153, 0.18);
+  border: 1px solid rgba(52, 211, 153, 0.45);
+  color: #6ee7b7;
+}
+.standing-mixed {
+  background: rgba(245, 184, 46, 0.18);
+  border: 1px solid rgba(245, 184, 46, 0.45);
+  color: #fcd34d;
+}
+.standing-high {
+  background: rgba(229, 72, 77, 0.18);
+  border: 1px solid rgba(229, 72, 77, 0.48);
+  color: #fca5a5;
+}
+[data-theme="light"] .standing-good {
+  background: rgba(16, 185, 129, 0.14);
+  color: #047857;
+}
+[data-theme="light"] .standing-mixed {
+  background: rgba(217, 119, 6, 0.14);
+  color: #b45309;
+}
+[data-theme="light"] .standing-high {
+  background: rgba(220, 38, 38, 0.12);
+  color: #b91c1c;
+}
+
+.co-legend {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+}
+.co-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.co-scorecard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.co-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 15px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+.co-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.co-title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.co-title-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.co-name {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.co-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.73rem;
+  color: var(--text-secondary);
+}
+.co-map-btn {
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-panel);
+  background: var(--bg-surface-solid);
+  color: var(--accent-flagship);
+  font-size: 0.77rem;
+  font-weight: 650;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.14s ease, border-color 0.14s ease;
+}
+.co-map-btn:hover {
+  background: var(--bg-hover);
+  border-color: var(--accent-flagship);
+}
+
+.co-meters-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.co-meter {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background: var(--bg-surface-solid);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 9px 10px;
+}
+.co-meter-head {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.co-meter-lbl {
+  font-size: 0.68rem;
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+.co-meter-tag {
+  font-size: 0.75rem;
+  font-weight: 650;
+  line-height: 1.25;
+}
+.co-meter-track {
+  width: 100%;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--bg-input);
+  overflow: hidden;
+  margin-top: 2px;
+}
+.co-meter-fill {
+  height: 100%;
+  border-radius: 999px;
+}
+.co-meter-detail {
+  font-size: 0.72rem;
+  line-height: 1.42;
+  color: var(--text-secondary);
+  margin-top: 3px;
+}
+
+@media (max-width: 960px) {
+  .co-meters-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  #compareView .compare-tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .company-map-banner {
+    left: 8px;
+    right: 8px;
+    transform: none;
+    border-radius: var(--radius-md);
+    justify-content: space-between;
+  }
+  .co-meters-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}

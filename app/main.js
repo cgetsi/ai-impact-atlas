@@ -4,6 +4,7 @@ import { IndustryCompareView } from './compareView.js';
 import { DirectoryDrawer, SiteCompareManager } from './directoryView.js';
 import { ImpactsPipelineView } from './impactsView.js';
 import { getCleanEnergyProfile } from './cleanResources.js';
+import { getAiCompanyById, matchFacilityToAiCompany } from './aiCompanies.js';
 import {
   US_STATE_NAMES,
   escapeHtml,
@@ -21,7 +22,8 @@ const state = {
   filter: 'all',
   usState: 'all',
   operator: 'all',
-  impactFilter: 'all', // 'all' | 'high_water_stress' | 'operating' | 'planned'
+  aiCompany: 'all',
+  impactFilter: 'all', // 'all' | 'clean_grid' | 'high_water_stress' | 'operating' | 'planned'
   allFeatures: [],
   filteredFeatures: [],
   featureById: new Map(),
@@ -54,7 +56,7 @@ function readUrlParams() {
   if (v && ['map', 'compare', 'impacts', 'about'].includes(v)) state.view = v;
 
   const m = params.get('metric');
-  if (m && ['energy', 'water', 'land'].includes(m)) state.metric = m;
+  if (m && ['energy', 'water', 'land', 'companies'].includes(m)) state.metric = m;
 
   const f = params.get('filter');
   if (f && ['all', 'flagship', 'ai_hyperscale', 'colocation'].includes(f)) state.filter = f;
@@ -64,6 +66,9 @@ function readUrlParams() {
 
   const op = params.get('op');
   if (op) state.operator = op;
+
+  const co = params.get('company');
+  if (co && getAiCompanyById(co.toLowerCase())) state.aiCompany = co.toLowerCase();
 
   const imp = params.get('impact');
   if (imp && ['all', 'clean_grid', 'high_water_stress', 'operating', 'planned'].includes(imp)) state.impactFilter = imp;
@@ -78,6 +83,7 @@ function syncUrlState(push = false) {
   if (state.filter !== 'all') params.set('filter', state.filter);
   if (state.usState !== 'all') params.set('state', state.usState);
   if (state.operator !== 'all') params.set('op', state.operator);
+  if (state.aiCompany !== 'all') params.set('company', state.aiCompany);
   if (state.impactFilter !== 'all') params.set('impact', state.impactFilter);
   if (state.selectedFacility && state.view === 'map') {
     params.set('site', state.selectedFacility.properties.id);
@@ -212,13 +218,23 @@ function syncFilterUiControls() {
     opSel.value = state.operator;
   }
 
+  const coSel = document.getElementById('aiCompanyFilter');
+  if (coSel) {
+    coSel.value = state.aiCompany;
+    coSel.classList.toggle('active-select', state.aiCompany !== 'all');
+  }
+
   const impSel = document.getElementById('impactFilter');
   if (impSel) {
     impSel.value = state.impactFilter;
   }
 
   const hasActiveFilter =
-    state.filter !== 'all' || state.usState !== 'all' || state.operator !== 'all' || state.impactFilter !== 'all';
+    state.filter !== 'all' ||
+    state.usState !== 'all' ||
+    state.operator !== 'all' ||
+    state.aiCompany !== 'all' ||
+    state.impactFilter !== 'all';
   const resetBtn = document.getElementById('resetFiltersBtn');
   if (resetBtn) {
     resetBtn.classList.toggle('hidden', !hasActiveFilter);
@@ -234,6 +250,7 @@ function resetAllFilters(applyNow = true) {
   state.filter = 'all';
   state.usState = 'all';
   state.operator = 'all';
+  state.aiCompany = 'all';
   state.impactFilter = 'all';
   syncFilterUiControls();
   if (applyNow) {
@@ -242,7 +259,82 @@ function resetAllFilters(applyNow = true) {
   }
 }
 
+function updateCompanyMapBanner(filtered) {
+  const banner = document.getElementById('companyMapBanner');
+  if (!banner) return;
+  const company = state.aiCompany !== 'all' ? getAiCompanyById(state.aiCompany) : null;
+  if (!company) {
+    banner.classList.add('hidden');
+    banner.innerHTML = '';
+    return;
+  }
+
+  let owned = 0;
+  let rented = 0;
+  filtered.forEach((f) => {
+    const role = matchFacilityToAiCompany(f, company);
+    if (role === 'owned') owned++;
+    else if (role === 'rented') rented++;
+  });
+
+  const standingCls =
+    company.standing === 'stronger'
+      ? 'standing-good'
+      : company.standing === 'higher_impact'
+        ? 'standing-high'
+        : 'standing-mixed';
+
+  const countText =
+    rented > 0
+      ? `${filtered.length} sites (${owned} built · ${rented} rented)`
+      : `${filtered.length} built sites`;
+
+  banner.innerHTML = `
+    <span class="standing-pill ${standingCls}">${escapeHtml(company.standingLabel)}</span>
+    <strong>${escapeHtml(company.name)}</strong>
+    <span class="company-banner-meta">${escapeHtml(countText)}</span>
+    <button id="bannerScorecardBtn" class="company-banner-link" type="button">Scorecard →</button>
+    <button id="bannerClearCompany" class="company-banner-close" type="button" aria-label="Clear company filter">×</button>
+  `;
+  banner.classList.remove('hidden');
+
+  banner.querySelector('#bannerScorecardBtn').addEventListener('click', () => {
+    state.metric = 'companies';
+    if (compareViewInstance) compareViewInstance.setMetric('companies', false);
+    switchView('compare', { pushHistory: true });
+  });
+  banner.querySelector('#bannerClearCompany').addEventListener('click', () => {
+    state.aiCompany = 'all';
+    syncFilterUiControls();
+    applyFilters();
+    syncUrlState(false);
+    if (mapView) mapView.resetView();
+  });
+}
+
+function filterByAiCompany(companyId, { switchToMap = true } = {}) {
+  state.filter = 'all';
+  state.usState = 'all';
+  state.operator = 'all';
+  state.impactFilter = 'all';
+  state.aiCompany = companyId || 'all';
+  syncFilterUiControls();
+  applyFilters();
+  if (switchToMap && state.view !== 'map') {
+    switchView('map', { pushHistory: true });
+  } else {
+    syncUrlState(false);
+  }
+  if (state.aiCompany !== 'all') {
+    setTimeout(() => fitToFilteredBounds(), 90);
+  } else if (mapView) {
+    mapView.resetView();
+  }
+}
+
 function applyFilters() {
+  const activeCompany = state.aiCompany !== 'all' ? getAiCompanyById(state.aiCompany) : null;
+
   const filtered = state.allFeatures.filter((f) => {
     const p = f.properties;
     if (state.filter === 'flagship' && p.tier !== 'flagship') return false;
@@ -250,6 +342,7 @@ function applyFilters() {
     if (state.filter === 'colocation' && p.category !== 'colocation') return false;
     if (state.usState !== 'all' && p.state !== state.usState) return false;
     if (state.operator !== 'all' && p._opBucket !== state.operator) return false;
+    if (activeCompany && !matchFacilityToAiCompany(f, activeCompany)) return false;
 
     if (state.impactFilter === 'clean_grid') {
       if (getCleanEnergyProfile(p).cleanPct < 50) return false;
@@ -275,6 +368,7 @@ function applyFilters() {
   if (directory) {
     directory.setFeatures(filtered);
   }
+  updateCompanyMapBanner(filtered);
 
   // Update live summary card
   const aiCount = filtered.filter((f) => f.properties.category === 'ai_hyperscale').length;
@@ -698,6 +792,13 @@ async function init() {
     });
   }
 
+  const coFilter = document.getElementById('aiCompanyFilter');
+  if (coFilter) {
+    coFilter.addEventListener('change', (e) => {
+      filterByAiCompany(e.target.value, { switchToMap: false });
+    });
+  }
+
   const impFilter = document.getElementById('impactFilter');
   if (impFilter) {
     impFilter.addEventListener('change', (e) => {
@@ -780,6 +881,7 @@ async function init() {
     state.filter = 'all';
     state.usState = 'all';
     state.operator = 'all';
+    state.aiCompany = 'all';
     state.impactFilter = 'all';
     const siteId = readUrlParams();
 
@@ -817,6 +919,7 @@ async function init() {
     applyFilters();
 
     compareViewInstance = new IndustryCompareView(state.industries, {
+      allFeatures: state.allFeatures,
       initialMetric: state.metric,
       onMetricChange: (m) => {
         state.metric = m;
@@ -824,6 +927,9 @@ async function init() {
       },
       onJumpToFacility: (id) => {
         selectFacilityById(id, { shouldFly: true, pushHistory: true });
+      },
+      onFilterAiCompany: (companyId) => {
+        filterByAiCompany(companyId, { switchToMap: true });
       }
     });
 
@@ -845,7 +951,7 @@ async function init() {
       switchView(state.view, { pushHistory: false });
     } else if (initialSiteId && state.featureById.has(initialSiteId)) {
       selectFacilityById(initialSiteId, { shouldFly: true, pushHistory: false });
-    } else if (state.usState !== 'all' || state.operator !== 'all' || state.impactFilter !== 'all') {
+    } else if (state.usState !== 'all' || state.operator !== 'all' || state.aiCompany !== 'all' || state.impactFilter !== 'all') {
       fitToFilteredBounds();
     }
   } catch (err) {

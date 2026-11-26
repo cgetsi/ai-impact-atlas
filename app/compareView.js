@@ -1,4 +1,5 @@
-import { escapeHtml, formatNumber } from './utils.js';
+import { escapeHtml, formatNumber, formatMw } from './utils.js';
+import { computeAiCompanyScorecards, scoreToColor } from './aiCompanies.js';
 
 const LOCAL_SPOTLIGHTS = {
   energy: [
@@ -88,11 +89,13 @@ function describeDonutArc(cx, cy, rOuter, rInner, startAngle, endAngle) {
 }
 
 export class IndustryCompareView {
-  constructor(data, { onJumpToFacility, onMetricChange, initialMetric = 'energy' } = {}) {
+  constructor(data, { onJumpToFacility, onFilterAiCompany, onMetricChange, initialMetric = 'energy', allFeatures = [] } = {}) {
     this.data = data;
+    this.allFeatures = allFeatures;
     this.onJumpToFacility = onJumpToFacility;
+    this.onFilterAiCompany = onFilterAiCompany;
     this.onMetricChange = onMetricChange;
-    this.activeMetric = ['energy', 'water', 'land'].includes(initialMetric) ? initialMetric : 'energy';
+    this.activeMetric = ['energy', 'water', 'land', 'companies'].includes(initialMetric) ? initialMetric : 'energy';
     this.chartType = 'pie'; // 'pie' | 'vbar' | 'linear'
     this.showDeepNotes = false;
 
@@ -107,7 +110,7 @@ export class IndustryCompareView {
   }
 
   setMetric(metric, notify = false) {
-    if (!['energy', 'water', 'land'].includes(metric)) return;
+    if (!['energy', 'water', 'land', 'companies'].includes(metric)) return;
     if (this.activeMetric === metric) return;
     this.activeMetric = metric;
     this.syncTabButtons();
@@ -550,7 +553,109 @@ export class IndustryCompareView {
     return `<div class="bar-chart">${barsHtml}</div>`;
   }
 
+  renderAiCompaniesScorecard() {
+    const cards = computeAiCompanyScorecards(this.allFeatures);
+
+    const buildMeter = (label, pct, tag, detail) => {
+      const col = scoreToColor(pct);
+      return `
+        <div class="co-meter">
+          <div class="co-meter-head">
+            <span class="co-meter-lbl">${escapeHtml(label)}</span>
+            <span class="co-meter-tag" style="color:${col}">${escapeHtml(tag)}</span>
+          </div>
+          <div class="co-meter-track">
+            <div class="co-meter-fill" style="width:${Math.max(6, Math.min(100, pct))}%; background:${col}"></div>
+          </div>
+          ${detail ? `<div class="co-meter-detail detail-prose">${escapeHtml(detail)}</div>` : ''}
+        </div>
+      `;
+    };
+
+    const cardsHtml = cards
+      .map((co) => {
+        const standingCls =
+          co.standing === 'stronger'
+            ? 'standing-good'
+            : co.standing === 'higher_impact'
+              ? 'standing-high'
+              : 'standing-mixed';
+
+        const siteBreakdown =
+          co.rentedCount > 0
+            ? `${co.ownedCount} built · ${co.rentedCount} rented`
+            : `${co.ownedCount} built`;
+
+        return `
+          <article class="co-card">
+            <div class="co-card-head">
+              <div class="co-title-wrap">
+                <div class="co-title-row">
+                  <h3 class="co-name">${escapeHtml(co.name)}</h3>
+                  <span class="standing-pill ${standingCls}">${escapeHtml(co.standingLabel)}</span>
+                </div>
+                <div class="co-meta-row">
+                  <span>${escapeHtml(siteBreakdown)}</span>
+                  ${co.trackedMw > 0 ? `<span>· ${escapeHtml(formatMw(co.trackedMw))} linked</span>` : ''}
+                  <span class="detail-only">· ${co.waterDisclosedCount}/${co.totalCount} disclose water</span>
+                </div>
+              </div>
+              <button class="co-map-btn" data-filter-company="${escapeHtml(co.id)}" type="button">
+                Map (${co.totalCount}) →
+              </button>
+            </div>
+
+            <div class="co-meters-grid">
+              ${buildMeter(
+                'Clean Grid',
+                co.avgCleanGridPct,
+                `${co.avgCleanGridPct}% avg`,
+                `Live EPA eGRID / EIA carbon-free average across ${co.totalCount} mapped U.S. campuses.`
+              )}
+              ${buildMeter('Clean Power', co.cleanPower.score, co.cleanPower.tag, co.cleanPower.detail)}
+              ${buildMeter('Water Tech', co.waterTech.score, co.waterTech.tag, co.waterTech.detail)}
+              ${buildMeter('Transparency', co.transparency.score, co.transparency.tag, co.transparency.detail)}
+            </div>
+          </article>
+        `;
+      })
+      .join('');
+
+    this.contentEl.innerHTML = `
+      <div class="compare-header">
+        <div>
+          <h2>Leading AI Companies — Environmental Scorecard</h2>
+          <p class="detail-prose">Scored across physical grid cleanliness (EPA eGRID), renewable power vs. on-site gas, water cooling tech, and site-level transparency—including both owned and rented compute.</p>
+        </div>
+        <div class="co-legend" aria-label="Standing color legend">
+          <span class="co-legend-item"><i class="mix-dot" style="background:#34d399"></i>Stronger</span>
+          <span class="co-legend-item"><i class="mix-dot" style="background:#f5b82e"></i>Mixed</span>
+          <span class="co-legend-item"><i class="mix-dot" style="background:#e5484d"></i>Higher Impact / Opaque</span>
+        </div>
+      </div>
+
+      <div class="co-scorecard-list">${cardsHtml}</div>
+
+      <div class="distinction-banner detail-only">
+        <strong>Owned vs. Rented Compute:</strong> AI labs like OpenAI and Anthropic train extensively on partner cloud campuses (Microsoft Azure, AWS, Oracle, CoreWeave). Clicking <strong>Map →</strong> highlights both their dedicated builds and verified partner-hosted campuses.
+      </div>
+    `;
+
+    this.contentEl.querySelectorAll('[data-filter-company]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (this.onFilterAiCompany) {
+          this.onFilterAiCompany(btn.dataset.filterCompany);
+        }
+      });
+    });
+  }
+
   renderMetric() {
+    if (this.activeMetric === 'companies') {
+      this.renderAiCompaniesScorecard();
+      return;
+    }
+
     const section = this.data[this.activeMetric];
     const items = [...section.items].sort((a, b) => b.value - a.value);
     const maxVal = Math.max(...items.map((i) => i.value));

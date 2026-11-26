@@ -71,6 +71,9 @@ export class DetailSidebar {
     if (p.status) {
       badges.push(`<span class="badge badge-neutral">${escapeHtml(p.status)}</span>`);
     }
+    if (p.aiUsers && (!p.operator || !p.aiUsers.toLowerCase().includes(p.operator.toLowerCase().split(' ')[0]))) {
+      badges.push(`<span class="badge badge-neutral">Rented by: ${escapeHtml(p.aiUsers)}</span>`);
+    }
     this.badgesEl.innerHTML = badges.join('');
 
     this.nameEl.textContent = p.name || 'Unnamed Data Center';
