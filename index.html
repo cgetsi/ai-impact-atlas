@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
   <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 
-  <link rel="stylesheet" href="styles.css?v=28" />
+  <link rel="stylesheet" href="styles.css?v=31" />
 </head>
 <body>
   <div id="app" class="app-shell">
@@ -80,6 +80,30 @@
           <button class="sub-tab" data-view="impacts" aria-current="false" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18"/><path d="M5 8h14"/><path d="M3 14l3-6 3 6a3 3 0 0 1-6 0z"/><path d="M15 14l3-6 3 6a3 3 0 0 1-6 0z"/></svg>
             <span>Pros &amp; Cons</span>
+          </button>
+        </nav>
+
+        <!-- Breakthroughs Sub-Sections -->
+        <nav id="btSubTabs" class="sub-tabs sub-tabs-5" aria-label="Breakthrough categories">
+          <button class="sub-tab bt-sub-tab active" data-bt-section="overview" aria-current="page" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            <span>Overview</span>
+          </button>
+          <button class="sub-tab bt-sub-tab" data-bt-section="medicine" aria-current="false" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+            <span>Medicine</span>
+          </button>
+          <button class="sub-tab bt-sub-tab" data-bt-section="math" aria-current="false" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 5 6 5 12 12 6 19 18 19"/></svg>
+            <span>Math</span>
+          </button>
+          <button class="sub-tab bt-sub-tab" data-bt-section="science" aria-current="false" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 16a4 4 0 0 0-1-7.9A6 6 0 0 0 5.3 10 3.5 3.5 0 0 0 6 17h1"/><polyline points="13 11 10 16 14 16 11 21"/></svg>
+            <span class="tab-lbl-full">Science &amp; Climate</span><span class="tab-lbl-short">Science</span>
+          </button>
+          <button class="sub-tab bt-sub-tab" data-bt-section="accessibility" aria-current="false" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a6.5 6.5 0 0 1 13 0"/></svg>
+            <span>Daily Life</span>
           </button>
         </nav>
         </div>
@@ -173,9 +197,9 @@
       <div class="panel-container">
         <div class="panel-hero">
           <div>
-            <span class="eyebrow">Verifiable Progress · 2020–2026</span>
-            <h1>How AI Is Changing the World</h1>
-            <p class="hero-lead detail-prose">
+            <span id="btEyebrow" class="eyebrow">Verifiable Progress · 2020–2026</span>
+            <h1 id="btTitle">How AI Is Changing the World</h1>
+            <p id="btLead" class="hero-lead detail-prose">
               Beyond clickbait headlines—an evidence-backed timeline of peer-reviewed medical discoveries, formally verified math proofs, life-saving weather models, and accessibility tools, complete with honest limitations and primary sources.
             </p>
           </div>
@@ -203,7 +227,7 @@
           <div id="btCardsGrid" class="bt-cards-grid"></div>
         </div>
 
-        <div class="bt-section">
+        <div id="btMedSection" class="bt-section detail-only hidden">
           <div class="bt-section-head">
             <div>
               <span class="eyebrow">Medicine &amp; Healthcare</span>
@@ -214,7 +238,7 @@
           <div id="btMedicalPipeline"></div>
         </div>
 
-        <div class="bt-section">
+        <div id="btMathSection" class="bt-section detail-only hidden">
           <div class="bt-section-head">
             <div>
               <span class="eyebrow">Mathematics &amp; Formal Verification</span>

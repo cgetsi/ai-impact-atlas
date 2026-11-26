@@ -43,7 +43,7 @@
     {
       "id": "science",
       "label": "Science, Weather & Energy",
-      "shortLabel": "Science & Energy",
+      "shortLabel": "Science & Climate",
       "color": "#38bdf8",
       "lightColor": "#1d4ed8",
       "description": "Extreme-weather forecasting, novel battery & catalyst materials, fusion plasma control, and clean-grid optimization."
@@ -398,7 +398,7 @@
       "verificationLabel": "Randomized Controlled Trials",
       "summary": "A Harvard introductory physics RCT found students using a guardrail-designed Socratic AI tutor learned more than twice as much in less time compared to active-learning lectures; a World Bank RCT in Nigeria saw ~2 years of learning gains in 6 weeks.",
       "whyItMatters": "One-on-one human tutoring is the gold standard in education but unaffordable for most families. Well-designed AI tutors can expand personalized help globally.",
-      "caveats": "Unconstrained chatbots that simply give away answers can *harm* learning retention—pedagogical scaffolding and teacher oversight are essential.",
+      "caveats": "Unconstrained chatbots that simply give away answers can *harm* learning retention—pedagogical scaffolding and teacher oversight are essential. Newer evidence is mixed: a two-year randomized trial in 18 U.S. middle schools (NBER w35620, 2026) found math gains with an AI tutor were no larger than with the same practice platform without AI, and trials in Ghana and China found no effect.",
       "metrics": ["2×+ learning gain vs. lecture (Harvard)", "Replicated in low-income schools (Nigeria)"],
       "sources": [
         { "label": "Harvard Physics AI Tutor Study (Scientific Reports / Preprint)", "url": "https://www.nature.com/articles/s41598-025-97652-6", "publisher": "Nature Scientific Reports" },
@@ -672,6 +672,235 @@
       ]
     },
     {
+      "id": "masai-mammography-rct-2026",
+      "date": "2026-01-29",
+      "domain": "medicine",
+      "title": "100,000-Woman Randomized Trial: AI-Supported Mammography Misses Fewer Cancers",
+      "shortLabel": "AI Mammography RCT",
+      "plainHeadline": "In a trial of 100,000 women, AI-assisted mammogram reading missed fewer cancers",
+      "bigStat": { "value": "12%", "label": "fewer cancers missed between screenings" },
+      "organization": "Lund University (MASAI trial)",
+      "impactScore": 5,
+      "verificationTier": "verified",
+      "verificationLabel": "Peer-Reviewed · The Lancet (RCT)",
+      "summary": "Women in Sweden were randomized to AI-supported mammogram reading or standard double reading by two radiologists. The AI arm detected 81% of cancers at screening vs. 74%, had 12% fewer interval cancers (1.55 vs. 1.76 per 1,000) and 27% fewer aggressive-subtype cancers, with similar false-positive rates.",
+      "whyItMatters": "It is randomized evidence that AI screening helps patients in the real world—catching more cancers earlier—not just a benchmark score.",
+      "caveats": "One country and one AI system with experienced radiologists, and a human still read every scan; the lead author has industry ties.",
+      "metrics": ["~100,000 women randomized", "81% vs. 74% detected at screening"],
+      "sources": [
+        { "label": "Lund University / EurekAlert release", "url": "https://www.eurekalert.org/news-releases/1114399", "publisher": "EurekAlert" },
+        { "label": "The Lancet paper (DOI 10.1016/S0140-6736(25)02464-X)", "url": "https://doi.org/10.1016/S0140-6736(25)02464-X", "publisher": "The Lancet" }
+      ]
+    },
+    {
+      "id": "aicon-dwd-operational-2026",
+      "date": "2026-03-02",
+      "domain": "science",
+      "title": "Germany's National Weather Service Runs an AI Global Forecast Model Every Day",
+      "shortLabel": "AI Forecasts Go Operational",
+      "plainHeadline": "Germany's national weather service now runs an AI global forecast every day",
+      "bigStat": { "value": "Daily", "label": "AI forecasts at a national agency" },
+      "organization": "Deutscher Wetterdienst (DWD)",
+      "impactScore": 4,
+      "verificationTier": "milestone",
+      "verificationLabel": "Operational Deployment",
+      "summary": "DWD's AICON global AI model became fully operational, running daily at 13 km resolution and matching the skill of DWD's physics model, especially for surface weather. ECMWF lists it alongside AI models run by Canada's and the U.S.'s national weather services.",
+      "whyItMatters": "National forecasters now rely on AI in daily operations, not just research—faster, cheaper forecasts that help warn people about severe weather.",
+      "caveats": "AICON supplements rather than replaces the physics model, and its performance write-up is a preprint, not yet peer reviewed.",
+      "metrics": ["13 km global resolution", "Runs daily alongside physics models"],
+      "sources": [
+        { "label": "AICON preprint", "url": "https://arxiv.org/abs/2608.24651", "publisher": "arXiv" },
+        { "label": "ECMWF AIFS blog (May 2026)", "url": "https://www.ecmwf.int/en/about/media-centre/aifs-blog/2026/farewell-external-ai-models", "publisher": "ECMWF" }
+      ]
+    },
+    {
+      "id": "bci-typing-braingate-2026",
+      "date": "2026-03-16",
+      "domain": "accessibility",
+      "title": "People With Paralysis Type by Imagining Finger Movements With Near-Typist Accuracy",
+      "shortLabel": "Typing by Thought",
+      "plainHeadline": "People with paralysis typed by thinking about finger movements, almost error-free",
+      "bigStat": { "value": "1.6%", "label": "word error rate typing by thought" },
+      "organization": "Brown University & Mass General Brigham (BrainGate)",
+      "impactScore": 4,
+      "verificationTier": "verified",
+      "verificationLabel": "Peer-Reviewed · Nature Neuroscience",
+      "summary": "A brain-computer interface decoded imagined finger movements so people with paralysis could type at up to 22 words per minute with a 1.6% word error rate. It was calibrated with as few as 30 sentences and used at home.",
+      "whyItMatters": "Fast, accurate typing by thought could restore everyday communication for people who cannot move or speak, with far less setup than before.",
+      "caveats": "Two participants, with the top figures from one of them; the devices are investigational.",
+      "metrics": ["Up to 22 words/min", "Calibrated with ~30 sentences"],
+      "sources": [
+        { "label": "Brown University news", "url": "https://www.brown.edu/news/2026-03-16/braingate-rapid-communication", "publisher": "Brown University" }
+      ]
+    },
+    {
+      "id": "ai-scribes-jama-2026",
+      "date": "2026-04-01",
+      "domain": "accessibility",
+      "title": "Largest Real-World Study of AI Scribes Finds Modest Time Savings for Doctors",
+      "shortLabel": "AI Scribes (JAMA)",
+      "plainHeadline": "AI note-taking gave doctors back a little time in the largest study yet",
+      "bigStat": { "value": "16 min", "label": "less paperwork per 8 hours of care" },
+      "organization": "Mass General Brigham, UCSF & 3 other academic centers",
+      "impactScore": 3,
+      "verificationTier": "verified",
+      "verificationLabel": "Peer-Reviewed · JAMA (observational)",
+      "summary": "Across five academic centers (~1,800 users vs. 6,770 controls), ambient AI scribes cut documentation time by about 16 minutes per 8 hours of patient care (~10%), and users saw roughly one extra patient every two weeks.",
+      "whyItMatters": "It is the largest real-world measurement of clinician time savings so far—an honest, measured gain rather than a vendor claim.",
+      "caveats": "Not randomized, gains were modest, and after-hours charting did not change.",
+      "metrics": ["~1,800 AI-scribe users vs. 6,770 controls", "~10% less documentation time"],
+      "sources": [
+        { "label": "STAT News coverage", "url": "https://www.statnews.com/2026/04/01/ai-ambient-scribes-modest-time-savings-clinical", "publisher": "STAT" }
+      ]
+    },
+    {
+      "id": "co-scientist-nature-2026",
+      "date": "2026-05-19",
+      "domain": "medicine",
+      "title": "AI Co-Scientist's Drug-Repurposing Ideas Block Liver Fibrosis in Human Organoids",
+      "shortLabel": "AI Co-Scientist (Nature)",
+      "plainHeadline": "An AI research assistant found existing drugs that fought liver scarring in lab tests",
+      "bigStat": { "value": "2 of 3", "label": "AI drug picks worked (experts: 0 of 2)" },
+      "organization": "Google DeepMind & Stanford",
+      "impactScore": 4,
+      "verificationTier": "verified",
+      "verificationLabel": "Peer-Reviewed · Nature",
+      "summary": "In a Nature paper, Google's multi-agent AI co-scientist proposed repurposed drugs for liver fibrosis; two of its three candidates blocked fibrosis in human liver organoids, while neither of two expert-chosen drugs did. A companion Stanford study found vorinostat blocked 91% of a scarring response.",
+      "whyItMatters": "It shows AI generating testable medical hypotheses that held up in the lab, which could shorten the path to new treatments.",
+      "caveats": "Lab dishes only, with humans choosing candidates and running every experiment; human trials would still be needed.",
+      "metrics": ["2 of 3 AI candidates effective", "Vorinostat blocked 91% of scarring response"],
+      "sources": [
+        { "label": "Nature paper", "url": "https://doi.org/10.1038/s41586-026-10644-y", "publisher": "Nature" },
+        { "label": "Google DeepMind blog", "url": "https://deepmind.google/blog/uncovering-repurposed-medicines-to-fight-liver-fibrosis/", "publisher": "Google DeepMind" }
+      ]
+    },
+    {
+      "id": "home-speech-bci-2026",
+      "date": "2026-06-15",
+      "domain": "accessibility",
+      "title": "Man With ALS Uses a Speech Brain Implant at Home for Two Years",
+      "shortLabel": "Home Speech BCI",
+      "plainHeadline": "A man with ALS has used a brain implant at home for two years to talk and work",
+      "bigStat": { "value": "56", "label": "words per minute, at home, for 2 years" },
+      "organization": "UC Davis / BrainGate2",
+      "impactScore": 5,
+      "verificationTier": "trial",
+      "verificationLabel": "Peer-Reviewed · Nature Medicine (Clinical Trial)",
+      "summary": "A participant with ALS used an AI speech brain-computer interface independently at home for over 3,800 hours, producing about 2 million words at an average of 56 words per minute with over 99% word accuracy in controlled tests, and also used it for computer work.",
+      "whyItMatters": "It is the first evidence of a speech brain implant working independently in everyday life, giving a voice back to someone who lost it.",
+      "caveats": "One participant, and the device is still investigational.",
+      "metrics": ["3,800+ hours of home use", ">99% word accuracy in tests"],
+      "sources": [
+        { "label": "UC Davis Health news", "url": "https://health.ucdavis.edu/psychiatry/news/headlines/brain-computer-interface-enables-independent-accurate-communication-for-man-living-with-als/2026/06", "publisher": "UC Davis Health" },
+        { "label": "Nature Medicine paper", "url": "https://www.nature.com/articles/s41591-026-04414-6", "publisher": "Nature Medicine" }
+      ]
+    },
+    {
+      "id": "double-neural-bypass-2026",
+      "date": "2026-07-16",
+      "domain": "accessibility",
+      "title": "AI 'Double Neural Bypass' Helps a Paralyzed Man Feed Himself and Regain Touch",
+      "shortLabel": "Double Neural Bypass",
+      "plainHeadline": "A paralyzed man regained the ability to feed himself and feel touch in his hand",
+      "bigStat": { "value": "86%", "label": "stronger arm after 35 weeks" },
+      "organization": "Feinstein Institutes for Medical Research",
+      "impactScore": 4,
+      "verificationTier": "trial",
+      "verificationLabel": "Peer-Reviewed · Nature Medicine (Clinical Trial)",
+      "summary": "AI decodes the participant's movement intentions to stimulate his muscles while sensors send touch back to his brain. After 35 weeks his right arm was 86% stronger, and many gains persisted even when stimulation stopped.",
+      "whyItMatters": "It suggests AI-driven implants may help restore lost function, not just bypass an injury.",
+      "caveats": "One participant, and the explanation that nerves 'rewired' remains an interpretation.",
+      "metrics": ["86% stronger right arm", "Some sensation restored"],
+      "sources": [
+        { "label": "Nature Medicine paper", "url": "https://www.nature.com/articles/s41591-026-04498-0", "publisher": "Nature Medicine" },
+        { "label": "The Next Web coverage", "url": "https://thenextweb.com/news/feinstein-double-neural-bypass-bci-paralysis-nature-medicine", "publisher": "The Next Web" }
+      ]
+    },
+    {
+      "id": "weathernext-cyclones-2026",
+      "date": "2026-08-06",
+      "domain": "science",
+      "title": "AI Cyclone Model Adds About a Day of Warning on Hurricane Track and Strength",
+      "shortLabel": "WeatherNext Cyclones",
+      "plainHeadline": "AI gives about one extra day of warning on where hurricanes will go",
+      "bigStat": { "value": "24+ hrs", "label": "extra hurricane warning time" },
+      "organization": "Google DeepMind",
+      "impactScore": 5,
+      "verificationTier": "verified",
+      "verificationLabel": "Peer-Reviewed · Nature",
+      "summary": "Published in Nature and open-sourced, the model's 3-day forecasts match older models' 2-day skill on cyclone track and intensity, and it generates 1,000 scenarios per storm. The U.S. National Hurricane Center's 2025 verification report ranked DeepMind's model the top track performer.",
+      "whyItMatters": "An extra day of warning means earlier evacuations and more time to protect people and property.",
+      "caveats": "Headline accuracy comes from 2023–24 historical storms; official 2026-season verification is not yet published.",
+      "metrics": ["3-day forecast ≈ older 2-day skill", "Top track model in NHC 2025 verification"],
+      "sources": [
+        { "label": "Nature paper", "url": "https://www.nature.com/articles/s41586-026-10953-2", "publisher": "Nature" },
+        { "label": "Google DeepMind blog", "url": "https://deepmind.google/blog/weathernext-ai-model-achieves-breakthrough-in-forecasting-cyclones/", "publisher": "Google DeepMind" },
+        { "label": "NHC 2025 verification coverage", "url": "https://www.clickorlando.com/weather/2026/03/31/the-future-of-forecasting-ai-emerges-as-top-hurricane-model-in-2025", "publisher": "News 6 Orlando" }
+      ]
+    },
+    {
+      "id": "pacman-fusion-control-2026",
+      "date": "2026-09-03",
+      "domain": "science",
+      "title": "AI Predicts and Prevents Fusion Plasma Instabilities in Real Time on DIII-D",
+      "shortLabel": "AI Fusion Control (DIII-D)",
+      "plainHeadline": "AI spotted and stopped fusion reactor instabilities before they formed",
+      "bigStat": { "value": "~200 ms", "label": "early warning, instability then stopped" },
+      "organization": "Princeton University & PPPL",
+      "impactScore": 4,
+      "verificationTier": "verified",
+      "verificationLabel": "Peer-Reviewed · Nuclear Fusion",
+      "summary": "On the DIII-D tokamak, AI models controlled heating, density and instability suppression in real time on a ~20 ms loop across five experiments, predicting a tearing instability about 200 ms ahead and preventing it.",
+      "whyItMatters": "Future fusion power plants will need control faster than humans can manage; this shows AI can keep the plasma stable.",
+      "caveats": "One machine and initial results, with no measured gain in fusion output.",
+      "metrics": ["~20 ms control loop", "Instability prevented ~200 ms ahead"],
+      "sources": [
+        { "label": "ScienceDaily release", "url": "https://www.sciencedaily.com/releases/2026/09/260903064215.htm", "publisher": "ScienceDaily" },
+        { "label": "Nuclear Fusion paper (DOI 10.1088/1741-4326/ae7f9d)", "url": "https://doi.org/10.1088/1741-4326/ae7f9d", "publisher": "Nuclear Fusion" }
+      ]
+    },
+    {
+      "id": "rentosertib-phase3-2026",
+      "date": "2026-09-10",
+      "domain": "medicine",
+      "title": "AI-Discovered Lung-Fibrosis Drug Rentosertib Enters Phase III",
+      "shortLabel": "Rentosertib Phase III",
+      "plainHeadline": "The AI-discovered lung drug that worked in a mid-stage trial is now in final testing",
+      "bigStat": { "value": "Phase III", "label": "final-stage trial, 320 patients" },
+      "organization": "Insilico Medicine",
+      "impactScore": 4,
+      "verificationTier": "trial",
+      "verificationLabel": "In Human Trials · Phase III",
+      "summary": "The first patient was dosed in GENESIS-IPF-3 (NCT07687459), a 52-week placebo-controlled Phase III trial of 320 patients at 47 centers in China. In Phase IIa (Nature Medicine, 2025), lung capacity rose 98.4 mL on the drug vs. a 20.3 mL decline on placebo.",
+      "whyItMatters": "AI-originated drugs are now reaching the trial stage that decides whether a medicine gets approved.",
+      "caveats": "No Phase III results exist yet and approval is years away; the 'first generative-AI drug' framing is the company's own.",
+      "metrics": ["320 patients, 47 centers", "Phase IIa: +98.4 mL vs. −20.3 mL"],
+      "sources": [
+        { "label": "News-Medical coverage", "url": "https://www.news-medical.net/news/20260910/Generative-AI-driven-drug-Rentosertib-enters-Phase-III-trial-for-idiopathic-pulmonary-fibrosis.aspx", "publisher": "News-Medical" },
+        { "label": "BioSpectrum Asia coverage", "url": "https://biospectrumasia.com/news/34/27981/insilico-starts-phase-iii-trial-of-ai-discovered-ipf-therapy.html", "publisher": "BioSpectrum Asia" }
+      ]
+    },
+    {
+      "id": "fda-1600-ai-devices-2026",
+      "date": "2026-09-22",
+      "domain": "medicine",
+      "title": "FDA's AI-Enabled Device List Passes 1,600 Authorized Tools",
+      "shortLabel": "1,600+ FDA AI Devices",
+      "plainHeadline": "The FDA has now cleared more than 1,600 AI tools to help doctors",
+      "bigStat": { "value": "1,600+", "label": "FDA-cleared AI tools" },
+      "organization": "U.S. Food & Drug Administration",
+      "impactScore": 4,
+      "verificationTier": "verified",
+      "verificationLabel": "Regulator List · FDA",
+      "summary": "The FDA's official AI-enabled medical device list reports more than 1,600 authorized devices as of September 2026, most of them imaging tools used in radiology.",
+      "whyItMatters": "AI is now an ordinary, regulated part of medical care across U.S. hospitals and clinics.",
+      "caveats": "The FDA notes the list is not comprehensive, and authorization does not by itself prove improved patient outcomes.",
+      "metrics": ["1,600+ authorized devices", "Majority in radiology"],
+      "sources": [
+        { "label": "FDA AI-enabled medical devices list", "url": "https://www.fda.gov/medical-devices/digital-health-center-excellence/artificial-intelligence-enabled-medical-devices", "publisher": "U.S. FDA" }
+      ]
+    },
+    {
       "id": "erdos-unit-distance-disproof-2026",
       "date": "2026-05-20",
       "domain": "math",
@@ -716,6 +945,44 @@
       ]
     }
   ],
+  "mathTracker": {
+    "erdos": {
+      "total": 1221,
+      "solvedWithAI": 52,
+      "solvedByPeople": 535,
+      "open": 634,
+      "asOf": "2026-06-30",
+      "kpiSub": "Erdős problems database (Terence Tao's group); AI tally frozen June 30, 2026",
+      "note": "Status counts from teorth/erdosproblems problems.yaml (Nov 24, 2026): 587 solved (339 proved, 144 disproved, 104 resolved otherwise) and 634 open-type. 'Solved with AI' = full resolutions listed in the AI-contributions wiki as AI standalone (18) or AI collaborating with humans (36), 52 distinct problems; it excludes 37 cases where AI only found an existing solution, 14 later found to have prior solutions, and partial results. The wiki stopped updating June 30, 2026 and erdosproblems.com stopped showing solved counts Oct 6, 2026; the wiki warns it is 'not a benchmark' and has selection bias.",
+      "sourceUrl": "https://github.com/teorth/erdosproblems/wiki/AI-contributions-to-Erd%C5%91s-problems",
+      "dataUrl": "https://raw.githubusercontent.com/teorth/erdosproblems/main/data/problems.yaml",
+      "timeline": [
+        { "label": "Oct '25", "count": 2 },
+        { "label": "Nov '25", "count": 0 },
+        { "label": "Dec '25", "count": 1 },
+        { "label": "Jan '26", "count": 5 },
+        { "label": "Feb '26", "count": 1 },
+        { "label": "Mar '26", "count": 4 },
+        { "label": "Apr '26", "count": 28 },
+        { "label": "May '26", "count": 8 },
+        { "label": "Jun '26", "count": 3 }
+      ]
+    },
+    "famous": [
+      { "name": "Riemann Hypothesis", "prize": true, "status": "review", "year": "Nov 2026", "detail": "Lean-only proof by Levent Alpöge (Anthropic) with Claude; 175,187 modules checked with standard axioms by independent groups (Waterloo, MIT). No human-readable proof yet; Clay still lists it as active.", "sourceUrl": "https://math.uwaterloo.ca/~mrubinst/alpoge_claude_grh/" },
+      { "name": "Navier–Stokes", "prize": true, "status": "claimed", "year": "Nov 2026", "detail": "Alpöge & Buckmaster claim unforced 3D blowup with heavy AI assistance; its numerical certificate is not yet released. An earlier OpenAI 'forced' result (Sep 2026) was disputed as the wrong problem.", "sourceUrl": "https://github.com/tristanbuckmaster/navier-stokes" },
+      { "name": "P vs NP", "prize": true, "status": "open", "detail": "No credible claim.", "sourceUrl": "https://www.claymath.org/millennium/p-vs-np/" },
+      { "name": "Yang–Mills mass gap", "prize": true, "status": "open", "detail": "An OpenAI submission (Oct 2026) shows existence only, not a mass gap, per a review group chaired by David Gross.", "sourceUrl": "https://github.com/yang-mills-group/YM" },
+      { "name": "Hodge conjecture", "prize": true, "status": "open", "detail": "OpenAI claims an unreviewed special case; it withdrew three related papers over a sign error.", "sourceUrl": "https://github.com/openai/math" },
+      { "name": "Birch & Swinnerton-Dyer", "prize": true, "status": "open", "detail": "OpenAI claims an unreviewed partial result.", "sourceUrl": "https://github.com/openai/math" },
+      { "name": "Poincaré conjecture", "prize": true, "status": "human", "year": "2003", "detail": "Proved by Grigori Perelman; the only Millennium problem solved so far.", "sourceUrl": "https://www.claymath.org/millennium/poincare-conjecture/" },
+      { "name": "Erdős unit-distance conjecture", "status": "verified", "year": "May 2026", "detail": "Disproved by an OpenAI model; checked by external mathematicians including Alon, Bloom and Gowers.", "sourceUrl": "https://openai.com/index/model-disproves-discrete-geometry-conjecture/" },
+      { "name": "VP ≠ VNP (algebraic P vs NP)", "status": "claimed", "year": "Nov 2026", "detail": "Anthropic and OpenAI each posted Lean proofs; Anthropic says no human mathematician has checked it. Does not settle P vs NP.", "sourceUrl": "https://github.com/anthropics/formal-math/tree/main/vp-vnp" },
+      { "name": "Exponential Time Hypothesis", "status": "claimed", "year": "Oct 2026", "detail": "OpenAI and Anthropic claim to refute it with Lean proofs; experts say this is not yet certification of the claim.", "sourceUrl": "https://github.com/anthropics/formal-math" }
+    ],
+    "recentClaimsNote": "Nov 23–25, 2026: OpenAI posted VP ≠ VNP plus nine more manuscripts (e.g. matrix-multiplication exponent, Smale's 9th problem, polynomial Hirsch conjecture) and Google Research posted about nine 'Cogentic' papers (e.g. factoring, discrete logs). All are self-reported and not yet peer reviewed; OpenAI's repository notes some 'could have issues'.",
+    "recentClaimsUrls": ["https://github.com/openai/math/blob/main/history.md", "https://github.com/google-research/google-research/tree/master/cogentic_research_papers"]
+  },
   "openMathProblems": [
     {
       "id": "riemann-hypothesis",
@@ -817,7 +1084,8 @@
       { "year": 2022, "annual": 144, "cumulative": 589 },
       { "year": 2023, "annual": 223, "cumulative": 812 },
       { "year": 2024, "annual": 235, "cumulative": 1047 },
-      { "year": 2025, "annual": 240, "cumulative": 1287 }
+      { "year": 2025, "annual": 240, "cumulative": 1287 },
+      { "year": 2026, "annual": 313, "cumulative": 1600, "partial": true, "note": "FDA list reports more than 1,600 authorized devices as of September 2026" }
     ],
     "fdaSource": {
       "label": "U.S. FDA AI/ML-Enabled Medical Devices Registry (Rounded Annual Trajectory)",

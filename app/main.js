@@ -19,12 +19,15 @@ import {
 const VALID_VIEWS = ['breakthroughs', 'scaling', 'map', 'compare', 'impacts', 'about'];
 // Sub-sections grouped under the "Data Centers" top-level tab
 const DATA_CENTER_VIEWS = ['compare', 'map', 'impacts'];
+// Sub-sections of the "Breakthroughs" tab (ids match breakthrough domains, plus an overview)
+const BT_SECTIONS = ['overview', 'medicine', 'math', 'science', 'accessibility'];
 let lastDataCenterView = 'compare';
 
 const state = {
   theme: document.documentElement.getAttribute('data-theme') || localStorage.getItem('atlas-theme') || 'dark',
   density: document.documentElement.getAttribute('data-density') || localStorage.getItem('atlas-density') || 'simple',
   view: 'breakthroughs',
+  btSection: 'overview',
   metric: 'energy',
   eventId: null,
   filter: 'all',
@@ -75,6 +78,9 @@ function readUrlParams() {
   const ev = params.get('event');
   if (ev) state.eventId = ev;
 
+  const cat = params.get('cat');
+  if (cat && BT_SECTIONS.includes(cat)) state.btSection = cat;
+
   const m = params.get('metric');
   if (m && ['energy', 'water', 'land', 'companies'].includes(m)) state.metric = m;
 
@@ -99,6 +105,7 @@ function readUrlParams() {
 function syncUrlState(push = false) {
   const params = new URLSearchParams();
   if (state.view !== 'breakthroughs') params.set('view', state.view);
+  if (state.view === 'breakthroughs' && state.btSection !== 'overview') params.set('cat', state.btSection);
   if (state.view === 'breakthroughs' && state.eventId) params.set('event', state.eventId);
   if (state.view === 'compare' && state.metric !== 'energy') params.set('metric', state.metric);
   if (state.filter !== 'all') params.set('filter', state.filter);
@@ -186,6 +193,25 @@ function applyDensity(mode) {
   }
 }
 
+// Breakthroughs sub-section (Overview / Medicine / Math / Science & Climate / Daily Life)
+function setBtSection(section, { pushHistory = true } = {}) {
+  if (!BT_SECTIONS.includes(section)) section = 'overview';
+  state.btSection = section;
+  document.querySelectorAll('[data-bt-section]').forEach((btn) => {
+    const active = btn.dataset.btSection === section;
+    btn.classList.toggle('active', active);
+    btn.setAttribute('aria-current', active ? 'page' : 'false');
+  });
+  if (breakthroughsViewInstance) breakthroughsViewInstance.setSection(section);
+  if (state.view !== 'breakthroughs') {
+    switchView('breakthroughs', { pushHistory });
+  } else {
+    syncUrlState(pushHistory);
+  }
+  const pane = document.getElementById('breakthroughsView');
+  if (pane) pane.scrollTop = 0;
+}
+
 function switchView(viewName, { pushHistory = true } = {}) {
   if (viewName === 'datacenters') viewName = lastDataCenterView;
   if (!VALID_VIEWS.includes(viewName)) viewName = 'breakthroughs';
@@ -198,6 +224,7 @@ function switchView(viewName, { pushHistory = true } = {}) {
     btn.setAttribute('aria-current', active ? 'page' : 'false');
   });
   document.getElementById('dcSubTabs').classList.toggle('hidden', !inDataCenters);
+  document.getElementById('btSubTabs').classList.toggle('hidden', viewName !== 'breakthroughs');
   document.querySelectorAll('.sub-tab').forEach((btn) => {
     const active = btn.dataset.view === viewName;
     btn.classList.toggle('active', active);
@@ -784,8 +811,12 @@ async function init() {
     applyTheme(state.theme === 'dark' ? 'light' : 'dark');
   });
 
-  document.querySelectorAll('.view-tab, .sub-tab').forEach((btn) => {
+  document.querySelectorAll('.view-tab, .sub-tab[data-view]').forEach((btn) => {
     btn.addEventListener('click', () => switchView(btn.dataset.view, { pushHistory: true }));
+  });
+
+  document.querySelectorAll('[data-bt-section]').forEach((btn) => {
+    btn.addEventListener('click', () => setBtSection(btn.dataset.btSection, { pushHistory: true }));
   });
 
   document.getElementById('quickCompareBtn').addEventListener('click', () => switchView('compare', { pushHistory: true }));
@@ -808,7 +839,7 @@ async function init() {
       applyFilters();
       if (mapView) mapView.resetView();
     } else {
-      switchView('breakthroughs', { pushHistory: true });
+      setBtSection('overview', { pushHistory: true });
     }
   });
 
@@ -933,11 +964,18 @@ async function init() {
     state.operator = 'all';
     state.aiCompany = 'all';
     state.impactFilter = 'all';
+    state.btSection = 'overview';
     const siteId = readUrlParams();
 
     syncFilterUiControls();
     applyFilters();
     switchView(state.view, { pushHistory: false });
+    document.querySelectorAll('[data-bt-section]').forEach((btn) => {
+      const active = btn.dataset.btSection === state.btSection;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-current', active ? 'page' : 'false');
+    });
+    if (breakthroughsViewInstance) breakthroughsViewInstance.setSection(state.btSection);
     if (compareViewInstance) {
       compareViewInstance.setMetric(state.metric, false);
     }
@@ -978,6 +1016,9 @@ async function init() {
 
     breakthroughsViewInstance = new BreakthroughsView(state.breakthroughs, {
       initialEventId: state.eventId,
+      initialSection: state.btSection,
+      scalingData: state.scaling,
+      onSectionChange: (section) => setBtSection(section, { pushHistory: true }),
       onEventSelect: (eventId) => {
         state.eventId = eventId;
         syncUrlState(false);
@@ -995,6 +1036,8 @@ async function init() {
       onJumpToView: (v) => switchView(v, { pushHistory: true }),
       isSimple: () => state.density === 'simple',
       onRequestDetailed: (eventId) => {
+        const ev = (state.breakthroughs.events || []).find((e) => e.id === eventId);
+        if (ev && state.btSection !== 'overview' && state.btSection !== ev.domain) setBtSection(ev.domain, { pushHistory: false });
         applyDensity('detailed');
         breakthroughsViewInstance.selectEvent(eventId, { notify: true });
         requestAnimationFrame(() => {

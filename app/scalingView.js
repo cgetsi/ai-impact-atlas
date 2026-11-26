@@ -1,4 +1,5 @@
 import { escapeHtml } from './utils.js';
+import { columnChart } from './charts.js';
 
 function parseDate(str) {
   const parts = str.split('-').map(Number);
@@ -99,7 +100,7 @@ export class ScalingView {
     if (fmBest) {
       kpis.push({
         val: `${Math.round(fmBest.score)}%`,
-        label: 'Of expert-level math problems solved',
+        label: 'Of expert-written math problems the best AI can now solve',
         sub: `FrontierMath (Epoch AI's own evaluation), ${fmBest.model}, ${fmBest.date}`
       });
     }
@@ -132,48 +133,9 @@ export class ScalingView {
     return [...byYear.entries()].sort((a, b) => a[0].localeCompare(b[0])).map(([y, p]) => ({ ...p, year: y }));
   }
 
-  // Simple vertical column chart (HTML, responsive, linear scale)
-  // Bar heights are exact percentages of one fixed plot box (the same box the reference
-  // line is positioned in); value labels are positioned above each bar and never resize it.
-  columnChart({ columns, max, refValue = null, refLabel = '', tone = 'up', ariaLabel }) {
-    const top = max || Math.max(...columns.map((c) => c.value));
-    const refPct = refValue != null ? (refValue / top) * 100 : null;
-    const cols = columns
-      .map((c, i) => {
-        const h = Math.min(100, Math.max(0, (c.value / top) * 100));
-        const isLast = i === columns.length - 1;
-        let cls = 'sc-col-bar';
-        if (refValue != null) cls += c.value >= refValue ? ' above' : ' below';
-        else if (tone === 'down') cls += isLast ? ' win' : i === 0 ? ' start' : ' mid';
-        else if (tone === 'neutral') cls += ' mid solid';
-        else cls += isLast ? ' win' : ' mid';
-        return `
-          <div class="sc-col">
-            <div class="${cls}" style="height:${h.toFixed(2)}%" title="${escapeHtml(c.title || '')}"></div>
-            <span class="sc-col-val ${isLast ? 'last' : ''}" style="bottom:calc(${h.toFixed(2)}% + 4px)">${escapeHtml(c.display)}</span>
-          </div>`;
-      })
-      .join('');
-    const axis = columns
-      .map(
-        (c) => `
-          <div class="sc-col-axis">
-            <span class="sc-col-lbl">${escapeHtml(c.label)}</span>
-            ${c.sub ? `<span class="sc-col-sub">${escapeHtml(c.sub)}</span>` : ''}
-          </div>`
-      )
-      .join('');
-    return `
-      <div class="sc-cols" role="img" aria-label="${escapeHtml(ariaLabel)}">
-        <div class="sc-cols-plot">
-          <div class="sc-cols-inner">
-            ${cols}
-            ${refPct != null ? `<div class="sc-ref-line" style="bottom:${refPct.toFixed(2)}%"><span>${escapeHtml(refLabel)}</span></div>` : ''}
-          </div>
-        </div>
-        <div class="sc-cols-axis">${axis}</div>
-      </div>
-    `;
+  // Shared exact column chart (app/charts.js)
+  columnChart(opts) {
+    return columnChart(opts);
   }
 
   // Dot-and-line chart: years left→right, one line per lab, dots at exact prices (linear $ scale from $0).
@@ -433,7 +395,7 @@ export class ScalingView {
             </div>`
               : ''
           }
-          <div class="sc-story-big"><strong class="muted">${Math.round(firstPt.score)}%</strong><span>${escapeHtml(firstPt.year)}</span><em>→</em><strong>${Math.round(last.score)}%</strong><span>${escapeHtml(last.year)} · expert-written math problems solved</span></div>
+          <div class="sc-story-big"><strong class="muted">${Math.round(firstPt.score)}%</strong><span>${escapeHtml(firstPt.year)}</span><em>→</em><strong>${Math.round(last.score)}%</strong><span>${escapeHtml(last.year)} · of expert-written math problems the best AI can solve</span></div>
           ${this.columnChart({
             columns: yearly.map((p) => ({
               label: p.year === currentYear ? `${p.year}*` : p.year,

@@ -1,4 +1,5 @@
 import { escapeHtml, formatNumber } from './utils.js';
+import { columnChart } from './charts.js';
 
 const DOMAIN_ORDER = ['medicine', 'math', 'science', 'accessibility'];
 
@@ -22,19 +23,23 @@ function iconSvg(name) {
   return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name] || ''}</svg>`;
 }
 
-// "What AI is doing for people" — everyday life areas, each backed by a cited event in breakthroughs.json
-const PEOPLE_IMPACT = [
-  { area: 'Your language', icon: 'globe', eventId: 'nllb-200-languages-2022', value: '200', line: 'languages covered by free AI translation' },
-  { area: 'Time with patients', icon: 'clock', eventId: 'ambient-clinical-ai-burnout-2025', value: '~1 hr', line: 'of paperwork saved per doctor, per day' },
-  { area: 'New medicines', icon: 'flask', eventId: 'rentosertib-phase2a-nature-med-2025', value: '1st', line: 'AI-discovered drug to succeed in a human trial' },
-  { area: 'Storm warnings', icon: 'storm', eventId: 'gencast-extreme-weather-2024', value: '15 days', line: 'of more accurate extreme-weather forecasts' },
-  { area: 'Learning', icon: 'book', eventId: 'ai-tutoring-rct-2024', value: '2×', line: 'more learned per hour with an AI tutor' },
-  { area: 'A voice again', icon: 'speech', eventId: 'bci-speech-restoration-2023', value: '62–78', line: 'words per minute for paralyzed patients' },
-  { area: 'Sight assistance', icon: 'eye', eventId: 'bemyeyes-vision-ai-2023', value: '600K+', line: 'blind & low-vision people can use it free' },
-  { area: 'Cleaner power', icon: 'bolt', eventId: 'clean-grid-ai-dispatch-2026', value: '10–30%', line: 'more clean power through existing lines' }
-];
+// Breakthroughs sub-pages. Each Simple page shows only its few most meaningful numbers.
+const CATEGORY_PAGES = {
+  overview: { eyebrow: 'Verifiable Progress · 2020–2026', title: 'How AI Is Changing the World', icon: 'sigma' },
+  medicine: { eyebrow: 'Medicine & Health', title: "AI Is Already in Your Doctor's Office", icon: 'health', name: 'Medicine' },
+  math: { eyebrow: 'Mathematics', title: "AI Is Helping Solve Math's Hardest Problems", icon: 'sigma', name: 'Math' },
+  science: { eyebrow: 'Science & Climate', title: 'Better Forecasts, New Materials, Cleaner Power', icon: 'storm', name: 'Science & Climate' },
+  accessibility: { eyebrow: 'Daily Life', title: 'Everyday Help for Real People', icon: 'speech', name: 'Daily Life' }
+};
 
-const SIMPLE_CARD_BATCH = 9;
+const TOP_CARDS = 4;
+
+// Events already shown in a page's headline numbers or charts (not repeated as "top" cards)
+const SHOWN_ELSEWHERE = {
+  medicine: ['rentosertib-phase2a-nature-med-2025', 'alphamissense-genetics-2023', 'fda-1250-ai-devices-2025', 'fda-950-ai-devices-2024', 'fda-1600-ai-devices-2026'],
+  science: ['graphcast-weather-2023', 'gencast-extreme-weather-2024', 'aurora-earth-foundation-2025', 'gnome-materials-2023'],
+  accessibility: ['nllb-200-languages-2022', 'bemyeyes-vision-ai-2023', 'home-speech-bci-2026', 'bci-typing-braingate-2026', 'ai-tutoring-rct-2024', 'ambient-clinical-ai-burnout-2025']
+};
 
 function parseIsoDate(str) {
   if (!str) return new Date(2020, 0, 1);
@@ -61,19 +66,23 @@ function tierBadgeHtml(tier, customLabel) {
 }
 
 export class BreakthroughsView {
-  constructor(data, { initialEventId = null, onEventSelect, onCopyLink, onJumpToView, onRequestDetailed, isSimple } = {}) {
+  constructor(
+    data,
+    { initialEventId = null, initialSection = 'overview', scalingData = null, onSectionChange, onEventSelect, onCopyLink, onJumpToView, onRequestDetailed, isSimple } = {}
+  ) {
     this.data = data;
+    this.scalingData = scalingData;
+    this.onSectionChange = onSectionChange;
     this.onEventSelect = onEventSelect;
     this.onCopyLink = onCopyLink;
     this.onJumpToView = onJumpToView;
     this.onRequestDetailed = onRequestDetailed;
-    this.simpleDomain = 'all';
-    this.simpleShowAll = false;
 
     this.events = [...(data.events || [])].sort((a, b) => a.date.localeCompare(b.date));
     this.domainMap = new Map((data.domains || []).map((d) => [d.id, d]));
 
-    this.activeDomain = 'all';
+    this.section = CATEGORY_PAGES[initialSection] ? initialSection : 'overview';
+    this.activeDomain = this.section === 'overview' ? 'all' : this.section;
     this.activeTier = 'all';
     this.timeRange = 'all'; // 'all' (2020-2026) | 'recent' (2023-2026)
     this.searchQuery = '';
@@ -89,13 +98,15 @@ export class BreakthroughsView {
     this.mathEl = document.getElementById('btMathBoard');
     this.medEl = document.getElementById('btMedicalPipeline');
     this.simpleEl = document.getElementById('btSimple');
+    this.eyebrowEl = document.getElementById('btEyebrow');
+    this.titleEl = document.getElementById('btTitle');
+    this.leadEl = document.getElementById('btLead');
+    this.medSectionEl = document.getElementById('btMedSection');
+    this.mathSectionEl = document.getElementById('btMathSection');
 
-    this.renderHero();
-    this.renderSimple();
-    this.renderControls();
-    this.renderAllDynamic();
     this.renderMathBoard();
     this.renderMedicalPipeline();
+    this.applySection();
 
     // A shared ?event= link opened in Simple mode shows that breakthrough's quick view
     if (initialEventId && typeof isSimple === 'function' && isSimple()) {
@@ -142,6 +153,34 @@ export class BreakthroughsView {
     this.renderMedicalPipeline();
   }
 
+  // Switch sub-page (Overview / Medicine / Math / Science & Climate / Daily Life)
+  setSection(section) {
+    const next = CATEGORY_PAGES[section] ? section : 'overview';
+    if (next === this.section) return;
+    this.section = next;
+    this.activeDomain = next === 'overview' ? 'all' : next;
+    this.applySection();
+  }
+
+  applySection() {
+    const page = CATEGORY_PAGES[this.section];
+    if (this.eyebrowEl) this.eyebrowEl.textContent = page.eyebrow;
+    if (this.titleEl) this.titleEl.textContent = page.title;
+    if (this.leadEl) {
+      const dom = this.domainMap.get(this.section);
+      this.leadEl.textContent =
+        this.section === 'overview'
+          ? 'An evidence-backed timeline of peer-reviewed medical discoveries, formally verified math proofs, life-saving weather models, and accessibility tools—complete with honest limitations and primary sources.'
+          : dom?.description || '';
+    }
+    if (this.medSectionEl) this.medSectionEl.classList.toggle('hidden', this.section !== 'medicine');
+    if (this.mathSectionEl) this.mathSectionEl.classList.toggle('hidden', this.section !== 'math');
+    this.renderHero();
+    this.renderSimple();
+    this.renderControls();
+    this.renderAllDynamic();
+  }
+
   getDomainColor(domainId) {
     const dom = this.domainMap.get(domainId);
     if (!dom) return '#38bdf8';
@@ -149,68 +188,123 @@ export class BreakthroughsView {
     return isLight && dom.lightColor ? dom.lightColor : dom.color;
   }
 
+  ev(id) {
+    return this.events.find((e) => e.id === id) || null;
+  }
+
+  // The few headline numbers for the current sub-page (Simple + Detailed hero)
+  heroKpis() {
+    const fdaSeries = this.data.clinicalPipeline?.fdaAnnualDevices || [];
+    const latestFda = fdaSeries.length ? fdaSeries[fdaSeries.length - 1].cumulative : null;
+    const drugs = this.data.clinicalPipeline?.trackedDrugs || [];
+    const approvedDrugs = drugs.filter((d) => d.stageIndex >= 5).length;
+    const stat = (id) => this.ev(id)?.bigStat || null;
+
+    switch (this.section) {
+      case 'medicine':
+        return [
+          latestFda && { val: `${formatNumber(latestFda)}+`, label: 'AI tools cleared by the FDA to help doctors', sub: 'Cumulative FDA-authorized AI/ML medical devices' },
+          { val: '1st', label: 'AI-discovered drug to succeed in a human trial (2025)', sub: 'Rentosertib Phase IIa, Nature Medicine' },
+          { val: String(approvedDrugs), label: 'AI-discovered drugs fully approved so far', sub: 'Of the AI-discovered drugs tracked here; most are still in trials' }
+        ].filter(Boolean);
+      case 'math': {
+        const fm = this.scalingData?.mathProgress?.frontierMath?.points || [];
+        const fmBest = fm.length ? fm.reduce((a, b) => (b.score > a.score ? b : a)) : null;
+        return [
+          fmBest && { val: `${Math.round(fmBest.score)}%`, label: 'of expert-written math problems the best AI can now solve', sub: `FrontierMath, graded by Epoch AI (${fmBest.model}, ${fmBest.date})` },
+          this.data.mathTracker?.erdos?.solvedWithAI
+            ? { val: formatNumber(this.data.mathTracker.erdos.solvedWithAI), label: 'famous Erdős math problems solved with AI', sub: this.data.mathTracker.erdos.kpiSub || 'Erdős problems database (Terence Tao et al.)' }
+            : { val: 'Gold', label: 'Math Olympiad score, officially certified (2025)', sub: 'Google DeepMind Gemini Deep Think, 35/42' },
+          { val: '167 yrs', label: 'old Riemann Hypothesis: proof computer-verified, under human review', sub: 'Verified in Lean by the Lean FRO & Mathlib Initiative, Nov 2026' }
+        ].filter(Boolean);
+      }
+      case 'science':
+        return [
+          { val: '97%', label: 'of tests where AI beat the best 15-day weather forecast', sub: 'GenCast vs. ECMWF ENS, 97.2% of 1,320 targets' },
+          { val: '< 1 min', label: 'for a 10-day global forecast, vs. hours on a supercomputer', sub: 'GraphCast on a single TPU' },
+          stat('gnome-materials-2023') && { val: stat('gnome-materials-2023').value, label: 'new stable materials for batteries & solar', sub: 'GNoME, nearly 10× the known catalog' }
+        ].filter(Boolean);
+      case 'accessibility':
+        return [
+          this.ev('home-speech-bci-2026') && { val: '2 yrs', label: 'a man with ALS has talked at home through an AI brain implant', sub: 'UC Davis / BrainGate2, Nature Medicine 2026 — 56 words/min average' },
+          stat('bemyeyes-vision-ai-2023') && { val: stat('bemyeyes-vision-ai-2023').value, label: 'blind & low-vision people using free AI sight help', sub: 'Be My Eyes "Be My AI"' },
+          stat('bci-typing-braingate-2026') && { val: stat('bci-typing-braingate-2026').value, label: 'word error rate: people with paralysis typing by thought', sub: 'BrainGate, Nature Neuroscience 2026' }
+        ].filter(Boolean);
+      default: {
+        const total = this.events.length;
+        const verifiedCount = this.events.filter((e) => e.verificationTier === 'verified').length;
+        const verifiedPct = total ? Math.round((verifiedCount / total) * 100) : 0;
+        const earlyPace = this.events.filter((e) => Number(e.date.slice(0, 4)) <= 2022).length / 3;
+        const recentPace = this.events.filter((e) => Number(e.date.slice(0, 4)) >= 2024 && Number(e.date.slice(0, 4)) <= 2025).length / 2;
+        const accelRatio = earlyPace > 0 ? (recentPace / earlyPace).toFixed(1) : '3.0';
+        return [
+          latestFda && { val: `${formatNumber(latestFda)}+`, label: 'AI tools helping U.S. doctors', sub: 'FDA-authorized AI/ML medical devices operating in U.S. care' },
+          { val: formatNumber(total), label: 'Breakthroughs tracked', sub: 'Curated 2020–2026 breakthroughs with primary citations' },
+          { val: `${accelRatio}×`, label: 'More breakthroughs per year', sub: '2024–2025 annual cadence vs. 2020–2022 baseline' },
+          { val: `${verifiedPct}%`, label: 'Peer-reviewed or in real use', sub: 'Nature, Science, NEJM, Lean 4, or FDA-cleared' }
+        ].filter(Boolean);
+      }
+    }
+  }
+
   renderHero() {
     if (!this.heroEl) return;
-    const total = this.events.length;
-    const verifiedCount = this.events.filter((e) => e.verificationTier === 'verified').length;
-    const verifiedPct = total ? Math.round((verifiedCount / total) * 100) : 0;
+    this.heroEl.innerHTML = this.heroKpis()
+      .map(
+        (k) => `
+        <div class="hero-kpi">
+          <div class="hero-kpi-val">${escapeHtml(k.val)}</div>
+          <div class="hero-kpi-label">${escapeHtml(k.label)}</div>
+          <div class="hero-kpi-sub detail-only">${escapeHtml(k.sub || '')}</div>
+        </div>`
+      )
+      .join('');
+  }
 
-    const earlyPace = this.events.filter((e) => Number(e.date.slice(0, 4)) <= 2022).length / 3;
-    const recentPace = this.events.filter((e) => Number(e.date.slice(0, 4)) >= 2024 && Number(e.date.slice(0, 4)) <= 2025).length / 2;
-    const accelRatio = earlyPace > 0 ? (recentPace / earlyPace).toFixed(1) : '3.0';
+  /* ------------------------------------------------------------------------
+     SIMPLE VIEW — one focused page per category, few numbers, big plain charts
+     ------------------------------------------------------------------------ */
+  storyCard(kicker, title, body, wide = false) {
+    return `
+      <section class="sc-story ${wide ? 'wide' : ''}">
+        <div class="sc-story-head">
+          ${kicker ? `<span class="sc-story-kicker up">${escapeHtml(kicker)}</span>` : ''}
+          <h2 class="sc-story-title">${escapeHtml(title)}</h2>
+        </div>
+        ${body}
+      </section>
+    `;
+  }
 
-    const fdaSeries = this.data.clinicalPipeline?.fdaAnnualDevices || [];
-    const latestFda = fdaSeries.length ? fdaSeries[fdaSeries.length - 1].cumulative : 1250;
-
-    this.heroEl.innerHTML = `
-      <div class="hero-kpi">
-        <div class="hero-kpi-val">${formatNumber(latestFda)}+</div>
-        <div class="hero-kpi-label">AI tools helping U.S. doctors</div>
-        <div class="hero-kpi-sub detail-only">FDA-authorized AI/ML medical devices operating in U.S. care</div>
-      </div>
-      <div class="hero-kpi">
-        <div class="hero-kpi-val">${formatNumber(total)}</div>
-        <div class="hero-kpi-label">Breakthroughs tracked</div>
-        <div class="hero-kpi-sub detail-only">Curated 2020–2026 breakthroughs with primary citations</div>
-      </div>
-      <div class="hero-kpi">
-        <div class="hero-kpi-val">${accelRatio}×</div>
-        <div class="hero-kpi-label">More breakthroughs per year</div>
-        <div class="hero-kpi-sub detail-only">2024–2025 annual cadence vs. 2020–2022 baseline</div>
-      </div>
-      <div class="hero-kpi">
-        <div class="hero-kpi-val">${verifiedPct}%</div>
-        <div class="hero-kpi-label">Peer-reviewed or in real use</div>
-        <div class="hero-kpi-sub detail-only">Nature, Science, NEJM, Lean 4, or FDA-cleared</div>
+  topCardsHtml(domain, excludeIds = []) {
+    const top = this.events
+      .filter((e) => e.domain === domain && !excludeIds.includes(e.id))
+      .sort((a, b) => b.impactScore - a.impactScore || b.date.localeCompare(a.date))
+      .slice(0, TOP_CARDS);
+    if (!top.length) return '';
+    return `
+      <div class="sv-block">
+        <h2 class="sv-h2">Top breakthroughs</h2>
+        <div class="sv-bt-grid top4">
+          ${top
+            .map((ev) => {
+              const stat = ev.bigStat || { value: '', label: (ev.metrics && ev.metrics[0]) || '' };
+              return `
+                <button class="sv-bt-card" data-sv-card="${escapeHtml(ev.id)}" type="button" style="--dom-color:${this.getDomainColor(ev.domain)}">
+                  <span class="sv-bt-top"><span class="sv-bt-year">${escapeHtml(ev.date.slice(0, 4))}</span></span>
+                  ${stat.value ? `<span class="sv-bt-val">${escapeHtml(stat.value)}</span>` : ''}
+                  <span class="sv-bt-vlabel">${escapeHtml(stat.label)}</span>
+                  <span class="sv-bt-head">${escapeHtml(ev.plainHeadline || ev.shortLabel)}</span>
+                </button>`;
+            })
+            .join('')}
+        </div>
       </div>
     `;
   }
 
-  /* ------------------------------------------------------------------------
-     SIMPLE VIEW — people-first, visual, minimal text
-     ------------------------------------------------------------------------ */
-  renderSimple() {
-    if (!this.simpleEl) return;
-    const evById = new Map(this.events.map((e) => [e.id, e]));
-    const domains = DOMAIN_ORDER.map((id) => this.domainMap.get(id)).filter(Boolean);
-
-    // 1) What AI is doing for people
-    const tilesHtml = PEOPLE_IMPACT.map((t) => {
-      const ev = evById.get(t.eventId);
-      if (!ev) return '';
-      return `
-        <button class="sv-impact-tile" data-sv-event="${escapeHtml(ev.id)}" type="button" style="--dom-color:${this.getDomainColor(ev.domain)}">
-          <span class="sv-impact-top">
-            <span class="sv-impact-icon">${iconSvg(t.icon)}</span>
-            <span class="sv-impact-area">${escapeHtml(t.area)}</span>
-          </span>
-          <span class="sv-impact-val">${escapeHtml(t.value)}</span>
-          <span class="sv-impact-line">${escapeHtml(t.line)}</span>
-        </button>
-      `;
-    }).join('');
-
-    // 2) Breakthroughs per year, stacked by area
+  overviewHtml() {
+    // Breakthroughs per year, stacked by area
     const startYear = 2020;
     const endYear = Number((this.data.meta?.coverageEnd || '2026').slice(0, 4)) || 2026;
     const years = [];
@@ -222,8 +316,7 @@ export class BreakthroughsView {
     });
     const totals = years.map((y) => [...counts.get(y).values()].reduce((a, b) => a + b, 0));
     const maxTotal = Math.max(1, ...totals);
-    const currentYear = new Date().getFullYear();
-    const partialYear = endYear >= currentYear ? endYear : null;
+    const partialYear = endYear >= new Date().getFullYear() ? endYear : null;
 
     const colsHtml = years
       .map((y, i) => {
@@ -247,155 +340,238 @@ export class BreakthroughsView {
         `;
       })
       .join('');
-
-    const legendHtml = domains
+    const legendHtml = DOMAIN_ORDER.map((id) => this.domainMap.get(id))
+      .filter(Boolean)
       .map((d) => `<span class="sv-legend-item"><span class="sv-dot" style="background:${this.getDomainColor(d.id)}"></span>${escapeHtml(d.shortLabel)}</span>`)
       .join('');
 
-    // 3) Honest "still being worked on" ledger, computed from the dataset
-    const drugs = this.data.clinicalPipeline?.trackedDrugs || [];
-    const approvedDrugs = drugs.filter((d) => d.stageIndex >= 5).length;
-    const failedDrugs = drugs.filter((d) => d.stageIndex === 0).length;
-    const openMath = (this.data.openMathProblems || []).filter((m) => m.statusTone === 'open').length;
-
-    const honestRows = [
-      { icon: 'flask', value: String(approvedDrugs), line: `AI-discovered drugs fully approved yet — ${drugs.length - failedDrugs - approvedDrugs} still in testing` },
-      { icon: 'alert', value: String(failedDrugs), line: `tracked AI-discovered ${failedDrugs === 1 ? 'drug' : 'drugs'} failed in human trials` },
-      { icon: 'sigma', value: String(openMath), line: 'famous math problems still unsolved' }
-    ];
-
-    const domainChips = [
-      `<button class="bt-pill ${this.simpleDomain === 'all' ? 'active' : ''}" data-sv-domain="all" type="button">All <span class="sv-chip-n">${this.events.length}</span></button>`,
-      ...domains.map((d) => {
-        const n = this.events.filter((e) => e.domain === d.id).length;
-        return `<button class="bt-pill ${this.simpleDomain === d.id ? 'active' : ''}" data-sv-domain="${escapeHtml(d.id)}" type="button"><span class="bt-pill-dot" style="background:${this.getDomainColor(d.id)}"></span>${escapeHtml(d.shortLabel)} <span class="sv-chip-n">${n}</span></button>`;
-      })
-    ].join('');
-
-    this.simpleEl.innerHTML = `
-      <section class="sv-block">
-        <h2 class="sv-h2">What AI is already doing for people</h2>
-        <div class="sv-impact-grid">${tilesHtml}</div>
-      </section>
-
-      <div class="sv-two-col">
-        <section class="sv-card">
-          <div class="sv-card-head">
-            <h2 class="sv-h2">Breakthroughs are speeding up</h2>
-            <span class="sv-muted">Verified breakthroughs per year</span>
-          </div>
-          <div class="sv-year-chart" role="img" aria-label="Verified AI breakthroughs per year, ${startYear} to ${endYear}: ${years.map((y, i) => `${y}: ${totals[i]}`).join(', ')}">${colsHtml}</div>
-          <div class="sv-legend">${legendHtml}${partialYear ? `<span class="sv-muted sv-foot">*${partialYear} so far</span>` : ''}</div>
-        </section>
-
-        <section class="sv-card sv-honest">
-          <div class="sv-card-head">
-            <h2 class="sv-h2">Still being worked on</h2>
-            <span class="sv-muted">The honest side</span>
-          </div>
-          <div class="sv-honest-list">
-            ${honestRows
-              .map(
-                (r) => `
-                <div class="sv-honest-row">
-                  <span class="sv-honest-icon">${iconSvg(r.icon)}</span>
-                  <span class="sv-honest-val">${escapeHtml(r.value)}</span>
-                  <span class="sv-honest-line">${escapeHtml(r.line)}</span>
-                </div>
-              `
-              )
-              .join('')}
-            <button class="sv-honest-row sv-honest-link" data-sv-jump="compare" type="button">
-              <span class="sv-honest-icon">${iconSvg('factory')}</span>
-              <span class="sv-honest-line">AI data centers use real power &amp; water</span>
-              <span class="sv-honest-cta">See the costs →</span>
-            </button>
-          </div>
-        </section>
-      </div>
-
-      <section class="sv-block">
-        <div class="sv-block-head">
-          <h2 class="sv-h2">Every breakthrough we track</h2>
-          <div class="bt-domain-pills" role="group" aria-label="Filter breakthroughs by area">${domainChips}</div>
-        </div>
-        <div id="btSimpleCards" class="sv-bt-grid"></div>
-        <button id="btSimpleMore" class="sv-more-btn" type="button"></button>
-      </section>
+    const chart = `
+      <div class="sv-year-chart" role="img" aria-label="Verified AI breakthroughs per year, ${startYear} to ${endYear}: ${years.map((y, i) => `${y}: ${totals[i]}`).join(', ')}">${colsHtml}</div>
+      <div class="sv-legend">${legendHtml}</div>
     `;
 
-    this.simpleEl.querySelectorAll('.sv-impact-tile[data-sv-event]').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const ev = evById.get(btn.dataset.svEvent);
-        if (ev) this.openSimpleDialog(ev);
-      });
-    });
-    this.simpleEl.querySelectorAll('[data-sv-jump]').forEach((btn) => {
-      btn.addEventListener('click', () => this.onJumpToView && this.onJumpToView(btn.dataset.svJump));
-    });
-    this.simpleEl.querySelectorAll('[data-sv-domain]').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        this.simpleDomain = btn.dataset.svDomain;
-        this.simpleShowAll = false;
-        this.simpleEl.querySelectorAll('[data-sv-domain]').forEach((b) =>
-          b.classList.toggle('active', b.dataset.svDomain === this.simpleDomain)
-        );
-        this.renderSimpleCards();
-      });
-    });
-    const moreBtn = this.simpleEl.querySelector('#btSimpleMore');
-    if (moreBtn) {
-      moreBtn.addEventListener('click', () => {
-        this.simpleShowAll = !this.simpleShowAll;
-        this.renderSimpleCards();
-      });
-    }
+    // Category doors: one headline number each
+    const doors = DOMAIN_ORDER.map((id) => {
+      const page = CATEGORY_PAGES[id];
+      const n = this.events.filter((e) => e.domain === id).length;
+      const prevSection = this.section;
+      this.section = id;
+      const k = this.heroKpis()[0];
+      this.section = prevSection;
+      return `
+        <button class="bt-door" data-bt-door="${id}" type="button" style="--dom-color:${this.getDomainColor(id)}">
+          <span class="bt-door-top">
+            <span class="sv-impact-icon">${iconSvg(page.icon)}</span>
+            <span class="bt-door-name">${escapeHtml(page.name)}</span>
+            <span class="bt-door-n">${n}</span>
+          </span>
+          ${k ? `<span class="bt-door-val">${escapeHtml(k.val)}</span><span class="bt-door-lbl">${escapeHtml(k.label)}</span>` : ''}
+          <span class="bt-door-go">Explore →</span>
+        </button>`;
+    }).join('');
 
-    this.renderSimpleCards();
+    return `
+      <div class="bt-doors">${doors}</div>
+      ${this.storyCard('', 'Breakthroughs are speeding up', chart, true)}
+    `;
   }
 
-  renderSimpleCards() {
-    const grid = this.simpleEl && this.simpleEl.querySelector('#btSimpleCards');
-    const moreBtn = this.simpleEl && this.simpleEl.querySelector('#btSimpleMore');
-    if (!grid) return;
+  categoryHtml() {
+    const cards = [];
+    if (this.section === 'medicine') {
+      const fda = this.data.clinicalPipeline?.fdaAnnualDevices || [];
+      if (fda.length) {
+        cards.push(
+          this.storyCard(
+            'Real use',
+            'AI tools cleared by the FDA to help doctors (total)',
+            columnChart({
+              columns: fda.map((d) => ({ label: d.partial ? `${d.year}*` : String(d.year), value: d.cumulative, display: formatNumber(d.cumulative), title: `${d.year}: ${formatNumber(d.cumulative)} total (${d.annual} that year)` })),
+              ariaLabel: `Total FDA-cleared AI medical tools by year: ${fda.map((d) => `${d.year} ${d.cumulative}`).join(', ')}.`
+            })
+          )
+        );
+      }
+      if (this.ev('alphamissense-genetics-2023')) {
+        cards.push(
+          this.storyCard(
+            'Genetics',
+            'Genetic mutations doctors can interpret',
+            columnChart({
+              columns: [
+                { label: 'Before', sub: 'Pre-2023', value: 0.1, display: '0.1%', title: 'About 0.1% of possible human missense mutations had a known effect' },
+                { label: 'With AI', sub: 'AlphaMissense, 2023', value: 89, display: '89%', title: '89% of all 71 million possible missense mutations classified' }
+              ],
+              max: 100,
+              tone: 'compare',
+              ariaLabel: 'Share of possible human genetic mutations with an interpretable effect: 0.1% before AI, 89% with AlphaMissense.'
+            })
+          )
+        );
+      }
+    } else if (this.section === 'math' && this.data.mathTracker) {
+      cards.push(...this.mathTrackerCards(this.data.mathTracker));
+    } else if (this.section === 'math') {
+      const mp = this.scalingData?.mathProgress;
+      const ms = mp?.milestones || [];
+      if (ms.length) {
+        cards.push(
+          this.storyCard(
+            'Milestones',
+            'The biggest moments so far',
+            `<div class="sc-milestones">${ms
+              .map(
+                (m) => `
+                <div class="sc-milestone ${escapeHtml(m.tier)}">
+                  <span class="sc-milestone-badge">${m.tier === 'gold' ? 'Gold' : m.tier === 'silver' ? 'Silver' : m.tier === 'claimed' ? '?' : '★'}</span>
+                  <span class="sc-milestone-body">
+                    <span class="sc-milestone-yr">${escapeHtml(m.year)}</span>
+                    <span class="sc-milestone-title">${escapeHtml(m.title)}</span>
+                    ${m.status ? `<span class="sc-milestone-status">${escapeHtml(m.status)}</span>` : ''}
+                  </span>
+                </div>`
+              )
+              .join('')}</div>`
+          )
+        );
+      }
+      const fm = mp?.frontierMath?.points || [];
+      if (fm.length) {
+        const cur = String(new Date().getFullYear());
+        cards.push(
+          this.storyCard(
+            'Expert problems',
+            'Expert-written math problems AI can solve',
+            columnChart({
+              columns: fm.map((p) => ({ label: p.date.slice(0, 4) === cur ? `${p.date.slice(0, 4)}*` : p.date.slice(0, 4), value: p.score, display: `${Math.round(p.score)}%`, sub: p.model, title: `${p.model} (${p.date}): ${p.score}%` })),
+              max: 100,
+              ariaLabel: `Share of FrontierMath expert problems solved by the best AI: ${fm.map((p) => `${p.date.slice(0, 4)} ${p.score}%`).join(', ')}.`
+            })
+          )
+        );
+      }
+    } else if (this.section === 'science') {
+      const pts = [
+        { id: 'graphcast-weather-2023', label: '2023', sub: '10-day forecast', value: 90 },
+        { id: 'gencast-extreme-weather-2024', label: '2024', sub: '15-day forecast', value: 97.2 },
+        { id: 'aurora-earth-foundation-2025', label: '2025', sub: '5-day storm tracks', value: 100 }
+      ].filter((p) => this.ev(p.id));
+      if (pts.length) {
+        cards.push(
+          this.storyCard(
+            'Weather',
+            "How often AI beat the world's best traditional forecast",
+            columnChart({
+              columns: pts.map((p) => ({ label: p.label, sub: p.sub, value: p.value, display: `${Math.round(p.value)}%`, title: `${this.ev(p.id).shortLabel}: ${p.value}% of comparisons` })),
+              max: 100,
+              ariaLabel: `Share of forecast comparisons won by AI: ${pts.map((p) => `${p.label} ${p.value}% (${p.sub})`).join(', ')}.`
+            })
+          )
+        );
+      }
+    }
+    // Daily Life: no chart — its strongest evidence is the individual results shown as top cards.
+    // (The AI-tutoring "2×" result is contested by 2026 trials, so it lives in Detailed with that caveat.)
 
-    const list = [...this.events]
-      .filter((e) => this.simpleDomain === 'all' || e.domain === this.simpleDomain)
-      .reverse();
-    const shown = this.simpleShowAll ? list : list.slice(0, SIMPLE_CARD_BATCH);
+    const showTop = this.section !== 'math';
+    return `
+      <div class="sc-story-grid">${cards.join('')}</div>
+      ${showTop ? this.topCardsHtml(this.section, SHOWN_ELSEWHERE[this.section] || []) : ''}
+    `;
+  }
 
-    grid.innerHTML = shown
-      .map((ev) => {
-        const dom = this.domainMap.get(ev.domain);
-        const stat = ev.bigStat || { value: '', label: (ev.metrics && ev.metrics[0]) || '' };
-        const tierShort = ev.verificationTier === 'verified' ? 'Verified' : ev.verificationTier === 'trial' ? 'In trials' : 'Milestone';
-        return `
-          <button class="sv-bt-card" data-sv-card="${escapeHtml(ev.id)}" type="button" style="--dom-color:${this.getDomainColor(ev.domain)}">
-            <span class="sv-bt-top">
-              <span class="sv-dot"></span>${escapeHtml(dom ? dom.shortLabel : ev.domain)}
-              <span class="sv-bt-year">${escapeHtml(ev.date.slice(0, 4))}</span>
-            </span>
-            ${stat.value ? `<span class="sv-bt-val">${escapeHtml(stat.value)}</span>` : ''}
-            <span class="sv-bt-vlabel">${escapeHtml(stat.label)}</span>
-            <span class="sv-bt-head">${escapeHtml(ev.plainHeadline || ev.shortLabel)}</span>
-            <span class="sv-bt-foot">${tierBadgeHtml(ev.verificationTier, tierShort)}</span>
-          </button>
-        `;
-      })
-      .join('');
+  /* Math tracker: how many famous open problems AI has helped solve, and how fast */
+  mathTrackerCards(mt) {
+    const cards = [];
+    const er = mt.erdos;
+    if (er && er.total) {
+      // One square per problem: solved with AI, solved by people (before/without AI), still open
+      const groups = [
+        { key: 'ai', n: er.solvedWithAI || 0, label: 'Solved with AI', cls: 'ai' },
+        { key: 'human', n: er.solvedByPeople || 0, label: 'Solved by people', cls: 'human' },
+        { key: 'open', n: er.open || 0, label: 'Still open', cls: 'open' }
+      ];
+      const squares = groups.map((g) => `<span class="mw-sq ${g.cls}"></span>`.repeat(g.n)).join('');
+      const legend = groups
+        .map((g) => `<span class="mw-leg"><span class="mw-sq ${g.cls}"></span>${escapeHtml(g.label)} <strong>${formatNumber(g.n)}</strong></span>`)
+        .join('');
+      cards.push(
+        this.storyCard(
+          'Erdős problems',
+          `AI has helped solve ${formatNumber(er.solvedWithAI)} of the ${formatNumber(er.total)} famous Erdős math problems`,
+          `<div class="mw-grid" role="img" aria-label="${escapeHtml(
+            `Erdős problems database: ${er.total} problems; ${er.solvedWithAI} solved with AI, ${er.solvedByPeople} solved by people, ${er.open} still open.`
+          )}">${squares}</div>
+          <div class="mw-legend">${legend}</div>
+          <p class="sc-story-foot detail-only">${escapeHtml(er.note || '')}</p>`,
+          true
+        )
+      );
+    }
+    const tl = er?.timeline || [];
+    if (tl.length >= 2) {
+      let running = 0;
+      const cols = tl.map((t) => {
+        running += t.count;
+        const [month, year] = t.label.split(' ');
+        return { label: month, sub: year || '', value: running, display: String(running), title: `${t.label}: ${t.count} new (${running} total)`, full: t.label };
+      });
+      cards.push(
+        this.storyCard(
+          'Speed',
+          `Erdős problems solved with AI, adding up${er.asOf ? ` (to ${new Date(er.asOf + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', year: 'numeric' })})` : ''}`,
+          columnChart({
+            columns: cols,
+            ariaLabel: `Cumulative Erdős problems solved with AI: ${cols.map((c) => `${c.full} ${c.value}`).join(', ')}.`
+          }),
+          true
+        )
+      );
+    }
+    const famous = mt.famous || [];
+    if (famous.length) {
+      const STATUS = {
+        verified: { label: 'Solved with AI · checked by experts', cls: 'verified' },
+        review: { label: 'AI proof computer-checked · human review ongoing', cls: 'review' },
+        claimed: { label: 'AI claim · not yet checked', cls: 'claimed' },
+        human: { label: 'Solved by people', cls: 'human' },
+        open: { label: 'Still open', cls: 'open' }
+      };
+      cards.push(
+        this.storyCard(
+          'Famous problems',
+          "The world's most famous math problems",
+          `<div class="mf-list">${famous
+            .map((f) => {
+              const st = STATUS[f.status] || STATUS.open;
+              return `
+                <div class="mf-row">
+                  <span class="mf-name">${escapeHtml(f.name)}${f.prize ? '<span class="mf-prize">$1M</span>' : ''}</span>
+                  <span class="mf-status ${st.cls}">${escapeHtml(st.label)}${f.year ? ` · ${escapeHtml(f.year)}` : ''}</span>
+                  <span class="mf-detail detail-only">${escapeHtml(f.detail || '')}${f.sourceUrl ? ` <a href="${escapeHtml(f.sourceUrl)}" target="_blank" rel="noopener noreferrer">Source ↗</a>` : ''}</span>
+                </div>`;
+            })
+            .join('')}</div>${mt.recentClaimsNote ? `<p class="sc-story-foot detail-only">${escapeHtml(mt.recentClaimsNote)}</p>` : ''}`,
+          false
+        )
+      );
+    }
+    return cards;
+  }
 
-    grid.querySelectorAll('[data-sv-card]').forEach((btn) => {
+  renderSimple() {
+    if (!this.simpleEl) return;
+    this.simpleEl.innerHTML = this.section === 'overview' ? this.overviewHtml() : this.categoryHtml();
+
+    this.simpleEl.querySelectorAll('[data-bt-door]').forEach((btn) => {
+      btn.addEventListener('click', () => this.onSectionChange && this.onSectionChange(btn.dataset.btDoor));
+    });
+    this.simpleEl.querySelectorAll('[data-sv-card]').forEach((btn) => {
       btn.addEventListener('click', () => {
-        const ev = this.events.find((e) => e.id === btn.dataset.svCard);
+        const ev = this.ev(btn.dataset.svCard);
         if (ev) this.openSimpleDialog(ev);
       });
     });
-
-    if (moreBtn) {
-      const hidden = list.length - SIMPLE_CARD_BATCH;
-      moreBtn.classList.toggle('hidden', hidden <= 0);
-      moreBtn.textContent = this.simpleShowAll ? 'Show fewer' : `Show all ${list.length}`;
-    }
   }
 
   openSimpleDialog(ev) {
@@ -425,8 +601,8 @@ export class BreakthroughsView {
         </div>
         ${stat.value ? `<div class="sv-dlg-stat"><span class="sv-dlg-val">${escapeHtml(stat.value)}</span><span class="sv-dlg-lbl">${escapeHtml(stat.label)}</span></div>` : ''}
         <h3 class="sv-dlg-title">${escapeHtml(ev.plainHeadline || ev.title)}</h3>
-        <div class="sv-dlg-block positive"><h4>Why it matters</h4><p>${escapeHtml(ev.whyItMatters)}</p></div>
-        <div class="sv-dlg-block caveat"><h4>Honest context</h4><p>${escapeHtml(ev.caveats)}</p></div>
+        <div class="sv-dlg-block positive detail-only"><h4>Why it matters</h4><p>${escapeHtml(ev.whyItMatters)}</p></div>
+        <div class="sv-dlg-block caveat detail-only"><h4>Honest context</h4><p>${escapeHtml(ev.caveats)}</p></div>
         <div class="sv-dlg-sources">
           ${(ev.sources || [])
             .map((s) => `<a class="bt-source-link" href="${escapeHtml(s.url)}" target="_blank" rel="noopener noreferrer"><span>${escapeHtml(s.publisher)}</span> ↗</a>`)
@@ -455,7 +631,7 @@ export class BreakthroughsView {
 
     this.controlsEl.innerHTML = `
       <div class="bt-filter-row">
-        <div class="bt-domain-pills" role="group" aria-label="Filter breakthroughs by domain">
+        <div class="bt-domain-pills ${this.section === 'overview' ? '' : 'hidden'}" role="group" aria-label="Filter breakthroughs by domain">
           <button class="bt-pill ${this.activeDomain === 'all' ? 'active' : ''}" data-bt-domain="all" type="button">
             All Domains
           </button>
